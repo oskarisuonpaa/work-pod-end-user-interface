@@ -8,3 +8,14 @@
   text-decoration: none;
   border: none;
 }
+
+.link-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.link-label {
+  white-space: normal;
+}
