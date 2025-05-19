@@ -21,7 +21,6 @@ const App = () => {
     </Routes>
     </>
   );
-};
 // use <Link to="path"> for navigation to routes
 const Navigation = () => {
   return (
