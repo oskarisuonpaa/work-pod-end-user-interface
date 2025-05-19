@@ -1,4 +1,7 @@
 import { Routes, Route, Link, useParams } from "react-router";
+import LoginScreen from "./components/LoginScreen";
+import LoginForm from "./components/LoginForm";
+import Dashboard from "./components/Dashboard";
 
 // Dummy data
 const pods = [{ id: "C232-1" }, { id: "C232-2" }];
@@ -15,12 +18,14 @@ const App = () => {
 
       <Routes>
         <Route index element={<Home />} />
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<LoginScreen />} />
         <Route path="workpods" element={<Workpods pods={pods} />} />
         <Route path="workpods/:workpodId" element={<Workpod />} />
         <Route path="search" element={<Search />} />
         <Route path="searchresults" element={<SearchResults />} />
         <Route path="info" element={<Info />} />
+        <Route path="login-form" element={<LoginForm />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
@@ -43,8 +48,6 @@ const Navigation = () => {
 
 // Page components
 const Home = () => <p>Home page stuff</p>;
-
-const Login = () => <p>Login page stuff</p>;
 
 const Info = () => <p>Info page stuff</p>;
 
