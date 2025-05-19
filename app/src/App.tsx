@@ -1,9 +1,10 @@
+import LoginScreen from "./components/LoginScreen";
+
 const App = () => {
+  const loggedIn = false;
   return (
     <>
-      <div>
-        <h2>Hello, World!</h2>
-      </div>
+      {loggedIn ? <h2>Welcome to the Work Pod Scheduler</h2> : <LoginScreen />}
     </>
   );
 };
