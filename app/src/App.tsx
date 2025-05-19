@@ -1,12 +1,9 @@
+import Dashboard from "./components/Dashboard";
 import LoginScreen from "./components/LoginScreen";
 
 const App = () => {
-  const loggedIn = false;
-  return (
-    <>
-      {loggedIn ? <h2>Welcome to the Work Pod Scheduler</h2> : <LoginScreen />}
-    </>
-  );
+  const loggedIn = true;
+  return <>{loggedIn ? <Dashboard /> : <LoginScreen />}</>;
 };
 
 export default App;
