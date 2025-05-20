@@ -2,10 +2,9 @@ import { Routes, Route, Link, useParams } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
-import { AuthProvider, useAuth} from "./components/AuthProvider"
-import ProtectedRoute from "./components/ProtectedRoute"
+import { AuthProvider, useAuth } from "./components/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
 import WorkPods from "./components/WorkPods";
-
 
 // Main App component
 const App = () => {
@@ -16,19 +15,56 @@ const App = () => {
       <AuthProvider>
         <Navigation />
 
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="login" element={<LoginScreen />} />
-        
-        <Route path="work-pods" element={<ProtectedRoute><WorkPods /></ProtectedRoute>} />
-        <Route path="workpods/:workpodId" element={<ProtectedRoute><WorkPods /></ProtectedRoute>} />
-        <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
-        <Route path="searchresults" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
-        <Route path="info" element={<Info />} />
-        <Route path="login-form" element={<LoginForm />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="login" element={<LoginScreen />} />
+
+          <Route
+            path="workpods"
+            element={
+              <ProtectedRoute>
+                <WorkPods />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="workpods/:workpodId"
+            element={
+              <ProtectedRoute>
+                <Workpod />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="search"
+            element={
+              <ProtectedRoute>
+                <Search />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="searchresults"
+            element={
+              <ProtectedRoute>
+                <SearchResults />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="info" element={<Info />} />
+          <Route path="login-form" element={<LoginForm />} />
+          <Route
+            path="dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 };
@@ -39,7 +75,7 @@ const Navigation = () => {
     <nav>
       <Link to="/">Home </Link>
       <Link to="/login">Login </Link>
-      <Link to="/work-pods">Workpods </Link>
+      <Link to="/workpods">Workpods </Link>
       <Link to="/search">Search </Link>
       <Link to="/searchresults">Search Results </Link>
       <Link to="/info">Info</Link>
@@ -70,11 +106,6 @@ const Search = () => <p>Search page stuff</p>;
 const SearchResults = () => <p>SearchResults page stuff</p>;
 
 const NotFound = () => <p>There's nothing here: 404!</p>;
-
-// Workpods page
-type Pod = {
-  id: string;
-};
 
 // Single Workpod view
 const Workpod = () => {

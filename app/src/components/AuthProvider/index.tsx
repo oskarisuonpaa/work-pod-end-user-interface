@@ -1,5 +1,5 @@
 // AuthProvider, AuthContext, useAuth
-import { useNavigate } from 'react-router';
+import { useNavigate } from "react-router";
 
 /* usage example
     const { token, onLogout } = useAuth();
@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router';
       Sign In
     </button>
 */
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext } from "react";
 import fakeAuth from "./authenticate.ts"; // TODO: replace fakeAuth
 
 const useAuth = () => {
@@ -37,20 +37,20 @@ type AuthProviderProps = {
 };
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [token, setToken] = useState("");
 
   const handleLogin = async () => {
-    console.log("trying to log in")
+    console.log("trying to log in");
     const token = await fakeAuth(); // TODO: replace fakeAuth
-    console.log("waiting for token")
-    console.log(token)
+    console.log("waiting for token");
+    console.log(token);
     setToken(token);
     navigate("/dashboard"); // send user to dashboard on login
   };
 
   const handleLogout = () => {
-    console.log("log out")
+    console.log("log out");
     setToken("");
   };
 
