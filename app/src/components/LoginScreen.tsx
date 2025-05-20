@@ -4,7 +4,7 @@ const LoginScreen = () => {
   return (
     <>
       <h2>Work Pod Scheduler</h2>
-      <LinkButton label="Login" href="#" />
+      <LinkButton label="Login" to="/login-form" />
     </>
   );
 };

@@ -1,0 +1,53 @@
+.form-container {
+  background: var(--beige);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid var(--black);
+  background: var(--beige);
+}
+
+.login-button {
+  color: var(--white);
+  background: var(--blue);
+  padding: 1rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  border: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-button span {
+  white-space: normal;
+}
+
+.login-button:hover {
+  cursor: pointer;
+}

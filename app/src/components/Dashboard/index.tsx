@@ -51,13 +51,13 @@ const Dashboard = () => {
         <div className="link-container">
           <ul>
             <li>
-              <LinkButton label="Work Pods" href="#" />
+              <LinkButton label="Work Pods" to="#" />
             </li>
             <li>
-              <LinkButton label="Read QR" href="#" />
+              <LinkButton label="Read QR" to="#" />
             </li>
             <li>
-              <LinkButton label="Reservations" href="#" />
+              <LinkButton label="Reservations" to="#" />
             </li>
           </ul>
         </div>
