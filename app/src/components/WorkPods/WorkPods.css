@@ -15,12 +15,12 @@
   align-items: center;
 }
 
-img {
+.work-pod-link img {
   width: 80%;
   transform: translateY(10%);
 }
 
-a {
+a.work-pod-link {
   text-decoration: none;
   color: inherit;
 }
