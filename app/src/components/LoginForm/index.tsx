@@ -1,12 +1,16 @@
 import { FaArrowRight } from "react-icons/fa6";
 import "./LoginForm.css";
+import { useAuth } from "../AuthProvider"
 
 const LoginForm = () => {
+  const { onLogin }= useAuth();
   const handleLogin = (event: React.FormEvent) => {
+    
     event.preventDefault();
     const { email, password } = event.target as HTMLFormElement;
     console.log("Email:", email.value);
     console.log("Password:", password.value);
+    onLogin()
   };
 
   return (

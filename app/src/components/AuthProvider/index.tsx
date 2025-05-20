@@ -41,16 +41,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState("");
 
   const handleLogin = async () => {
-    console.log("trying to log in")
     const token = await fakeAuth(); // TODO: replace fakeAuth
-    console.log("waiting for token")
-    console.log(token)
     setToken(token);
     navigate("/dashboard"); // send user to dashboard on login
   };
 
   const handleLogout = () => {
-    console.log("log out")
     setToken("");
   };
 
