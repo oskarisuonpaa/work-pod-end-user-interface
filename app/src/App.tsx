@@ -2,25 +2,28 @@ import { Routes, Route, Link, useParams } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
+import { AuthProvider, useAuth} from "./components/AuthProvider"
+import ProtectedRoute from "./components/ProtectedRoute"
 import WorkPods from "./components/WorkPods";
+
 
 // Main App component
 const App = () => {
+  //const { token } = useAuth(); // initialise token to use when checking auth status
+
   return (
     <>
-      <div>
-        <h2>Hello, World!</h2>
-      </div>
-
-      <Navigation />
+      <AuthProvider>
+        <Navigation />
 
       <Routes>
         <Route index element={<Home />} />
         <Route path="login" element={<LoginScreen />} />
-        <Route path="work-pods" element={<WorkPods />} />
-        <Route path="workpods/:workpodId" element={<Workpod />} />
-        <Route path="search" element={<Search />} />
-        <Route path="searchresults" element={<SearchResults />} />
+        
+        <Route path="work-pods" element={<ProtectedRoute><WorkPods /></ProtectedRoute>} />
+        <Route path="workpods/:workpodId" element={<ProtectedRoute><WorkPods /></ProtectedRoute>} />
+        <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+        <Route path="searchresults" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
         <Route path="info" element={<Info />} />
         <Route path="login-form" element={<LoginForm />} />
         <Route path="dashboard" element={<Dashboard />} />
@@ -45,7 +48,20 @@ const Navigation = () => {
 };
 
 // Page components
-const Home = () => <p>Home page stuff</p>;
+const Home = () => {
+  const { onLogin } = useAuth();
+  // I put login button here because it wasn't working in the App function
+  // TODO remove login button and implement elsewhere, fix auth etc
+  return (
+    <p>
+      Home page stuff
+      <br />
+      <button type="button" onClick={onLogin}>
+        Sign In
+      </button>
+    </p>
+  );
+};
 
 const Info = () => <p>Info page stuff</p>;
 
