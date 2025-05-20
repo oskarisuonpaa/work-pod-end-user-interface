@@ -2,32 +2,37 @@ import { Routes, Route, Link, useParams } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
+import { AuthProvider, useAuth} from "./components/AuthProvider"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 // Dummy data
 const pods = [{ id: "C232-1" }, { id: "C232-2" }];
 
+
 // Main App component
 const App = () => {
+  //const { token } = useAuth(); // initialise token to use when checking auth status
+ 
   return (
     <>
-      <div>
-        <h2>Hello, World!</h2>
-      </div>
-
+      <AuthProvider>
       <Navigation />
-
+   
       <Routes>
         <Route index element={<Home />} />
         <Route path="login" element={<LoginScreen />} />
-        <Route path="workpods" element={<Workpods pods={pods} />} />
-        <Route path="workpods/:workpodId" element={<Workpod />} />
-        <Route path="search" element={<Search />} />
-        <Route path="searchresults" element={<SearchResults />} />
+        
+        <Route path="workpods" element={<ProtectedRoute><Workpods pods={pods} /></ProtectedRoute>} />
+        <Route path="workpods/:workpodId" element={<ProtectedRoute><Workpod /></ProtectedRoute>} />
+        <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+        <Route path="searchresults" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
         <Route path="info" element={<Info />} />
         <Route path="login-form" element={<LoginForm />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </AuthProvider>
     </>
   );
 };
@@ -47,7 +52,15 @@ const Navigation = () => {
 };
 
 // Page components
-const Home = () => <p>Home page stuff</p>;
+const Home = () => {
+   const { onLogin }= useAuth();
+   // I put login button here because it wasn't working in the App function
+   // TODO remove login button and implement elsewhere, fix auth etc
+return (<p>Home page stuff<br />
+   <button type="button" onClick={onLogin}>
+      Sign In
+    </button></p>
+) };
 
 const Info = () => <p>Info page stuff</p>;
 
