@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useParams } from "react-router";
+import { Routes, Route, Link, useParams, Navigate } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
@@ -20,7 +20,7 @@ const App = () => {
         <Navigation />
 
         <Routes>
-          <Route index element={<Home />} />
+          <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="login" element={<LoginScreen />} />
 
           <Route
@@ -77,7 +77,7 @@ const App = () => {
 const Navigation = () => {
   return (
     <nav>
-      <Link to="/">Home </Link>
+      <Link to="/dashboard">Dashboard </Link>
       <Link to="/login">Login </Link>
       <Link to="/workpods">Workpods </Link>
       <Link to="/search">Search </Link>
@@ -88,7 +88,6 @@ const Navigation = () => {
 };
 
 // Page components
-const Home = () =>  <p>Home page stuff</p> ;
 
 const Info = () => <p>Info page stuff</p>;
 
