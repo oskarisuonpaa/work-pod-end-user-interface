@@ -2,8 +2,12 @@ import { Routes, Route, Link, useParams } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
-import { AuthProvider, useAuth } from "./components/AuthProvider";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute"
+import { AuthProvider } from "./components/AuthProvider";
+
+// Dummy data
+//const pods = [{ id: "C232-1" }, { id: "C232-2" }];
+
 import WorkPods from "./components/WorkPods";
 
 // Main App component
@@ -84,20 +88,7 @@ const Navigation = () => {
 };
 
 // Page components
-const Home = () => {
-  const { onLogin } = useAuth();
-  // I put login button here because it wasn't working in the App function
-  // TODO remove login button and implement elsewhere, fix auth etc
-  return (
-    <p>
-      Home page stuff
-      <br />
-      <button type="button" onClick={onLogin}>
-        Sign In
-      </button>
-    </p>
-  );
-};
+const Home = () =>  <p>Home page stuff</p> ;
 
 const Info = () => <p>Info page stuff</p>;
 

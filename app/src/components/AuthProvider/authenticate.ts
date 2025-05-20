@@ -4,8 +4,6 @@
 
 const fakeAuth = (): Promise<string> =>
   new Promise((resolve) => {
-    console.log("fakeauth")
     setTimeout(() => resolve("2342f2f1d131rf12"), 250);
-    console.log("fakeauthed")
   });
   export default fakeAuth;
