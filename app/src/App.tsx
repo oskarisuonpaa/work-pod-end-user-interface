@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useParams, redirect } from "react-router";
+import { Routes, Route, Link, useParams, Navigate } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
@@ -20,7 +20,7 @@ const App = () => {
         <Navigation />
 
         <Routes>
-          <Route index element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="login" element={<LoginScreen />} />
 
           <Route
