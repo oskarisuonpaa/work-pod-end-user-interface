@@ -2,13 +2,14 @@ import { Routes, Route, Link, useParams, Navigate } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/AuthProvider";
 
 // Dummy data
 //const pods = [{ id: "C232-1" }, { id: "C232-2" }];
 
 import WorkPods from "./components/WorkPods";
+import Reservations from "./components/Reservations";
 
 // Main App component
 const App = () => {
@@ -62,6 +63,23 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="reservations"
+            element={
+              <ProtectedRoute>
+                <Reservations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="reservations/:reservationId"
+            element={
+              <ProtectedRoute>
+                <Reservations />
               </ProtectedRoute>
             }
           />
