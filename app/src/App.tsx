@@ -10,6 +10,7 @@ import { AuthProvider } from "./components/AuthProvider";
 //const pods = [{ id: "C232-1" }, { id: "C232-2" }];
 
 import WorkPods from "./components/WorkPods";
+import Reservations from "./components/Reservations";
 
 // Main App component
 const App = () => {
@@ -63,6 +64,23 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="reservations"
+            element={
+              <ProtectedRoute>
+                <Reservations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="reservations/:reservationId"
+            element={
+              <ProtectedRoute>
+                <Reservations />
               </ProtectedRoute>
             }
           />

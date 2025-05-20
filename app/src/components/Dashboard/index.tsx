@@ -1,16 +1,9 @@
-import { FaArrowRight } from "react-icons/fa6";
 import LinkButton from "../LinkButton";
 import "./Dashboard.css";
+import ReservationLink from "./ReservationLink";
 
 const Dashboard = () => {
   const user = { name: "John Doe" };
-
-  /*TODO:
-  -Split into subcomponents
-  -Connect with backend
-  -Make it responsive
-  -Make links functional
-  */
 
   return (
     <>
@@ -20,31 +13,31 @@ const Dashboard = () => {
           <h3>Upcoming Slots</h3>
           <ul>
             <li>
-              <a className="slot" href="#">
-                <div>
-                  <h3 className="slot-name">C230-1</h3>
-                  <p className="slot-time">20.5.2025 9:00 - 10:00</p>
-                </div>
-                <FaArrowRight />
-              </a>
+              <ReservationLink
+                id="C230-1"
+                podName="C230-1"
+                date="20.5.2025"
+                startTime="9:00"
+                endTime="10:00"
+              />
             </li>
             <li>
-              <a className="slot" href="#">
-                <div>
-                  <h3 className="slot-name">C230-2</h3>
-                  <p className="slot-time">21.5.2025 9:00 - 10:00</p>
-                </div>
-                <FaArrowRight />
-              </a>
+              <ReservationLink
+                id="C230-2"
+                podName="C230-2"
+                date="21.5.2025"
+                startTime="9:00"
+                endTime="10:00"
+              />
             </li>
             <li>
-              <a className="slot" href="#">
-                <div>
-                  <h3 className="slot-name">C230-3</h3>
-                  <p className="slot-time">22.5.2025 9:00 - 10:00</p>
-                </div>
-                <FaArrowRight />
-              </a>
+              <ReservationLink
+                id="C230-3"
+                podName="C230-3"
+                date="22.5.2025"
+                startTime="9:00"
+                endTime="10:00"
+              />
             </li>
           </ul>
         </div>
@@ -57,7 +50,7 @@ const Dashboard = () => {
               <LinkButton label="Read QR" to="#" />
             </li>
             <li>
-              <LinkButton label="Reservations" to="#" />
+              <LinkButton label="Reservations" to="/reservations" />
             </li>
           </ul>
         </div>

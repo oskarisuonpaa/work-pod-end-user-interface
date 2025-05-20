@@ -29,10 +29,9 @@ li:last-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
-  text-decoration: none;
-  padding: 1rem 1rem 1rem 0;
+  padding: 1rem;
   border: 2px solid var(--black);
+  background-color: var(--beige);
   color: var(--black);
 }
 
@@ -42,7 +41,13 @@ li:last-child {
 
 .slot-time {
   margin: 0;
-  font-weight: bold;
+}
+
+.slot-info {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 .link-container {
