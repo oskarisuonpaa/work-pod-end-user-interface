@@ -2,6 +2,7 @@ import { Routes, Route, Link, useParams, Navigate } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
+import Info from "./components/Info";
 import ProtectedRoute from "./components/ProtectedRoute"
 import { AuthProvider } from "./components/AuthProvider";
 
@@ -89,7 +90,7 @@ const Navigation = () => {
 
 // Page components
 
-const Info = () => <p>Info page stuff</p>;
+
 
 const Search = () => <p>Search page stuff</p>;
 
