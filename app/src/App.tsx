@@ -2,9 +2,7 @@ import { Routes, Route, Link, useParams } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
-
-// Dummy data
-const pods = [{ id: "C232-1" }, { id: "C232-2" }];
+import WorkPods from "./components/WorkPods";
 
 // Main App component
 const App = () => {
@@ -19,7 +17,7 @@ const App = () => {
       <Routes>
         <Route index element={<Home />} />
         <Route path="login" element={<LoginScreen />} />
-        <Route path="workpods" element={<Workpods pods={pods} />} />
+        <Route path="work-pods" element={<WorkPods />} />
         <Route path="workpods/:workpodId" element={<Workpod />} />
         <Route path="search" element={<Search />} />
         <Route path="searchresults" element={<SearchResults />} />
@@ -38,7 +36,7 @@ const Navigation = () => {
     <nav>
       <Link to="/">Home </Link>
       <Link to="/login">Login </Link>
-      <Link to="/workpods">Workpods </Link>
+      <Link to="/work-pods">Workpods </Link>
       <Link to="/search">Search </Link>
       <Link to="/searchresults">Search Results </Link>
       <Link to="/info">Info</Link>
@@ -60,25 +58,6 @@ const NotFound = () => <p>There's nothing here: 404!</p>;
 // Workpods page
 type Pod = {
   id: string;
-};
-
-type PodsProps = {
-  pods: Pod[];
-};
-
-const Workpods = ({ pods }: PodsProps) => {
-  return (
-    <>
-      <h2>Workpods</h2>
-      <ul>
-        {pods.map((pod) => (
-          <li key={pod.id}>
-            <Link to={`/workpods/${pod.id}`}>Workpod {pod.id}</Link>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
 };
 
 // Single Workpod view
