@@ -4,4 +4,5 @@
 - [ ] Connect backend and front
 - [ ] Mobile support
 - [ ] Work Pod search
-- [ ]
+- [ ] ???
+- [ ] Profit
