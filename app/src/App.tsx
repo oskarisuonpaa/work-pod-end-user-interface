@@ -22,13 +22,13 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="login" element={<LoginScreen />} />
         
-          <Route path="workpods" element={<ProtectedRoute><Workpods pods={pods} /></ProtectedRoute>} />
+        <Route path="workpods" element={<ProtectedRoute><Workpods pods={pods} /></ProtectedRoute>} />
         <Route path="workpods/:workpodId" element={<ProtectedRoute><Workpod /></ProtectedRoute>} />
-        <Route path="search" element={<Search />} />
-        <Route path="searchresults" element={<SearchResults />} />
+        <Route path="search" element={<ProtectedRoute><Search /></ProtectedRoute>} />
+        <Route path="searchresults" element={<ProtectedRoute><SearchResults /></ProtectedRoute>} />
         <Route path="info" element={<Info />} />
         <Route path="login-form" element={<LoginForm />} />
-          <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         
         <Route path="*" element={<NotFound />} />
       </Routes>
