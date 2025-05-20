@@ -51,7 +51,7 @@ const Dashboard = () => {
         <div className="link-container">
           <ul>
             <li>
-              <LinkButton label="Work Pods" to="#" />
+              <LinkButton label="Work Pods" to="/workpods" />
             </li>
             <li>
               <LinkButton label="Read QR" to="#" />
