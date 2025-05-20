@@ -20,6 +20,11 @@ img {
   transform: translateY(10%);
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 p {
   font-size: 1.5rem;
   font-weight: bold;
