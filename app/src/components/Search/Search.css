@@ -27,10 +27,6 @@
     position: absolute !important;
     z-index: 9999;
 }
-#searchContainer .react-datepicker__triangle {
-    padding: 0;
-    margin: 0;
-}
  .react-datepicker__tab-loop {
       position: absolute;
       top: 0;
