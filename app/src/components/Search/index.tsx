@@ -1,5 +1,13 @@
 // Search
 import "./Search.css"
+import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
+import { fi } from "date-fns/locale";
+import {addDays} from "date-fns";
+import { useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+
+registerLocale("fi", fi);
+setDefaultLocale("fi");
 
 // for search we need calendar and time picker
 // search based on classroom, is it even necessary?
@@ -16,14 +24,22 @@ import "./Search.css"
 // leave it freeform so someone can reserve at night if they really want to?
 
 const Search = () => {
+      const [startDate, setStartDate] = useState<Date | null>(null);
 return (
 <div id="searchContainer">
-    <h1>Search</h1>
+    <h1>Search for available workpods</h1>
+    <p>You can make a reservation up to 30 days in advance.</p>
     <form>
         <label htmlFor="date">Date:</label>
-        <input type="date" id="date" name="date" /><br />
-        <label htmlFor="time">Time:</label>
-        <input type="time" id="time" name="time" /><br />
+            <DatePicker
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+      includeDateIntervals={[ { start: new Date(), end: addDays(new Date(), 30) } ]}
+      dateFormat="dd/MM/yyyy"
+      placeholderText="Select a date."
+      showTimeSelect
+      locale="fi"
+    /><br />
         <label htmlFor="duration">Duration:</label>
         <input type="number" id="duration" name="duration" min="1" max="8" /><br />
 
