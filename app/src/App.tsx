@@ -3,6 +3,7 @@ import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import Info from "./components/Info";
+import Search from "./components/Search";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/AuthProvider";
 
@@ -107,8 +108,6 @@ const Navigation = () => {
 };
 
 // Page components
-
-const Search = () => <p>Search page stuff</p>;
 
 const SearchResults = () => <p>SearchResults page stuff</p>;
 
