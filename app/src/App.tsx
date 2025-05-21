@@ -12,6 +12,7 @@ import { AuthProvider } from "./components/AuthProvider";
 
 import WorkPods from "./components/WorkPods";
 import Reservations from "./components/Reservations";
+import Reservation from "./components/Reservation";
 
 // Main App component
 const App = () => {
@@ -81,7 +82,7 @@ const App = () => {
             path="reservations/:reservationId"
             element={
               <ProtectedRoute>
-                <Reservations />
+                <Reservation />
               </ProtectedRoute>
             }
           />
