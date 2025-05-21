@@ -34,15 +34,15 @@ a.work-pod-link {
 }
 
 .available {
-  background: #23b900;
+  background: var(--dark-green);
 }
 
 .has-slots {
-  background: #ff8621;
+  background: var(--orange);
 }
 
 .fully-booked {
-  background: #ed174d;
+  background: var(--red);
 }
 
 .separator {
