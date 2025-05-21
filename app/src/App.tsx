@@ -12,6 +12,8 @@ import { AuthProvider } from "./components/AuthProvider";
 
 import WorkPods from "./components/WorkPods";
 import Reservations from "./components/Reservations";
+import Reservation from "./components/Reservation";
+import WorkPod from "./components/WorkPod";
 
 // Main App component
 const App = () => {
@@ -38,7 +40,7 @@ const App = () => {
             path="workpods/:workpodId"
             element={
               <ProtectedRoute>
-                <Workpod />
+                <WorkPod />
               </ProtectedRoute>
             }
           />
@@ -81,7 +83,7 @@ const App = () => {
             path="reservations/:reservationId"
             element={
               <ProtectedRoute>
-                <Reservations />
+                <Reservation />
               </ProtectedRoute>
             }
           />
