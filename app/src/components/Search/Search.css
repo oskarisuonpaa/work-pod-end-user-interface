@@ -20,12 +20,14 @@
 }
 
 /* calendar */
-.react-datepicker{
-    border: 2px solid red;
+#searchContainer .react-datepicker-popper{
+    width: auto;
+    padding: 0;
+    margin: 0;
 }
 
 .custom-calendar {
-    width: clamp(352px,352px,500px);
+    width: clamp(200px,200px,300px);
     padding:0;
 
 .react-datepicker__day--selected {
