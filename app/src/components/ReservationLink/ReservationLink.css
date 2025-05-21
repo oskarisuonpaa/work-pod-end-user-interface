@@ -1,0 +1,25 @@
+.slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 2px solid var(--black);
+  background-color: var(--beige);
+  color: var(--black);
+  text-decoration: none;
+}
+
+.slot-name {
+  margin: 0;
+}
+
+.slot-time {
+  margin: 0;
+}
+
+.slot-info {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}

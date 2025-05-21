@@ -1,6 +1,6 @@
 import LinkButton from "../LinkButton";
 import "./Dashboard.css";
-import ReservationLink from "./ReservationLink";
+import ReservationLink from "../ReservationLink";
 
 const Dashboard = () => {
   const user = { name: "John Doe" };

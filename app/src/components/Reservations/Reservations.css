@@ -1,0 +1,10 @@
+.reservations-container {
+  background: var(--beige);
+  padding: 20px;
+}
+
+.reservations-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
