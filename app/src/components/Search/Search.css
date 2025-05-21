@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
   flex-direction: column;
+  position: relative;
 }
 
 #searchButton {
@@ -24,8 +24,17 @@
     width: auto;
     padding: 0;
     margin: 0;
+    position: absolute !important;
+    z-index: 9999;
 }
-
+#searchContainer .react-datepicker__triangle {
+    padding: 0;
+    margin: 0;
+}
+ .react-datepicker__tab-loop {
+      position: absolute;
+      top: 0;
+}
 .custom-calendar {
     width: clamp(200px,200px,300px);
     padding:0;
