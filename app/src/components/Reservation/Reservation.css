@@ -1,6 +1,7 @@
 .reservation-info {
   background: var(--beige);
   padding: 20px;
+  margin-bottom: 20px;
 }
 
 .date-info {
@@ -9,4 +10,12 @@
 
 .time-info {
   font-weight: bold;
+}
+
+.cancel-button {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
