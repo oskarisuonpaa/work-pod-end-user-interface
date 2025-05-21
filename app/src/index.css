@@ -26,15 +26,34 @@ body {
   font-weight: 300;
 }
 
-div {
-  box-sizing: border-box;
-  display: block;
-  padding: 0 20px;
-}
-
 h2 {
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.2em;
   word-wrap: break-word;
+}
+
+.page-container {
+  padding: 0 0 3.75rem;
+  margin: 0 auto 2.5rem;
+}
+
+.page-content {
+  max-width: 62.5rem;
+  margin: 0 auto;
+}
+
+.page-title h1 {
+  text-align: left;
+  line-height: 1.2em;
+  max-width: 49.375rem;
+  position: relative;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 47.5em) {
+  .page-title h1 {
+    font-size: 2.375rem;
+  }
 }

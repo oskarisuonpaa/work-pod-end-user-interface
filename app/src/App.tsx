@@ -3,7 +3,7 @@ import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import Info from "./components/Info";
-import ProtectedRoute from "./components/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./components/AuthProvider";
 
 // Dummy data
@@ -17,7 +17,7 @@ const App = () => {
   //const { token } = useAuth(); // initialise token to use when checking auth status
 
   return (
-    <>
+    <div className="page-container">
       <AuthProvider>
         <Navigation />
 
@@ -88,7 +88,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
-    </>
+    </div>
   );
 };
 
@@ -107,8 +107,6 @@ const Navigation = () => {
 };
 
 // Page components
-
-
 
 const Search = () => <p>Search page stuff</p>;
 

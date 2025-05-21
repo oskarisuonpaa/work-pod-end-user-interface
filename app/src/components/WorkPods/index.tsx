@@ -18,8 +18,10 @@ const dummyData: {
 const WorkPods = () => {
   let lastRoom = "";
   return (
-    <>
-      <h1>Work Pods</h1>
+    <div className="page-content">
+      <div className="page-title">
+        <h1>Work Pods</h1>
+      </div>
       <div className="work-pods-container">
         {dummyData.map((pod, idx) => {
           const room = pod.id.split("-")[0];
@@ -35,7 +37,7 @@ const WorkPods = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -6,8 +6,10 @@ const Dashboard = () => {
   const user = { name: "John Doe" };
 
   return (
-    <>
-      <h2>{user.name}</h2>
+    <div className="page-content">
+      <div className="page-title">
+        <h1>{user.name}</h1>
+      </div>
       <div className="container">
         <div className="schedule-container">
           <h3>Upcoming Slots</h3>
@@ -55,7 +57,7 @@ const Dashboard = () => {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
