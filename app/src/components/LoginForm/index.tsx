@@ -1,20 +1,19 @@
 import { FaArrowRight } from "react-icons/fa6";
 import "./LoginForm.css";
-import { useAuth } from "../AuthProvider"
+import { useAuth } from "../AuthProvider";
 
 const LoginForm = () => {
-  const { onLogin }= useAuth();
+  const { onLogin } = useAuth();
   const handleLogin = (event: React.FormEvent) => {
-    
     event.preventDefault();
     const { email, password } = event.target as HTMLFormElement;
     console.log("Email:", email.value);
     console.log("Password:", password.value);
-    onLogin()
+    onLogin();
   };
 
   return (
-    <>
+    <div className="page-content">
       <div className="form-container">
         <h2>Login</h2>
         <form className="login-form" onSubmit={handleLogin}>
@@ -46,7 +45,7 @@ const LoginForm = () => {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

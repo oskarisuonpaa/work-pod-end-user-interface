@@ -1,7 +1,6 @@
 .form-container {
   background: var(--beige);
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 30px;
 }
 
 .form-container h2 {

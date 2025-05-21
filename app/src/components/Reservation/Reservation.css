@@ -1,0 +1,12 @@
+.reservation-info {
+  background: var(--beige);
+  padding: 20px;
+}
+
+.date-info {
+  font-weight: bold;
+}
+
+.time-info {
+  font-weight: bold;
+}
