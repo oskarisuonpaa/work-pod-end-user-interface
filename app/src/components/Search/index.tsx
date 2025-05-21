@@ -22,7 +22,7 @@ setDefaultLocale("fi");
 // can time be omitted?
 // what are the "working hours" for the workpods? 8-16, 6-20?
 // leave it freeform so someone can reserve at night if they really want to?
-
+// TODO: custom css for datepicker
 const Search = () => {
       const [startDate, setStartDate] = useState<Date | null>(null);
 return (
@@ -31,17 +31,28 @@ return (
     <p>You can make a reservation up to 30 days in advance.</p>
     <form>
         <label htmlFor="date">Date:</label>
-            <DatePicker
+        <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
       includeDateIntervals={[ { start: new Date(), end: addDays(new Date(), 30) } ]}
       dateFormat="dd/MM/yyyy"
       placeholderText="Select a date."
-      showTimeSelect
       locale="fi"
+      calendarClassName="custom-calendar"
     /><br />
+    <label htmlFor="time">Time:</label>
+  
+        <DatePicker
+        showTimeSelect 
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        showTimeSelectOnly
+        dateFormat="HH:mm"
+        calendarClassName="custom-time"
+        />
+        <br />
         <label htmlFor="duration">Duration:</label>
-        <input type="number" id="duration" name="duration" min="1" max="8" /><br />
+        <input type="number" id="duration" name="duration" min="0" max="8" /> hours<br />
 
         <button type="submit" id="searchButton">Search</button>
     </form>
