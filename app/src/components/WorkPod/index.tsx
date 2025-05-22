@@ -7,8 +7,18 @@ import {
   postReservation,
 } from "../../utils/BackendCommunication";
 import "./WorkPod.css";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../AuthProvider";
+
+type DecodedUser = {
+  name: string;
+  [key: string]: any;
+};
 
 const WorkPod = () => {
+  const { token } = useAuth();
+  const user = jwtDecode<DecodedUser>(token);
+
   const navigate = useNavigate();
   const { workpodId } = useParams<{ workpodId: string }>();
   const [events, setEvents] = useState<any[]>([]);
@@ -38,7 +48,7 @@ const WorkPod = () => {
           start.setHours(hour);
           end.setHours(hour + 1);
 
-          const overlaps = bookedEvents.some((event) => {
+          const overlaps = bookedEvents.some((event: any) => {
             const bookedStart = new Date(event.start).getTime();
             const bookedEnd = new Date(event.end).getTime();
             const slotStart = start.getTime();
@@ -90,7 +100,7 @@ const WorkPod = () => {
       );
 
       const reservedSlot = {
-        title: "Varattu",
+        title: `Varattu - ${user.name}`,
         start: slot.start,
         end: slot.end,
         backgroundColor: "#3b82f6",
