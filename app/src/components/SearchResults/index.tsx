@@ -1,6 +1,7 @@
 // SearchResults
 import { useLocation } from "react-router";
 import { format } from "date-fns";
+import "./SearchResults.css";
 
 const SearchResults = () => {
     // receive data from the search page
@@ -13,19 +14,20 @@ const SearchResults = () => {
     // so timeMin is time from date, timeMax is end of day
     // convert date to the right format
     const dateString = format(date, "yyyy-MM-dd'T'HH:mm+03");
+    // 2025-05-22T09:12+03
     const timeMin = dateString;
     const timeMax = format(date, "yyyy-MM-dd'T'20:00+03");
     const queryString = `/events?calendarId=C220-1&timeMin=${timeMin}&timeMax=${timeMax}`;
     console.log(queryString);
-    // 2025-05-22T09:12+03
+    
     // handle the response
 
     // display the results
     return (
-        <>
+        <div id="searchResults">
         <h1>SearchResults</h1>
         <p>SearchResults: {dateString}</p>
-        </>
+        </div>
     );
 } 
 
