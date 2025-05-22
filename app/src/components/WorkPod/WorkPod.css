@@ -1,0 +1,12 @@
+.button-container {
+  margin-top: 20px;
+}
+
+.reservation-button {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 100%;
+}
