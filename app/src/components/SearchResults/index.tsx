@@ -37,8 +37,8 @@ const SearchResults = () => {
     // use fullcalendar? although it's not necessary if we just want to show list
     // of available workpods + how many hours they are available
     return (
-        <div id="searchResults">
-        <h1>SearchResults</h1>
+        <div id="searchResults" className="page-content">
+        <h1 className="page-title">SearchResults</h1>
         <p>SearchResults: {dateString}</p>
         </div>
     );
