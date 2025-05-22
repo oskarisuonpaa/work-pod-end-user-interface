@@ -1,6 +1,5 @@
 import ReservationLink from "../ReservationLink";
 import "./Reservations.css";
-import { parseDate, parseTime } from "../../utils/DateTimeParsing";
 
 const dummyData = [
   {
@@ -26,9 +25,9 @@ const Reservations = () => {
               <ReservationLink
                 id={reservation.id}
                 podName="C230-1"
-                date={parseDate(reservation.start)}
-                startTime={parseTime(reservation.start)}
-                endTime={parseTime(reservation.end)}
+                date={reservation.start}
+                startTime={reservation.start}
+                endTime={reservation.end}
               />
             </li>
           ))}

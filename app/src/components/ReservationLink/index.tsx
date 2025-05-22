@@ -1,6 +1,7 @@
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router";
 import "./ReservationLink.css";
+import { parseDate, parseTime } from "../../utils/DateTimeParsing";
 
 type ReservationLinkProps = {
   id: string;
@@ -22,7 +23,7 @@ const ReservationLink = ({
       <div className="slot-info">
         <h3 className="slot-name">{podName}</h3>
         <p className="slot-time">
-          {date} {startTime} - {endTime}
+          {parseDate(date)} {parseTime(startTime)} - {parseTime(endTime)}
         </p>
       </div>
       <FaArrowRight />
