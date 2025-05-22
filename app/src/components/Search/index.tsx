@@ -49,6 +49,7 @@ return (
       onChange={(date) => setStartDate(date)}
       includeDateIntervals={[ { start: new Date(), end: addDays(new Date(), 30) } ]}
       dateFormat="dd/MM/yyyy"
+      selectsDisabledDaysInRange
       placeholderText="Select a date."
       locale="fi"
       calendarClassName="custom-calendar"
