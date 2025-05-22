@@ -6,8 +6,8 @@ import LinkButton from "../LinkButton";
 const Info = () => {
     const {token} = useAuth();
 return (
-<div id="info">
-<h1>Info - Workpod Reservation System</h1>
+<div id="info" className="page-content">
+<h1 className="page-title">Info - Workpod Reservation System</h1>
 {!token && 
 <p>Note: access is for authorized users only; log in using LAB/LUT credentials.
 <LinkButton label="Login" to="/login-form" />
