@@ -1,11 +1,12 @@
 .work-pods-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
 .hexagon {
-  height: 300px;
+  height: 235px;
   aspect-ratio: cos(30deg);
   clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
   background: white;
@@ -16,7 +17,7 @@
 }
 
 .work-pod-link img {
-  width: 80%;
+  width: 70%;
   transform: translateY(10%);
 }
 
@@ -30,7 +31,7 @@ a.work-pod-link {
   font-weight: bold;
   text-align: center;
   margin: 0;
-  transform: translateY(100%);
+  transform: translateY(80%);
 }
 
 .available {

@@ -1,28 +1,29 @@
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-
-const dummyData = [
-  {
-    id: "84ojdg6vpqp8ga0vhs6kkprq9k",
-    title: "Joel Ryynänen",
-    start: "2025-05-19T12:15:00+03:00",
-    end: "2025-05-19T13:15:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-  {
-    id: "qk5iht3g5fdu65r5snlt9p97ec",
-    title: "Varattu",
-    start: "2025-05-21T05:00:00+03:00",
-    end: "2025-05-21T06:00:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-];
+import { getWorkpodCalendar } from "../../utils/BackendCommunication";
 
 const WorkPod = () => {
   const { workpodId } = useParams<{ workpodId: string }>();
+  const [events, setEvents] = useState<any[]>([]);
+
+  if (!workpodId) {
+    return <div>Workpod ID is missing</div>;
+  }
+
+  useEffect(() => {
+    const fetchWorkpodCalendar = async () => {
+      try {
+        const data = await getWorkpodCalendar(workpodId);
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching workpod calendar:", error);
+      }
+    };
+
+    fetchWorkpodCalendar();
+  }, []);
 
   return (
     <div className="page-content">
@@ -42,7 +43,7 @@ const WorkPod = () => {
         select={(info) => {
           alert(`Selected from ${info.startStr} to ${info.endStr}`);
         }}
-        events={dummyData} // Dummy data for events
+        events={events}
       />
     </div>
   );
