@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
   flex-direction: column;
+  position: relative;
 }
 
 #searchButton {
@@ -20,12 +20,19 @@
 }
 
 /* calendar */
-.react-datepicker{
-    border: 2px solid red;
+#searchContainer .react-datepicker-popper{
+    width: auto;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    z-index: 9999;
 }
-
+ .react-datepicker__tab-loop {
+      position: absolute;
+      top: 0;
+}
 .custom-calendar {
-    width: clamp(352px,352px,500px);
+    width: clamp(200px,200px,300px);
     padding:0;
 
 .react-datepicker__day--selected {
@@ -81,7 +88,10 @@
         color: white;
     }
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-    background-color: var(--blue);
+    background-color: var(--turquoise);
+}
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected:not([aria-disabled=true]):hover {
+    background-color: var(--turquoise);
 }
 .react-datepicker__time-container {
     float: left;
