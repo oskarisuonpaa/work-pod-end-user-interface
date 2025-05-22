@@ -1,11 +1,12 @@
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getWorkpodCalendar } from "../../utils/BackendCommunication";
 import "./WorkPod.css";
 
 const WorkPod = () => {
+  const navigate = useNavigate();
   const { workpodId } = useParams<{ workpodId: string }>();
   const [events, setEvents] = useState<any[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<{
@@ -57,6 +58,7 @@ const WorkPod = () => {
   const handleReservation = async (slot: { start: string; end: string }) => {
     if (confirm("Are you sure you want to reserve this slot?")) {
       console.log("Reserving:", slot);
+      navigate("/reservations");
     }
   };
 
