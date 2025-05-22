@@ -1,11 +1,15 @@
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { getWorkpodCalendar } from "../../utils/BackendCommunication";
+import { useNavigate, useParams } from "react-router";
+import {
+  getWorkpodCalendar,
+  postReservation,
+} from "../../utils/BackendCommunication";
 import "./WorkPod.css";
 
 const WorkPod = () => {
+  const navigate = useNavigate();
   const { workpodId } = useParams<{ workpodId: string }>();
   const [events, setEvents] = useState<any[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<{
@@ -27,22 +31,38 @@ const WorkPod = () => {
         today.setMinutes(0, 0, 0);
 
         const freeSlots = [];
+
         for (let hour = startHour; hour < endHour; hour++) {
           const start = new Date(today);
           const end = new Date(today);
           start.setHours(hour);
           end.setHours(hour + 1);
 
-          freeSlots.push({
-            title: "Free",
-            start,
-            end,
-            backgroundColor: "var(--green)",
-            borderColor: "#c3e6cb",
-            extendedProps: {
-              status: "free",
-            },
+          const overlaps = bookedEvents.some((event) => {
+            const bookedStart = new Date(event.start).getTime();
+            const bookedEnd = new Date(event.end).getTime();
+            const slotStart = start.getTime();
+            const slotEnd = end.getTime();
+
+            return (
+              (slotStart >= bookedStart && slotStart < bookedEnd) ||
+              (slotEnd > bookedStart && slotEnd <= bookedEnd) ||
+              (slotStart <= bookedStart && slotEnd >= bookedEnd)
+            );
           });
+
+          if (!overlaps) {
+            freeSlots.push({
+              title: "Free",
+              start,
+              end,
+              backgroundColor: "var(--green)",
+              borderColor: "#c3e6cb",
+              extendedProps: {
+                status: "free",
+              },
+            });
+          }
         }
 
         setEvents([...bookedEvents, ...freeSlots]);
@@ -56,7 +76,34 @@ const WorkPod = () => {
 
   const handleReservation = async (slot: { start: string; end: string }) => {
     if (confirm("Are you sure you want to reserve this slot?")) {
-      console.log("Reserving:", slot);
+      const response = await postReservation(workpodId, slot.start, slot.end);
+      console.log("Reservation response:", response);
+
+      const updatedEvents = events.filter(
+        (event) =>
+          !(
+            new Date(event.start).getTime() ===
+              new Date(slot.start).getTime() &&
+            new Date(event.end).getTime() === new Date(slot.end).getTime() &&
+            event.extendedProps?.status === "free"
+          )
+      );
+
+      const reservedSlot = {
+        title: "Varattu",
+        start: slot.start,
+        end: slot.end,
+        backgroundColor: "#3b82f6",
+        borderColor: "#3b82f6",
+        textColor: "#fff",
+        extendedProps: {
+          status: "reserved",
+        },
+      };
+
+      setEvents([...updatedEvents, reservedSlot]);
+      setSelectedSlot(null);
+      navigate("/reservations");
     }
   };
 
@@ -78,7 +125,6 @@ const WorkPod = () => {
             const start = event.start?.toISOString();
             const end = event.end?.toISOString();
             if (start && end) {
-              console.log(event);
               setSelectedSlot({ start, end });
             }
           } else {
