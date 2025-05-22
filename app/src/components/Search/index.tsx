@@ -39,8 +39,8 @@ const Search = () => {
             });
         }
 return (
-<div id="searchContainer">
-    <h1>Search for available workpods</h1>
+<div id="searchContainer" className="page-content">
+    <h1 className="page-title">Search for available workpods</h1>
     <p>You can make a reservation up to 30 days in advance.</p>
     <form id="searchForm" onSubmit={handleSubmit}>
         <label htmlFor="date">Date:</label>
