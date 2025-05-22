@@ -16,7 +16,12 @@ export const getWorkpodCalendar = async (workpodId: string) => {
   const response = await axios.get(
     `${
       import.meta.env.VITE_BACKEND_URL
-    }/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`
+    }/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
   );
 
   return response.data;
@@ -24,7 +29,34 @@ export const getWorkpodCalendar = async (workpodId: string) => {
 
 export const getWorkpods = async () => {
   const response = await axios.get(
-    `${import.meta.env.VITE_BACKEND_URL}/calendars`
+    `${import.meta.env.VITE_BACKEND_URL}/calendars`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const postReservation = async (
+  workpodId: string,
+  start: string,
+  end: string
+) => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}/book`,
+    {
+      params: {
+        calendarId: workpodId,
+        start: start,
+        end: end,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
   );
 
   return response.data;

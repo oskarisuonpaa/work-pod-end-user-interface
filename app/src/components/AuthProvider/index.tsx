@@ -21,15 +21,19 @@ type AuthProviderProps = {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(
+    () => localStorage.getItem("authToken") || ""
+  );
 
-  const handleLogin = async (googleToken: string) => {
+  const handleLogin = (googleToken: string) => {
     setToken(googleToken);
+    localStorage.setItem("authToken", googleToken);
     navigate("/dashboard");
   };
 
   const handleLogout = () => {
     setToken("");
+    localStorage.removeItem("authToken");
   };
 
   const value = {
