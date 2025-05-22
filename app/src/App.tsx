@@ -1,9 +1,11 @@
 import { Routes, Route, Link, Navigate } from "react-router";
+import { Routes, Route, Link, Navigate } from "react-router";
 import LoginScreen from "./components/LoginScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
 import Info from "./components/Info";
 import Search from "./components/Search";
+import SearchResults from "./components/SearchResults";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Dummy data
@@ -107,8 +109,6 @@ const Navigation = () => {
 };
 
 // Page components
-
-const SearchResults = () => <p>SearchResults page stuff</p>;
 
 const NotFound = () => <p>There's nothing here: 404!</p>;
 

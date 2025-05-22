@@ -2,34 +2,47 @@
 import "./Search.css"
 import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { fi } from "date-fns/locale";
-import {addDays} from "date-fns";
+import {addDays, setHours, setMinutes} from "date-fns";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("fi", fi);
 setDefaultLocale("fi");
 
-// for search we need calendar and time picker
-// search based on classroom, is it even necessary?
-// reservation status for right now is visible on the workpods page
-// but it could still be useful to include?
 // search is mainly needed if someone doesn't care which workpod they use
 // and just wants to find an available one
-// how to make a timepicker?
-// maybe use a library like react-time-picker or react-datetime
-// for duration, include 30 mins, 1 hour etc
-// is 8 hours too long?
-// can time be omitted?
 // what are the "working hours" for the workpods? 8-16, 6-20?
-// leave it freeform so someone can reserve at night if they really want to?
+// presumably 8-16, later than that there will be fewer users
+// so less need for reservations
+// once search parameters are in, look through the calendars of the workpods
+// to see if any are available at the selected time and onwards
+// searchresults - include all times for the selected day starting from the selected time?
+
 // TODO: custom css for datepicker
+
 const Search = () => {
-      const [startDate, setStartDate] = useState<Date | null>(null);
+      const [startDate, setStartDate] = useState<Date | null>(new Date());
+      const navigate = useNavigate();
+        const handleSubmit = (event: React.FormEvent) => {
+            event.preventDefault();
+            const date = startDate; // contains both date and time
+            if (date) {
+            console.log("Selected date:", date);
+            }
+            // send the data to the SearchResults page
+            // navigate to the SearchResults page
+            navigate("/searchresults", {
+                state: {
+                    date: startDate,
+                },
+            });
+        }
 return (
 <div id="searchContainer">
     <h1>Search for available workpods</h1>
     <p>You can make a reservation up to 30 days in advance.</p>
-    <form>
+    <form id="searchForm" onSubmit={handleSubmit}>
         <label htmlFor="date">Date:</label>
         <DatePicker
       selected={startDate}
@@ -45,15 +58,14 @@ return (
         <DatePicker
         showTimeSelect 
         selected={startDate}
-        onChange={(date) => setStartDate(date)}
+        onChange={(time) => setStartDate(time)}
         showTimeSelectOnly
         dateFormat="HH:mm"
+        minTime={setHours(setMinutes(new Date(), 30), 7)}
+        maxTime={setHours(setMinutes(new Date(), 0), 20)}
         calendarClassName="custom-time"
         />
         <br />
-        <label htmlFor="duration">Duration:</label>
-        <input type="number" id="duration" name="duration" min="0" max="8" /> hours<br />
-
         <button type="submit" id="searchButton">Search</button>
     </form>
 </div>
