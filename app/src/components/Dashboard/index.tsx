@@ -43,7 +43,6 @@ const Dashboard = () => {
 
   const decodedToken = jwtDecode<GoogleJwtPayload>(token);
   const user = { name: decodedToken.name };
-  console.log(user.name);
 
   const userReservations = dummyData.filter(
     (reservation) => reservation.title === user.name
