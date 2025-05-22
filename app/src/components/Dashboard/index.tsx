@@ -1,6 +1,8 @@
 import LinkButton from "../LinkButton";
 import "./Dashboard.css";
 import ReservationLink from "../ReservationLink";
+import { useAuth } from "../AuthProvider";
+import { jwtDecode } from "jwt-decode";
 
 const dummyData = [
   {
@@ -21,23 +23,30 @@ const dummyData = [
   },
 ];
 
+type GoogleJwtPayload = {
+  name: string;
+  [key: string]: any;
+};
+
 const Dashboard = () => {
-  const user = { name: "John Doe" };
+  const { token } = useAuth();
+  if (!token) {
+    return (
+      <div className="page-content">
+        <div className="page-title">
+          <h1>Unauthorized</h1>
+        </div>
+        <p>You are not authorized to view this page.</p>
+      </div>
+    );
+  }
+
+  const decodedToken = jwtDecode<GoogleJwtPayload>(token);
+  const user = { name: decodedToken.name };
 
   const userReservations = dummyData.filter(
     (reservation) => reservation.title === user.name
   );
-
-  if (userReservations.length === 0) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>No Reservations Found</h1>
-        </div>
-        <p>You have no reservations.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="page-content">

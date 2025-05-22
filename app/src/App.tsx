@@ -10,10 +10,12 @@ import WorkPods from "./components/WorkPods";
 import Reservations from "./components/Reservations";
 import Reservation from "./components/Reservation";
 import WorkPod from "./components/WorkPod";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
     <div className="page-container">
+      <NavBar />
 
       <Routes>
         <Route index element={<Navigate to="/dashboard" replace />} />

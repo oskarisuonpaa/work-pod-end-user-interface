@@ -1,0 +1,15 @@
+.navbar {
+  background: var(--light-blue);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar a {
+  color: var(--black);
+  text-decoration: none;
+  margin: 0 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
