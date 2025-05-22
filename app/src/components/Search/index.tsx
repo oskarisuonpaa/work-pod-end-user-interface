@@ -2,7 +2,7 @@
 import "./Search.css"
 import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { fi } from "date-fns/locale";
-import {addDays} from "date-fns";
+import {addDays, setHours, setMinutes} from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,9 +16,7 @@ setDefaultLocale("fi");
 // presumably 8-16, later than that there will be fewer users
 // so less need for reservations
 // once search parameters are in, look through the calendars of the workpods
-// to see if any are available at the selected time
-// is duration even necessary? just include the number of free hours (until 16/20?)
-// by default in the results
+// to see if any are available at the selected time and onwards
 // searchresults - include all times for the selected day starting from the selected time?
 
 // TODO: custom css for datepicker
@@ -28,8 +26,6 @@ const Search = () => {
       const navigate = useNavigate();
         const handleSubmit = (event: React.FormEvent) => {
             event.preventDefault();
-            //const form = event.target as HTMLFormElement;
-            //const duration = form.duration.value; // not really needed
             const date = startDate; // contains both date and time
             if (date) {
             console.log("Selected date:", date);
@@ -65,6 +61,8 @@ return (
         onChange={(time) => setStartDate(time)}
         showTimeSelectOnly
         dateFormat="HH:mm"
+        minTime={setHours(setMinutes(new Date(), 30), 7)}
+        maxTime={setHours(setMinutes(new Date(), 0), 20)}
         calendarClassName="custom-time"
         />
         <br />

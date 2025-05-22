@@ -14,7 +14,7 @@ const SearchResults = () => {
     // convert date to the right format
     const dateString = format(date, "yyyy-MM-dd'T'HH:mm+03");
     const timeMin = dateString;
-    const timeMax = format(date, "yyyy-MM-dd'T'23:59+03");
+    const timeMax = format(date, "yyyy-MM-dd'T'20:00+03");
     const queryString = `/events?calendarId=C220-1&timeMin=${timeMin}&timeMax=${timeMax}`;
     console.log(queryString);
     // 2025-05-22T09:12+03
