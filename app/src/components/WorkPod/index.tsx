@@ -3,10 +3,15 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getWorkpodCalendar } from "../../utils/BackendCommunication";
+import "./WorkPod.css";
 
 const WorkPod = () => {
   const { workpodId } = useParams<{ workpodId: string }>();
   const [events, setEvents] = useState<any[]>([]);
+  const [selectedSlot, setSelectedSlot] = useState<{
+    start: string;
+    end: string;
+  } | null>(null);
 
   if (!workpodId) {
     return <div>Workpod ID is missing</div>;
@@ -15,8 +20,32 @@ const WorkPod = () => {
   useEffect(() => {
     const fetchWorkpodCalendar = async () => {
       try {
-        const data = await getWorkpodCalendar(workpodId);
-        setEvents(data);
+        const bookedEvents = await getWorkpodCalendar(workpodId);
+        const startHour = 8;
+        const endHour = 18;
+        const today = new Date();
+        today.setMinutes(0, 0, 0);
+
+        const freeSlots = [];
+        for (let hour = startHour; hour < endHour; hour++) {
+          const start = new Date(today);
+          const end = new Date(today);
+          start.setHours(hour);
+          end.setHours(hour + 1);
+
+          freeSlots.push({
+            title: "Free",
+            start,
+            end,
+            backgroundColor: "var(--green)",
+            borderColor: "#c3e6cb",
+            extendedProps: {
+              status: "free",
+            },
+          });
+        }
+
+        setEvents([...bookedEvents, ...freeSlots]);
       } catch (error) {
         console.error("Error fetching workpod calendar:", error);
       }
@@ -25,6 +54,12 @@ const WorkPod = () => {
     fetchWorkpodCalendar();
   }, []);
 
+  const handleReservation = async (slot: { start: string; end: string }) => {
+    if (confirm("Are you sure you want to reserve this slot?")) {
+      console.log("Reserving:", slot);
+    }
+  };
+
   return (
     <div className="page-content">
       <div className="page-title">
@@ -32,19 +67,39 @@ const WorkPod = () => {
       </div>
       <FullCalendar
         plugins={[timeGridPlugin]}
+        locale={"fi"}
         initialView="timeGridDay"
-        slotDuration="01:00:00" // 1 hour slots
-        allDaySlot={false} // Hide all-day slot
-        nowIndicator={true} // Show current time line
-        slotMinTime="08:00:00" // Start of visible day
-        slotMaxTime="18:00:00" // End of visible day
-        selectable={true} // Allow clicking to select slots
-        selectMirror={true}
-        select={(info) => {
-          alert(`Selected from ${info.startStr} to ${info.endStr}`);
-        }}
+        allDaySlot={false}
+        nowIndicator={true}
         events={events}
+        eventClick={(info) => {
+          const event = info.event;
+          if (event.extendedProps.status === "free") {
+            const start = event.start?.toISOString();
+            const end = event.end?.toISOString();
+            if (start && end) {
+              console.log(event);
+              setSelectedSlot({ start, end });
+            }
+          } else {
+            setSelectedSlot(null);
+          }
+        }}
+        eventMinHeight={40}
+        slotMinTime="08:00:00"
+        slotMaxTime="18:00:00"
+        height={"60vh"}
       />
+      {selectedSlot && (
+        <div className="button-container">
+          <button
+            className="reservation-button"
+            onClick={() => handleReservation(selectedSlot)}
+          >
+            Reserve Slot
+          </button>
+        </div>
+      )}
     </div>
   );
 };
