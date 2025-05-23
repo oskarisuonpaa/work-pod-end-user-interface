@@ -48,11 +48,11 @@ export const postReservation = async (
   const response = await axios.post(
     `${import.meta.env.VITE_BACKEND_URL}/book`,
     {
-      params: {
-        calendarId: workpodId,
-        start: start,
-        end: end,
-      },
+      calendarId: workpodId,
+      start,
+      end,
+    },
+    {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
