@@ -73,7 +73,7 @@ const Reservation = () => {
         <h1>Reservation Info</h1>
       </div>
       <div className="reservation-info">
-        <h2>Work Pod: C230-1</h2>
+        <h2>Work Pod: {reservation.calendarId}</h2>
         <p className="date-info">Date: {parseDate(reservation.start)}</p>
         <p className="time-info">
           Time: {parseTime(reservation.start)} - {parseTime(reservation.end)}
