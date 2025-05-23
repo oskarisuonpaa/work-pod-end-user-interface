@@ -26,14 +26,13 @@ const Reservation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  if (!calendarId || !reservationId) {
+    navigate("/reservations");
+    return null;
+  }
+
   useEffect(() => {
     const fetchReservation = async () => {
-      if (!calendarId || !reservationId) {
-        setError("Missing calendar or reservation ID.");
-        setIsLoading(false);
-        return;
-      }
-
       try {
         const data = await getSingleReservation(calendarId, reservationId);
         setReservation(data);
@@ -51,11 +50,6 @@ const Reservation = () => {
   }, [calendarId, reservationId]);
 
   const handleCancel = async () => {
-    if (!calendarId || !reservationId) {
-      alert("Invalid reservation or calendar ID.");
-      return;
-    }
-
     const confirmed = confirm(
       "Are you sure you want to cancel this reservation?"
     );
