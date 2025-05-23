@@ -3,78 +3,98 @@ import "./Dashboard.css";
 import ReservationLink from "../ReservationLink";
 import { useAuth } from "../AuthProvider";
 import { jwtDecode } from "jwt-decode";
-
-const dummyData = [
-  {
-    id: "84ojdg6vpqp8ga0vhs6kkprq9k",
-    title: "John Doe",
-    start: "2025-05-19T12:15:00+03:00",
-    end: "2025-05-19T13:15:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-  {
-    id: "qk5iht3g5fdu65r5snlt9p97ec",
-    title: "Varattu",
-    start: "2025-05-21T05:00:00+03:00",
-    end: "2025-05-21T06:00:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-];
+import { useNavigate } from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { getUserReservations } from "../../utils/BackendCommunication";
 
 type GoogleJwtPayload = {
   name: string;
   [key: string]: any;
 };
 
+type ReservationType = {
+  id: string;
+  start: string;
+  end: string;
+  calendarId: string;
+};
+
 const Dashboard = () => {
   const { token } = useAuth();
-  if (!token) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Unauthorized</h1>
-        </div>
-        <p>You are not authorized to view this page.</p>
-      </div>
-    );
+  const navigate = useNavigate();
+
+  const [reservations, setReservations] = useState<ReservationType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const data = await getUserReservations();
+        setReservations(data);
+      } catch (err) {
+        console.error("Error fetching reservations:", err);
+        setError("Failed to load reservations. Please try again later.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
+  if (!token) return null;
+
+  let userName = "User";
+  try {
+    const decodedToken = jwtDecode<GoogleJwtPayload>(token);
+    userName = decodedToken.name || "User";
+  } catch {
+    console.warn("Invalid token");
+    navigate("/login");
+    return null;
   }
 
-  const decodedToken = jwtDecode<GoogleJwtPayload>(token);
-  const user = { name: decodedToken.name };
-
-  const userReservations = dummyData.filter(
-    (reservation) => reservation.title === user.name
-  );
+  const upcomingReservations = useMemo(() => {
+    return reservations
+      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+      .slice(0, 3);
+  }, [reservations]);
 
   return (
     <div className="page-content">
       <div className="page-title">
-        <h1>{user.name}</h1>
+        <h1>{userName}</h1>
       </div>
       <div className="container">
         <div className="schedule-container">
           <h3>Upcoming Slots</h3>
-          <ul>
-            {userReservations
-              .sort(
-                (a, b) =>
-                  new Date(a.start).getTime() - new Date(b.start).getTime()
-              )
-              .slice(0, 3)
-              .map((reservation) => (
+          {isLoading && <h4>Loading...</h4>}
+          {error && <h4 className="error">{error}</h4>}
+          {!isLoading && reservations.length === 0 && (
+            <h4>No upcoming reservations</h4>
+          )}
+          {upcomingReservations.length > 0 && (
+            <ul>
+              {upcomingReservations.map((reservation) => (
                 <li key={reservation.id}>
                   <ReservationLink
                     id={reservation.id}
-                    podName="C230-1"
+                    podName={reservation.calendarId}
                     date={reservation.start}
                     startTime={reservation.start}
                     endTime={reservation.end}
                   />
                 </li>
               ))}
-          </ul>
+            </ul>
+          )}
         </div>
         <div className="link-container">
           <ul>

@@ -48,11 +48,40 @@ export const postReservation = async (
   const response = await axios.post(
     `${import.meta.env.VITE_BACKEND_URL}/book`,
     {
-      params: {
-        calendarId: workpodId,
-        start: start,
-        end: end,
+      calendarId: workpodId,
+      start,
+      end,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
+    }
+  );
+
+  return response.data;
+};
+
+export const deleteReservation = async (
+  calendarId: string,
+  eventId: string
+) => {
+  const response = await axios.delete(
+    `${import.meta.env.VITE_BACKEND_URL}/cancel/${calendarId}/${eventId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const getUserReservations = async () => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}/user-events`,
+    {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },

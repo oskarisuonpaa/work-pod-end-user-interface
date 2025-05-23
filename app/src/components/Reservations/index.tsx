@@ -1,18 +1,55 @@
+import { useEffect, useState } from "react";
 import ReservationLink from "../ReservationLink";
 import "./Reservations.css";
+import { getUserReservations } from "../../utils/BackendCommunication";
 
-const dummyData = [
-  {
-    id: "84ojdg6vpqp8ga0vhs6kkprq9k",
-    title: "John Doe",
-    start: "2025-05-19T12:15:00+03:00",
-    end: "2025-05-19T13:15:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-];
+type ReservationType = {
+  id: string;
+  start: string;
+  end: string;
+  calendarId: string;
+};
 
 const Reservations = () => {
+  const [reservations, setReservations] = useState<ReservationType[]>([]);
+  const [firstLoad, setFirstLoad] = useState(true);
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const reservations = await getUserReservations();
+        setReservations(reservations);
+        if (firstLoad) {
+          setFirstLoad(false);
+        }
+      } catch (error) {
+        console.error("Error fetching reservations:", error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
+  if (firstLoad) {
+    return (
+      <div className="page-content">
+        <div className="page-title">
+          <h1>Loading...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (reservations.length === 0) {
+    return (
+      <div className="page-content">
+        <div className="page-title">
+          <h1>No Reservations Found</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page-content">
       <div className="page-title">
@@ -20,11 +57,11 @@ const Reservations = () => {
       </div>
       <div className="reservations-container">
         <ul>
-          {dummyData.map((reservation) => (
+          {reservations.map((reservation) => (
             <li key={reservation.id}>
               <ReservationLink
                 id={reservation.id}
-                podName="C230-1"
+                podName={reservation.calendarId}
                 date={reservation.start}
                 startTime={reservation.start}
                 endTime={reservation.end}
