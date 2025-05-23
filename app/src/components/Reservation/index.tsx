@@ -45,11 +45,15 @@ const Reservation = () => {
     fetchReservations();
   }, []);
 
-  const handleCancel = async (calendarId: string, reservationId: string) => {
+  const handleCancel = async () => {
     if (confirm("Are you sure you want to cancel this reservation?")) {
-      await deleteReservation(calendarId, reservationId);
-      alert(`Reservation ${reservationId} cancelled.`);
-      navigate("/reservations");
+      if (calendarId && reservationId) {
+        await deleteReservation(calendarId, reservationId);
+        alert(`Reservation ${reservationId} cancelled.`);
+        navigate("/reservations");
+      } else {
+        alert("Invalid reservation or calendar ID.");
+      }
     }
   };
 
@@ -89,10 +93,7 @@ const Reservation = () => {
           Time: {reservation.start} - {reservation.end}
         </p>
       </div>
-      <button
-        className="cancel-button"
-        onClick={() => handleCancel(reservation.calendarId, reservation.id)}
-      >
+      <button className="cancel-button" onClick={handleCancel}>
         Cancel Reservation
       </button>
     </div>
