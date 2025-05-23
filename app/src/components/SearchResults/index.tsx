@@ -1,6 +1,6 @@
 // SearchResults
 import { useLocation } from "react-router";
-import { differenceInHours, format, isWithinInterval } from "date-fns";
+import { differenceInHours, differenceInMinutes, format, isWithinInterval } from "date-fns";
 import { useEffect, useState } from "react";
 import "./SearchResults.css";
 
@@ -114,7 +114,7 @@ const SearchResults = () => {
                         return isWithinInterval(date, { start: startDate, end: endDate });
                     });
                     //if isReserved is false, calculate freeFor
-                    if (!isReserved()) {
+                    if (!isReserved) {
                         //check for the next reservation
                         // there can be multiple reservations, so we need to look through the events
                         // and find the one with the closest start time
@@ -122,7 +122,9 @@ const SearchResults = () => {
                             const startDate = new Date(event.start);
                             return startDate > date;
                         });
-                        
+                        const minutesFree = (eventStart: any, date: Date) => {
+                            return differenceInMinutes(new Date(eventStart), date);
+                        }
 
                         if (nextReservation) {
                             const startDate = new Date(nextReservation.start);
@@ -130,7 +132,10 @@ const SearchResults = () => {
                             const hours = Math.floor(diff / (1000 * 60 * 60));
                             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));*/
                             newPods[idx].freeFor = differenceInHours(startDate, date)
+                            if (newPods[idx].freeFor === 0) {
+                                newPods[idx].minutesFree = minutesFree(nextReservation.start, date);
                         }
+                    }
                         else {
                             // no reservations after the selected date, free for the rest of the day
                             newPods[idx].freeFor = 20 - date.getHours();
@@ -139,14 +144,14 @@ const SearchResults = () => {
                         // if isReserved is true, set freeFor to 0
                         newPods[idx].freeFor = 0;
                     }
-                    newPods[idx] = {...newPods[idx], isReserved: isReserved(), events: data };
+                    newPods[idx] = {...newPods[idx], isReserved: isReserved, events: data };
                     return newPods;
                 });
             })
                 .catch(error => console.error(error));
 
         });
-    });
+    },[workPods.length, date]);
 
 
 
