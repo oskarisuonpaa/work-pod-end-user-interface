@@ -23,6 +23,7 @@ const Dashboard = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [reservations, setReservations] = useState<ReservationType[]>([]);
+  const [firstLoad, setFirstLoad] = useState(true);
 
   if (!token) {
     navigate("/login");
@@ -33,6 +34,9 @@ const Dashboard = () => {
       try {
         const reservations = await getUserReservations();
         setReservations(reservations);
+        if (firstLoad) {
+          setFirstLoad(false);
+        }
       } catch (error) {
         console.error("Error fetching reservations:", error);
       }
@@ -52,25 +56,31 @@ const Dashboard = () => {
       <div className="container">
         <div className="schedule-container">
           <h3>Upcoming Slots</h3>
-          <ul>
-            {reservations
-              .sort(
-                (a, b) =>
-                  new Date(a.start).getTime() - new Date(b.start).getTime()
-              )
-              .slice(0, 3)
-              .map((reservation) => (
-                <li key={reservation.id}>
-                  <ReservationLink
-                    id={reservation.id}
-                    podName={reservation.calendarId}
-                    date={reservation.start}
-                    startTime={reservation.start}
-                    endTime={reservation.end}
-                  />
-                </li>
-              ))}
-          </ul>
+          {firstLoad && <h4>Loading...</h4>}
+          {reservations.length === 0 && !firstLoad && (
+            <h4>No upcoming reservations</h4>
+          )}
+          {reservations.length != 0 && (
+            <ul>
+              {reservations
+                .sort(
+                  (a, b) =>
+                    new Date(a.start).getTime() - new Date(b.start).getTime()
+                )
+                .slice(0, 3)
+                .map((reservation) => (
+                  <li key={reservation.id}>
+                    <ReservationLink
+                      id={reservation.id}
+                      podName={reservation.calendarId}
+                      date={reservation.start}
+                      startTime={reservation.start}
+                      endTime={reservation.end}
+                    />
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
         <div className="link-container">
           <ul>

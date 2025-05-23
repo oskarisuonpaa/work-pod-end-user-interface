@@ -3,17 +3,25 @@ import { useAuth } from "../AuthProvider";
 import "./NavBar.css";
 
 const NavBar = () => {
-  const { token } = useAuth();
+  const { token, onLogout } = useAuth();
   return (
     <nav className="navbar">
-      {token && 
-      <><Link to="/dashboard">Dashboard </Link>      
-      <Link to="/workpods">Workpods </Link>
-      <Link to="/search">Search </Link></>}
-      {!token && 
-      <Link to="/login">Login </Link>}
+      {token && (
+        <>
+          <Link to="/dashboard">Dashboard </Link>
+          <Link to="/workpods">Workpods </Link>
+          <Link to="/reservations">Reservations </Link>
+          <Link to="/search">Search </Link>
+        </>
+      )}
+
       <Link to="/info">Info</Link>
-    
+      {!token && <Link to="/login">Login </Link>}
+      {token && (
+        <Link onClick={onLogout} to="/login">
+          Logout
+        </Link>
+      )}
     </nav>
   );
 };
