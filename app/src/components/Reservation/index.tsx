@@ -1,8 +1,11 @@
 import { useNavigate, useParams } from "react-router";
 import "./Reservation.css";
 import { parseDate, parseTime } from "../../utils/DateTimeParsing";
-import { useEffect, useState } from "react";
-import { getUserReservations } from "../../utils/BackendCommunication";
+import { useEffect, useMemo, useState } from "react";
+import {
+  deleteReservation,
+  getUserReservations,
+} from "../../utils/BackendCommunication";
 
 type ReservationType = {
   id: string;
@@ -14,41 +17,60 @@ type ReservationType = {
 const Reservation = () => {
   const { reservationId } = useParams<{ reservationId: string }>();
   const [reservations, setReservations] = useState<ReservationType[]>([]);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const reservations = await getUserReservations();
-        setReservations(reservations);
-        if (firstLoad) {
-          setFirstLoad(false);
-        }
+        const data = await getUserReservations();
+        setReservations(data);
       } catch (error) {
         console.error("Error fetching reservations:", error);
+        setError("Failed to load reservations. Please try again later.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchReservations();
   }, []);
 
-  const reservation = reservations.find((res) => res.id === reservationId);
+  const reservation = useMemo(() => {
+    return reservations.find((res) => res.id === reservationId);
+  }, [reservations, reservationId]);
 
-  const handleCancel = async () => {
+  const handleCancel = async (calendarId: string, reservationId: string) => {
     if (confirm("Are you sure you want to cancel this reservation?")) {
-      // await deleteReservation(reservationId)
-      alert(`Reservation ${reservationId} cancelled.`);
-      navigate("/reservations");
+      try {
+        await deleteReservation(calendarId, reservationId);
+        alert(`Reservation ${reservationId} cancelled.`);
+        navigate("/reservations");
+      } catch (error) {
+        console.error("Error cancelling reservation:", error);
+        alert("Failed to cancel reservation. Please try again.");
+      }
     }
   };
 
-  if (firstLoad) {
+  if (isLoading) {
     return (
       <div className="page-content">
         <div className="page-title">
           <h1>Loading...</h1>
         </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page-content">
+        <div className="page-title">
+          <h1>Error</h1>
+        </div>
+        <p>{error}</p>
       </div>
     );
   }
@@ -79,7 +101,10 @@ const Reservation = () => {
           Time: {parseTime(reservation.start)} - {parseTime(reservation.end)}
         </p>
       </div>
-      <button className="cancel-button" onClick={handleCancel}>
+      <button
+        className="cancel-button"
+        onClick={() => handleCancel(reservation.calendarId, reservation.id)}
+      >
         Cancel Reservation
       </button>
     </div>

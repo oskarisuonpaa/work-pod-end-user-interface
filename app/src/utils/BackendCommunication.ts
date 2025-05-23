@@ -62,9 +62,12 @@ export const postReservation = async (
   return response.data;
 };
 
-export const deleteReservation = async (eventId: string) => {
+export const deleteReservation = async (
+  calendarId: string,
+  eventId: string
+) => {
   const response = await axios.delete(
-    `${import.meta.env.VITE_BACKEND_URL}/events/${eventId}`,
+    `${import.meta.env.VITE_BACKEND_URL}/cancel/${calendarId}/${eventId}`,
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
