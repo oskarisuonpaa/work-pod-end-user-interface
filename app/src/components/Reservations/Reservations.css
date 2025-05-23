@@ -1,10 +1,15 @@
 .reservations-container {
   background: var(--beige);
   padding: 20px;
+  margin-bottom: 0;
 }
 
 .reservations-container ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.reservations-container ul li:last-child .slot {
+  margin-bottom: 0;
 }

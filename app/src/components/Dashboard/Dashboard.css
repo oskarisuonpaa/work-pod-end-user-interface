@@ -17,11 +17,15 @@
   margin: 0;
 }
 
-.container li {
-  margin-bottom: 10px;
+.container ul li {
+  margin-bottom: 20px;
 }
 
-.container li:last-child {
+.container ul li:last-child {
+  margin-bottom: 0;
+}
+
+.container ul li .slot:last-child {
   margin-bottom: 0;
 }
 
