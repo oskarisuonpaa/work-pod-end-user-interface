@@ -61,3 +61,29 @@ export const postReservation = async (
 
   return response.data;
 };
+
+export const deleteReservation = async (eventId: string) => {
+  const response = await axios.delete(
+    `${import.meta.env.VITE_BACKEND_URL}/events/${eventId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const getUserReservations = async () => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}/user-events`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+
+  return response.data;
+};

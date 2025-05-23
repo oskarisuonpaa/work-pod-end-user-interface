@@ -1,31 +1,57 @@
 import { useNavigate, useParams } from "react-router";
 import "./Reservation.css";
 import { parseDate, parseTime } from "../../utils/DateTimeParsing";
+import { useEffect, useState } from "react";
+import { getUserReservations } from "../../utils/BackendCommunication";
 
-const dummyData = [
-  {
-    id: "84ojdg6vpqp8ga0vhs6kkprq9k",
-    title: "Joel Ryynänen",
-    start: "2025-05-19T12:15:00+03:00",
-    end: "2025-05-19T13:15:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-  {
-    id: "qk5iht3g5fdu65r5snlt9p97ec",
-    title: "Varattu",
-    start: "2025-05-21T05:00:00+03:00",
-    end: "2025-05-21T06:00:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-];
+type ReservationType = {
+  id: string;
+  start: string;
+  end: string;
+  calendarId: string;
+};
 
 const Reservation = () => {
   const { reservationId } = useParams<{ reservationId: string }>();
+  const [reservations, setReservations] = useState<ReservationType[]>([]);
+  const [firstLoad, setFirstLoad] = useState(true);
   const navigate = useNavigate();
 
-  const reservation = dummyData.find((res) => res.id === reservationId);
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const reservations = await getUserReservations();
+        setReservations(reservations);
+        if (firstLoad) {
+          setFirstLoad(false);
+        }
+      } catch (error) {
+        console.error("Error fetching reservations:", error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
+
+  const reservation = reservations.find((res) => res.id === reservationId);
+
+  const handleCancel = async () => {
+    if (confirm("Are you sure you want to cancel this reservation?")) {
+      // await deleteReservation(reservationId)
+      alert(`Reservation ${reservationId} cancelled.`);
+      navigate("/reservations");
+    }
+  };
+
+  if (firstLoad) {
+    return (
+      <div className="page-content">
+        <div className="page-title">
+          <h1>Loading...</h1>
+        </div>
+      </div>
+    );
+  }
 
   if (!reservation) {
     return (
@@ -33,17 +59,13 @@ const Reservation = () => {
         <div className="page-title">
           <h1>Reservation Not Found</h1>
         </div>
-        <p>The reservation you are looking for does not exist.</p>
+        <p>
+          The reservation you are looking for does not exist or doesn't belong
+          to you.
+        </p>
       </div>
     );
   }
-
-  const handleCancel = () => {
-    if (confirm("Are you sure you want to cancel this reservation?")) {
-      alert(`Reservation ${reservationId} cancelled.`);
-      navigate("/reservations");
-    }
-  };
 
   return (
     <div className="page-content">

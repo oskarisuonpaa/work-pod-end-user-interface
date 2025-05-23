@@ -3,50 +3,46 @@ import "./Dashboard.css";
 import ReservationLink from "../ReservationLink";
 import { useAuth } from "../AuthProvider";
 import { jwtDecode } from "jwt-decode";
-
-const dummyData = [
-  {
-    id: "84ojdg6vpqp8ga0vhs6kkprq9k",
-    title: "John Doe",
-    start: "2025-05-19T12:15:00+03:00",
-    end: "2025-05-19T13:15:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-  {
-    id: "qk5iht3g5fdu65r5snlt9p97ec",
-    title: "Varattu",
-    start: "2025-05-21T05:00:00+03:00",
-    end: "2025-05-21T06:00:00+03:00",
-    allDay: false,
-    url: "https://www.google.com/calendar/event?someurl",
-  },
-];
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
+import { getUserReservations } from "../../utils/BackendCommunication";
 
 type GoogleJwtPayload = {
   name: string;
   [key: string]: any;
 };
 
+type ReservationType = {
+  id: string;
+  start: string;
+  end: string;
+  calendarId: string;
+};
+
 const Dashboard = () => {
   const { token } = useAuth();
+  const navigate = useNavigate();
+  const [reservations, setReservations] = useState<ReservationType[]>([]);
+
   if (!token) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Unauthorized</h1>
-        </div>
-        <p>You are not authorized to view this page.</p>
-      </div>
-    );
+    navigate("/login");
   }
+
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        const reservations = await getUserReservations();
+        setReservations(reservations);
+      } catch (error) {
+        console.error("Error fetching reservations:", error);
+      }
+    };
+
+    fetchReservations();
+  }, []);
 
   const decodedToken = jwtDecode<GoogleJwtPayload>(token);
   const user = { name: decodedToken.name };
-
-  const userReservations = dummyData.filter(
-    (reservation) => reservation.title === user.name
-  );
 
   return (
     <div className="page-content">
@@ -57,7 +53,7 @@ const Dashboard = () => {
         <div className="schedule-container">
           <h3>Upcoming Slots</h3>
           <ul>
-            {userReservations
+            {reservations
               .sort(
                 (a, b) =>
                   new Date(a.start).getTime() - new Date(b.start).getTime()
@@ -67,7 +63,7 @@ const Dashboard = () => {
                 <li key={reservation.id}>
                   <ReservationLink
                     id={reservation.id}
-                    podName="C230-1"
+                    podName={reservation.calendarId}
                     date={reservation.start}
                     startTime={reservation.start}
                     endTime={reservation.end}
