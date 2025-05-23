@@ -73,7 +73,7 @@ const App = () => {
           }
         />
         <Route
-          path="reservations/:reservationId"
+          path="reservations/:calendarId/:reservationId"
           element={
             <ProtectedRoute>
               <Reservation />

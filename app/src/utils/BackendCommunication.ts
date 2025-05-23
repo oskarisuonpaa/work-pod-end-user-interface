@@ -90,3 +90,19 @@ export const getUserReservations = async () => {
 
   return response.data;
 };
+
+export const getSingleReservation = async (
+  calendarId: string,
+  eventId: string
+) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_BACKEND_URL}/booking/${calendarId}/${eventId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+      },
+    }
+  );
+
+  return response.data;
+};
