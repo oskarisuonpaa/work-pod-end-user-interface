@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "react-router";
 import "./Reservation.css";
-import { parseDate, parseTime } from "../../utils/DateTimeParsing";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   deleteReservation,
-  getUserReservations,
+  getSingleReservation,
 } from "../../utils/BackendCommunication";
 
 type ReservationType = {
@@ -12,65 +11,54 @@ type ReservationType = {
   start: string;
   end: string;
   calendarId: string;
+  date: string;
+  room: string;
 };
 
 const Reservation = () => {
-  const { reservationId } = useParams<{ reservationId: string }>();
-  const [reservations, setReservations] = useState<ReservationType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { calendarId, reservationId } = useParams<{
+    calendarId: string;
+    reservationId: string;
+  }>();
+  const [reservation, setReservation] = useState<ReservationType>();
+  const [firstLoad, setFirstLoad] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const data = await getUserReservations();
-        setReservations(data);
+        if (!calendarId || !reservationId) {
+          setReservation(undefined);
+          setFirstLoad(false);
+          return;
+        }
+        const data = await getSingleReservation(calendarId, reservationId);
+        setReservation(data);
+        if (firstLoad) {
+          setFirstLoad(false);
+        }
       } catch (error) {
-        console.error("Error fetching reservations:", error);
-        setError("Failed to load reservations. Please try again later.");
-      } finally {
-        setIsLoading(false);
+        console.error("Error fetching reservation:", error);
       }
     };
 
     fetchReservations();
   }, []);
 
-  const reservation = useMemo(() => {
-    return reservations.find((res) => res.id === reservationId);
-  }, [reservations, reservationId]);
-
   const handleCancel = async (calendarId: string, reservationId: string) => {
     if (confirm("Are you sure you want to cancel this reservation?")) {
-      try {
-        await deleteReservation(calendarId, reservationId);
-        alert(`Reservation ${reservationId} cancelled.`);
-        navigate("/reservations");
-      } catch (error) {
-        console.error("Error cancelling reservation:", error);
-        alert("Failed to cancel reservation. Please try again.");
-      }
+      await deleteReservation(calendarId, reservationId);
+      alert(`Reservation ${reservationId} cancelled.`);
+      navigate("/reservations");
     }
   };
 
-  if (isLoading) {
+  if (firstLoad) {
     return (
       <div className="page-content">
         <div className="page-title">
           <h1>Loading...</h1>
         </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Error</h1>
-        </div>
-        <p>{error}</p>
       </div>
     );
   }
@@ -95,10 +83,10 @@ const Reservation = () => {
         <h1>Reservation Info</h1>
       </div>
       <div className="reservation-info">
-        <h2>Work Pod: {reservation.calendarId}</h2>
-        <p className="date-info">Date: {parseDate(reservation.start)}</p>
+        <h2>Work Pod: {reservation.room}</h2>
+        <p className="date-info">Date: {reservation.date}</p>
         <p className="time-info">
-          Time: {parseTime(reservation.start)} - {parseTime(reservation.end)}
+          Time: {reservation.start} - {reservation.end}
         </p>
       </div>
       <button

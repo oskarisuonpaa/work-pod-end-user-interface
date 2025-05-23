@@ -19,7 +19,7 @@ const ReservationLink = ({
   endTime,
 }: ReservationLinkProps) => {
   return (
-    <Link className="slot" to={`/reservations/${id}`}>
+    <Link className="slot" to={`/reservations/${podName}/${id}`}>
       <div className="slot-info">
         <h3 className="slot-name">{podName}</h3>
         <p className="slot-time">
