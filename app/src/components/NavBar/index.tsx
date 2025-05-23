@@ -3,7 +3,7 @@ import { useAuth } from "../AuthProvider";
 import "./NavBar.css";
 
 const NavBar = () => {
-  const { token } = useAuth();
+  const { token, onLogout } = useAuth();
   return (
     <nav className="navbar">
       {token && (
@@ -17,7 +17,11 @@ const NavBar = () => {
 
       <Link to="/info">Info</Link>
       {!token && <Link to="/login">Login </Link>}
-      {token && <Link to="/logout">Logout </Link>}
+      {token && (
+        <Link onClick={onLogout} to="/login">
+          Logout
+        </Link>
+      )}
     </nav>
   );
 };
