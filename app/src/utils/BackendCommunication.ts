@@ -1,4 +1,3 @@
-import { Calendar } from "@fullcalendar/core/index.js";
 import axios from "axios";
 
 const formatDate = (date: Date) => {

@@ -20,44 +20,58 @@ const Reservation = () => {
     calendarId: string;
     reservationId: string;
   }>();
-  const [reservation, setReservation] = useState<ReservationType>();
-  const [firstLoad, setFirstLoad] = useState(true);
   const navigate = useNavigate();
 
+  const [reservation, setReservation] = useState<ReservationType | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+
   useEffect(() => {
-    const fetchReservations = async () => {
+    const fetchReservation = async () => {
+      if (!calendarId || !reservationId) {
+        setError("Missing calendar or reservation ID.");
+        setIsLoading(false);
+        return;
+      }
+
       try {
-        if (!calendarId || !reservationId) {
-          setReservation(undefined);
-          setFirstLoad(false);
-          return;
-        }
         const data = await getSingleReservation(calendarId, reservationId);
         setReservation(data);
-        if (firstLoad) {
-          setFirstLoad(false);
-        }
-      } catch (error) {
-        console.error("Error fetching reservation:", error);
+      } catch (err) {
+        console.error("Error fetching reservation:", err);
+        setError(
+          "Failed to load reservation. It may not exist or is not accessible."
+        );
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchReservations();
-  }, []);
+    fetchReservation();
+  }, [calendarId, reservationId]);
 
   const handleCancel = async () => {
-    if (confirm("Are you sure you want to cancel this reservation?")) {
-      if (calendarId && reservationId) {
-        await deleteReservation(calendarId, reservationId);
-        alert(`Reservation ${reservationId} cancelled.`);
-        navigate("/reservations");
-      } else {
-        alert("Invalid reservation or calendar ID.");
-      }
+    if (!calendarId || !reservationId) {
+      alert("Invalid reservation or calendar ID.");
+      return;
+    }
+
+    const confirmed = confirm(
+      "Are you sure you want to cancel this reservation?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteReservation(calendarId, reservationId);
+      alert(`Reservation ${reservationId} cancelled.`);
+      navigate("/reservations");
+    } catch (err) {
+      console.error("Error cancelling reservation:", err);
+      alert("Failed to cancel reservation. Please try again.");
     }
   };
 
-  if (firstLoad) {
+  if (isLoading) {
     return (
       <div className="page-content">
         <div className="page-title">
@@ -67,15 +81,15 @@ const Reservation = () => {
     );
   }
 
-  if (!reservation) {
+  if (error || !reservation) {
     return (
       <div className="page-content">
         <div className="page-title">
           <h1>Reservation Not Found</h1>
         </div>
         <p>
-          The reservation you are looking for does not exist or doesn't belong
-          to you.
+          {error ||
+            "The reservation you are looking for does not exist or doesn't belong to you."}
         </p>
       </div>
     );
