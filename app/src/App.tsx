@@ -30,7 +30,7 @@ const App = () => {
           }
         />
         <Route
-          path="workpods/:workpodId"
+          path="workpods/:workpodId/:date?"
           element={
             <ProtectedRoute>
               <WorkPod />
