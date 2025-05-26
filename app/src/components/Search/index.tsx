@@ -62,8 +62,6 @@ return (
         onChange={(time) => setStartDate(time)}
         showTimeSelectOnly
         dateFormat="HH:mm"
-        minTime={setHours(setMinutes(new Date(), 30), 7)}
-        maxTime={setHours(setMinutes(new Date(), 0), 20)}
         calendarClassName="custom-time"
         />
         <br />

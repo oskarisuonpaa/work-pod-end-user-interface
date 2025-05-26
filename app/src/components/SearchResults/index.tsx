@@ -30,7 +30,7 @@ const SearchResults = () => {
                 console.log("Calendars:", calendars);
                 // initialize workpods
                 for (const id in calendars.calendars) {
-                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, events: [] });
+                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, events: [], reservedUntil: null });
                 }
                 setWorkPods(pods);
 
@@ -48,7 +48,7 @@ const SearchResults = () => {
             const workpodId = workpod.workpodId;
             setDateString(date.toISOString()); //format(date, "yyyy-MM-dd'T'HH:mm+03");
             const timeMin = dateString;
-            const timeMax = format(date, "yyyy-MM-dd'T'23:00:00'Z'");
+            const timeMax = format(date, "yyyy-MM-dd'T'23:59:59'Z'");
             const queryString = `/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`;
 
             const url = backendUrl + queryString;
@@ -68,8 +68,8 @@ const SearchResults = () => {
                             newPods[idx].isReserved = false;
                             // calculate freefor the rest of the work day
                             let dateEnd = date;
-                            dateEnd = setHours(dateEnd, 20);
-                            dateEnd = setMinutes(dateEnd, 0);
+                            dateEnd = setHours(dateEnd, 23);
+                            dateEnd = setMinutes(dateEnd, 59);
                             newPods[idx].freeFor = differenceInMinutes(dateEnd, date);
                             newPods[idx] = { ...newPods[idx], events: data };
 
@@ -83,11 +83,11 @@ const SearchResults = () => {
                             return isWithinInterval(dateMinute, { start: startDate, end: endDate });
                         });
                         let freeFor = 0;
+                        const sortedEvents = [...data].sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
                         //if isReserved is false, calculate freeFor
                         if (!isReserved) {
-                            //const sortedEvents = [...data].sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime());
                             //check for the next reservation
-                            const nextReservation = data.find((event: { start: string }) => {
+                            const nextReservation = sortedEvents.find((event: { start: string }) => {
                                 const startDate = new Date(event.start);
                                 return startDate > date;
                             });
@@ -99,14 +99,39 @@ const SearchResults = () => {
                             } else {
                                 // no reservations after the selected date, free for the rest of the day
                                 let dateEnd = date;
-                                dateEnd = setHours(dateEnd, 20);
-                                dateEnd = setMinutes(dateEnd, 0);
+                                dateEnd = setHours(dateEnd, 23);
+                                dateEnd = setMinutes(dateEnd, 59);
                                 freeFor = differenceInMinutes(dateEnd, date);
                             }
+                        } else { //isReserved
+                            // need to use sortedEvents, check the end time of the first event
+                            // then check whether the next event starts right away
+                            // if yes, then need to check when that event ends... etc
+                            const firstEvent = sortedEvents[0];
+                            let endDate = new Date(firstEvent.end);
+                            let reservedUntil = new Date(firstEvent.end);
+                            if (endDate > date) {
+                                // if sortedEvents(next) ?
+                                if (sortedEvents.length > 1) {
+                                    for (let i = 1; i < sortedEvents.length; i++) {
+                                        const nextEvent = sortedEvents[i];
+                                        const nextStartDate = new Date(nextEvent.start);
+                                        if (nextStartDate > endDate) {
+                                            // found the next event that starts after the current event ends
+                                            reservedUntil = endDate;
+                                            break;
+                                        }
+                                        endDate = new Date(nextEvent.end);
+                                    }
+                                }
+                            }
+                                newPods[idx].reservedUntil = reservedUntil;
                         }
-                        newPods[idx] = { ...newPods[idx], isReserved, freeFor, events: data };
-                        return newPods;
-                    });
+
+
+                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, events: data };
+                                return newPods;
+                            });
                     console.log("Data for workpod id", workpod, data);
                     setLoadedCount(count => count + 1);
 
@@ -132,7 +157,7 @@ const SearchResults = () => {
             <h1 className="page-title">Available workpods</h1>
             <p>Available workpods at {format(date, "dd/MM/yyyy HH:MM")}:</p>
             <div className="results">
-                <ul>
+                <ul className="available-results">
                     {
                         // need to remove any reserved workpods from the list
                         // we also need to sort workpods by freeFor
@@ -150,6 +175,28 @@ const SearchResults = () => {
 
                                             <p className="workpod-time"> Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
+
+                                            </p>
+                                        </a>
+                                    </li>
+                                );
+                            })}
+
+                </ul>
+                <ul className="reserved-results">
+                    {
+                        // show currently reserved workpods
+                        // we also need to sort workpods by reservedUntil
+                        // so we can show the one that will be available first
+                        workPods
+                            .filter(workpod => workpod.isReserved)
+                            //.sort((a, b) => b.freeFor - a.freeFor)
+                            .map((workpod, idx) => {
+                                return (
+                                    <li key={idx} className="lab-arrow">
+                                        <a href=""><p className="workpod-title">{workpod.workpodId}</p>
+
+                                            <p className="workpod-time"> Reserved until {format(workpod.reservedUntil, "HH:mm")}.
 
                                             </p>
                                         </a>
