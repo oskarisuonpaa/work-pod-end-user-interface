@@ -1,5 +1,5 @@
 // SearchResults
-import { useLocation } from "react-router";
+import { useLocation, Link } from "react-router";
 import { minutesToHours, differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
 import { useEffect, useState } from "react";
 import "./SearchResults.css";
@@ -171,13 +171,13 @@ const SearchResults = () => {
                                 let minutesLeft = minutes % 60;
                                 return (
                                     <li key={idx} className="lab-arrow">
-                                        <a href=""><p className="workpod-title">{workpod.workpodId}</p>
+                                        <Link to={`/workpods/${workpod.workpodId}/${format(date,"yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
 
                                             <p className="workpod-time"> Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
 
                                             </p>
-                                        </a>
+                                        </Link>
                                     </li>
                                 );
                             })}
