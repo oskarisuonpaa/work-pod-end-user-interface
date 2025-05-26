@@ -27,7 +27,9 @@ const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => (
           start: start.toISOString(),
           end: end.toISOString(),
           status: extendedProps.status,
-          owner: extendedProps.description.split(": ")[1] || "",
+          owner: extendedProps.description
+            ? extendedProps.description.split(": ")[1]
+            : "",
           eventId: id || undefined,
         };
 
