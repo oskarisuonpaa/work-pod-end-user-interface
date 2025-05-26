@@ -19,7 +19,7 @@ const SearchResults = () => {
         if (!date || !loading) return;
         if (workPods.length > 0) return;
         setDateString(date.toISOString());
-        fetch(backendUrl + "calendars", {
+        fetch(backendUrl + "/calendars", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`
             }
@@ -49,7 +49,7 @@ const SearchResults = () => {
             setDateString(date.toISOString()); //format(date, "yyyy-MM-dd'T'HH:mm+03");
             const timeMin = dateString;
             const timeMax = format(date, "yyyy-MM-dd'T'23:00:00'Z'");
-            const queryString = `events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`;
+            const queryString = `/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`;
 
             const url = backendUrl + queryString;
 
@@ -104,7 +104,7 @@ const SearchResults = () => {
                                 freeFor = differenceInMinutes(dateEnd, date);
                             }
                         }
-                        newPods[idx] = { idx, isReserved, freeFor, events: data };
+                        newPods[idx] = { ...newPods[idx], isReserved, freeFor, events: data };
                         return newPods;
                     });
                     console.log("Data for workpod id", workpod, data);
@@ -130,7 +130,7 @@ const SearchResults = () => {
     return (
         <div id="searchResults" className="page-content">
             <h1 className="page-title">Available workpods</h1>
-            <p>Available workpods for {format(date, "dd/MM/yyyy")}:</p>
+            <p>Available workpods at {format(date, "dd/MM/yyyy HH:MM")}:</p>
             <div className="results">
                 <ul>
                     {
@@ -147,11 +147,11 @@ const SearchResults = () => {
                                 return (
                                     <li key={idx} className="lab-arrow">
                                         <a href=""><h3>{workpod.workpodId}</h3>
-                                        
-                                       <p> Free for: {hours > 0 && ` ${hours} hours`}
-                                            {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
 
-                                    </p></a></li>
+                                            <p> Free for: {hours > 0 && ` ${hours} hours`}
+                                                {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
+
+                                            </p></a></li>
                                 );
                             })}
 
