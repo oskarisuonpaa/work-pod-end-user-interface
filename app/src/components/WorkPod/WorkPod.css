@@ -10,3 +10,11 @@
   cursor: pointer;
   width: 100%;
 }
+
+.cancel-button {
+  background-color: var(--red);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}

@@ -3,7 +3,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 
 type CalendarProps = {
   events: any[];
-  onSlotSelect: (slot: { start: string; end: string }) => void;
+  onSlotSelect: (slot: {
+    start: string;
+    end: string;
+    status: string;
+    owner: string;
+  }) => void;
 };
 
 const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => (
@@ -15,9 +20,18 @@ const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => (
     nowIndicator={true}
     events={events}
     eventClick={(info) => {
-      const { start, end, extendedProps } = info.event;
-      if (extendedProps.status === "free" && start && end) {
-        onSlotSelect({ start: start.toISOString(), end: end.toISOString() });
+      const { start, end, extendedProps, id } = info.event;
+
+      if (start && end && extendedProps) {
+        const slot = {
+          start: start.toISOString(),
+          end: end.toISOString(),
+          status: extendedProps.status,
+          owner: extendedProps.description.split(": ")[1] || "",
+          eventId: id || undefined,
+        };
+
+        onSlotSelect(slot);
       }
     }}
     eventMinHeight={40}
