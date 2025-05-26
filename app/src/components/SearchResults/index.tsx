@@ -150,6 +150,7 @@ const SearchResults = () => {
 
     // display the results
     // list of available workpods + how many hours they are available
+    // TODO add useParams for date on workpod page and add date={dateToShow} to fullCalendar
     if (!date) return <div>No date selected</div>;
     if (loading) return <div>Loading...</div>;
     return (
@@ -194,12 +195,12 @@ const SearchResults = () => {
                             .map((workpod, idx) => {
                                 return (
                                     <li key={idx} className="lab-arrow">
-                                        <a href=""><p className="workpod-title">{workpod.workpodId}</p>
+                                        <Link to={`/workpods/${workpod.workpodId}/${format(date,"yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
 
                                             <p className="workpod-time"> Reserved until {format(workpod.reservedUntil, "HH:mm")}.
 
                                             </p>
-                                        </a>
+                                        </Link>
                                     </li>
                                 );
                             })}
