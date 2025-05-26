@@ -20,7 +20,7 @@
 @font-face {
   font-family: lamk-icons;
   src: url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.eot?c6x50k=);
-  src: url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.eot?c6x50k=#iefix) format("embedded-opentype"), url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.ttf?c6x50k=) format("truetype"), url(./assets/lamk-icons.woff?c6x50k=) format("woff"), url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.svg?c6x50k=#lamk-icons) format("svg");
+  src: url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.eot?c6x50k=#iefix) format("embedded-opentype"), url(./assets/lamk-icons.ttf?c6x50k=) format("truetype"), url(./assets/lamk-icons.woff?c6x50k=) format("woff"), url(https://lab.fi/themes/custom/lab/assets/fonts/lamk-icons/fonts/lamk-icons.svg?c6x50k=#lamk-icons) format("svg");
   font-weight: 400;
   font-style: normal;
   font-display: block
