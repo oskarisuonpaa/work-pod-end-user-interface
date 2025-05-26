@@ -146,12 +146,14 @@ const SearchResults = () => {
                                 let minutesLeft = minutes % 60;
                                 return (
                                     <li key={idx} className="lab-arrow">
-                                        <a href=""><h3>{workpod.workpodId}</h3>
+                                        <a href=""><p className="workpod-title">{workpod.workpodId}</p>
 
-                                            <p> Free for: {hours > 0 && ` ${hours} hours`}
+                                            <p className="workpod-time"> Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
 
-                                            </p></a></li>
+                                            </p>
+                                        </a>
+                                    </li>
                                 );
                             })}
 

@@ -5,6 +5,7 @@
     background: var(--beige);
     height: 340px;
     padding: 0 20px 20px 20px;
+    width: 100vh;
 
 }
 
@@ -12,23 +13,22 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    width: clamp(400px, 700px, 700px);
+    width: clamp(400px, 100%, 100%);
 }
 
 .results li {
     border: 1px solid black;
     display: block;
     margin: 20px;
+    padding: 0 20px;
 }
 
 .lab-arrow {
-    text-transform: uppercase;
+    
     padding: .625rem 1.25rem;
     display: block;
     color: #000;
     border: 2px solid #000;
-    font-size: .875rem;
-    font-weight: 700;
     width: 50%;
     position: relative;
     text-decoration: none;
@@ -57,4 +57,15 @@
     line-height: 1;
     color: #000;
     display: block;
+}
+.workpod-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--black);
+    text-transform: uppercase;
+}
+.workpod-time {
+    margin-top: 0.5rem;
+    color: var(--black);
 }
