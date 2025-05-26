@@ -42,36 +42,41 @@ const WorkPod = () => {
 
         const freeSlots = [];
 
-        for (let hour = startHour; hour < endHour; hour++) {
-          const start = new Date(today);
-          const end = new Date(today);
-          start.setHours(hour);
-          end.setHours(hour + 1);
+        for (let dayOffset = 0; dayOffset < 30; dayOffset++) {
+          const day = new Date(today);
+          day.setDate(today.getDate() + dayOffset);
 
-          const overlaps = bookedEvents.some((event: any) => {
-            const bookedStart = new Date(event.start).getTime();
-            const bookedEnd = new Date(event.end).getTime();
-            const slotStart = start.getTime();
-            const slotEnd = end.getTime();
+          for (let hour = startHour; hour < endHour; hour++) {
+            const start = new Date(day);
+            const end = new Date(day);
+            start.setHours(hour);
+            end.setHours(hour + 1);
 
-            return (
-              (slotStart >= bookedStart && slotStart < bookedEnd) ||
-              (slotEnd > bookedStart && slotEnd <= bookedEnd) ||
-              (slotStart <= bookedStart && slotEnd >= bookedEnd)
-            );
-          });
+            const overlaps = bookedEvents.some((event: any) => {
+              const bookedStart = new Date(event.start).getTime();
+              const bookedEnd = new Date(event.end).getTime();
+              const slotStart = start.getTime();
+              const slotEnd = end.getTime();
 
-          if (!overlaps) {
-            freeSlots.push({
-              title: "Free",
-              start,
-              end,
-              backgroundColor: "var(--green)",
-              borderColor: "#c3e6cb",
-              extendedProps: {
-                status: "free",
-              },
+              return (
+                (slotStart >= bookedStart && slotStart < bookedEnd) ||
+                (slotEnd > bookedStart && slotEnd <= bookedEnd) ||
+                (slotStart <= bookedStart && slotEnd >= bookedEnd)
+              );
             });
+
+            if (!overlaps) {
+              freeSlots.push({
+                title: "Free",
+                start,
+                end,
+                backgroundColor: "var(--green)",
+                borderColor: "#c3e6cb",
+                extendedProps: {
+                  status: "free",
+                },
+              });
+            }
           }
         }
 
@@ -82,7 +87,7 @@ const WorkPod = () => {
     };
 
     fetchWorkpodCalendar();
-  }, []);
+  }, [workpodId]);
 
   const handleReservation = async (slot: { start: string; end: string }) => {
     if (confirm("Are you sure you want to reserve this slot?")) {
