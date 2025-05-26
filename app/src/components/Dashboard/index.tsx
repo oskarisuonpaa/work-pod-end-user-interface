@@ -77,7 +77,7 @@ const Dashboard = () => {
           <h3>Upcoming Slots</h3>
           {isLoading && <h4>Loading...</h4>}
           {error && <h4 className="error">{error}</h4>}
-          {!isLoading && reservations.length === 0 && (
+          {!isLoading && reservations.length === 0 && !error && (
             <h4>No upcoming reservations</h4>
           )}
           {upcomingReservations.length > 0 && (
