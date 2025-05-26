@@ -30,7 +30,7 @@ const SearchResults = () => {
                 console.log("Calendars:", calendars);
                 // initialize workpods
                 for (const id in calendars.calendars) {
-                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, events: [], reservedUntil: null });
+                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, freeUntil: null, events: [], reservedUntil: null });
                 }
                 setWorkPods(pods);
 
@@ -62,6 +62,7 @@ const SearchResults = () => {
                 .then(data => {
                     setWorkPods((prevPods) => {
                         const newPods = [...prevPods];
+                        let freeUntil = null;
 
                         if (data.length === 0) {
                             console.log("No reservations found for", workpodId);
@@ -71,7 +72,8 @@ const SearchResults = () => {
                             dateEnd = setHours(dateEnd, 23);
                             dateEnd = setMinutes(dateEnd, 59);
                             newPods[idx].freeFor = differenceInMinutes(dateEnd, date);
-                            newPods[idx] = { ...newPods[idx], events: data };
+                            freeUntil = dateEnd;
+                            newPods[idx] = { ...newPods[idx], freeUntil, events: data };
 
                             return newPods;
                         }
@@ -95,6 +97,7 @@ const SearchResults = () => {
                             if (nextReservation) {
                                 const startDate = new Date(nextReservation.start);
                                 freeFor = differenceInMinutes(startDate, date)
+                                freeUntil = startDate;
 
                             } else {
                                 // no reservations after the selected date, free for the rest of the day
@@ -102,6 +105,7 @@ const SearchResults = () => {
                                 dateEnd = setHours(dateEnd, 23);
                                 dateEnd = setMinutes(dateEnd, 59);
                                 freeFor = differenceInMinutes(dateEnd, date);
+                                freeUntil = dateEnd;
                             }
                         } else { //isReserved
                             // need to use sortedEvents, check the end time of the first event
@@ -129,7 +133,7 @@ const SearchResults = () => {
                         }
 
 
-                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, events: data };
+                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, freeUntil, events: data };
                                 return newPods;
                             });
                     console.log("Data for workpod id", workpod, data);
