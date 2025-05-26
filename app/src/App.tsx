@@ -6,10 +6,10 @@ import Info from "./components/Info";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/WorkPods";
+import WorkPods from "./components/Workpods";
 import Reservations from "./components/Reservations";
 import Reservation from "./components/Reservation";
-import WorkPod from "./components/WorkPod";
+import WorkPod from "./components/Workpod";
 import NavBar from "./components/NavBar";
 
 const App = () => {
