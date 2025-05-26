@@ -25,22 +25,22 @@ const WorkPods = () => {
     <div className="page-content">
       <div className="page-title">
         <h1>Work Pods</h1>
-        <div className="work-pods-container">
-          {workPods.length != 0 &&
-            workPods.map((pod, idx) => {
-              const room = pod.split("-")[0];
-              const showSeparator = room !== lastRoom && idx !== 0;
-              lastRoom = room;
-              return (
-                <Fragment key={pod}>
-                  {showSeparator && <div className="separator"></div>}
-                  <div className="work-pods-container">
-                    <WorkPodLink podID={pod} availability={"available"} />
-                  </div>
-                </Fragment>
-              );
-            })}
-        </div>
+      </div>
+      <div className="work-pods-container">
+        {workPods.length != 0 &&
+          workPods.map((pod, idx) => {
+            const room = pod.split("-")[0];
+            const showSeparator = room !== lastRoom && idx !== 0;
+            lastRoom = room;
+            return (
+              <Fragment key={pod}>
+                {showSeparator && <div className="separator"></div>}
+                <div className="work-pods-container">
+                  <WorkPodLink podID={pod} availability={"available"} />
+                </div>
+              </Fragment>
+            );
+          })}
       </div>
     </div>
   );
