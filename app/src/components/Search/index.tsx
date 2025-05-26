@@ -2,7 +2,7 @@
 import "./Search.css"
 import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { fi } from "date-fns/locale";
-import {addDays, setHours, setMinutes} from "date-fns";
+import {addDays} from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import "react-datepicker/dist/react-datepicker.css";
@@ -62,8 +62,6 @@ return (
         onChange={(time) => setStartDate(time)}
         showTimeSelectOnly
         dateFormat="HH:mm"
-        minTime={setHours(setMinutes(new Date(), 30), 7)}
-        maxTime={setHours(setMinutes(new Date(), 0), 20)}
         calendarClassName="custom-time"
         />
         <br />
