@@ -4,7 +4,6 @@ import { minutesToHours, differenceInMinutes, format, isWithinInterval, setHours
 import { useEffect, useState } from "react";
 import "./SearchResults.css";
 
-
 const SearchResults = () => {
     // receive data from the search page
     const location = useLocation();
@@ -12,7 +11,7 @@ const SearchResults = () => {
     const [workPods, setWorkPods] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dateString, setDateString] = useState<string>("");
-
+    const [loadedCount, setLoadedCount] = useState(0);
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
@@ -43,6 +42,7 @@ const SearchResults = () => {
     // fetch data for each workpod
     useEffect(() => {
         if (workPods.length === 0 || !date || !loading) return;
+        setLoadedCount(0);
         const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
         workPods.forEach((workpod, idx) => {
             const workpodId = workpod.workpodId;
@@ -108,22 +108,20 @@ const SearchResults = () => {
                         return newPods;
                     });
                     console.log("Data for workpod id", workpod, data);
+                    setLoadedCount(count => count + 1);
 
                 })
                 .catch(error => console.error(error));
 
-            workPods.filter((workpod) => {
-                return !workpod.isReserved;
-            });
-            workPods.sort((a, b) => {
-                return b.freeFor - a.freeFor;
-            });
-            setLoading(false);
         });
     }, [workPods.length, date]);
 
 
-
+    useEffect(() => {
+        if (loadedCount === workPods.length && workPods.length > 0) {
+            setLoading(false);
+        }
+    }, [loadedCount, workPods.length]);
 
     // display the results
     // list of available workpods + how many hours they are available
@@ -131,31 +129,34 @@ const SearchResults = () => {
     if (loading) return <div>Loading...</div>;
     return (
         <div id="searchResults" className="page-content">
-            <h1 className="page-title">SearchResults</h1>
-            <p>Reservation status on {dateString}</p>
-            <p>Workpods:</p>
-            <ul>
-                {
-                    // need to remove any reserved workpods from the list
-                    // we also need to sort workpods by freeFor
-                    // so we can show the one with most time available first
-                    workPods.map((workpod, idx) => {
-                        let minutes = workpod.freeFor;
-                        let hours = minutesToHours(minutes);
-                        let minutesLeft = minutes % 60;
-                        return (
-                            <li key={idx}>
-                                <h2>{workpod.workpodId}</h2>
-                                <p>Reserved: {workpod.isReserved ? "Yes" : "No"}</p>
-                                <p>Free for: {hours} hours</p>
+            <h1 className="page-title">Available workpods</h1>
+            <p>Available workpods for {format(date, "dd/MM/yyyy")}:</p>
+            <div className="results">
+                <ul>
+                    {
+                        // need to remove any reserved workpods from the list
+                        // we also need to sort workpods by freeFor
+                        // so we can show the one with most time available first
+                        workPods
+                            .filter(workpod => !workpod.isReserved)
+                            .sort((a, b) => b.freeFor - a.freeFor)
+                            .map((workpod, idx) => {
+                                let minutes = workpod.freeFor;
+                                let hours = minutesToHours(minutes);
+                                let minutesLeft = minutes % 60;
+                                return (
+                                    <li key={idx} className="lab-arrow">
+                                        <a href=""><h3>{workpod.workpodId}</h3>
+                                        
+                                       <p> Free for: {hours > 0 && ` ${hours} hours`}
+                                            {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
 
-                                <p>Minutes free: {minutesLeft}</p>
+                                    </p></a></li>
+                                );
+                            })}
 
-                            </li>
-                        );
-                    })}
-
-            </ul>
+                </ul>
+            </div>
         </div>
     );
 }
