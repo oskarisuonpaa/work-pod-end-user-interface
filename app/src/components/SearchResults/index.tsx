@@ -8,6 +8,7 @@ import {
   add,
 } from "date-fns";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
 import "./SearchResults.css";
 
@@ -27,6 +28,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [dateString, setDateString] = useState<string>("");
   const [loadedCount, setLoadedCount] = useState(0);
+  const { t } = useTranslation();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
@@ -41,23 +43,25 @@ const SearchResults = () => {
     })
       .then((response) => response.json())
       .then((calendars) => {
-        const pods = [];
         console.log("Calendars:", calendars);
-        // initialize workpods
-        for (const id in calendars.calendars) {
-          pods.push({
-            workpodId: calendars.calendars[id],
-            isReserved: false,
-            freeFor: 0,
-            freeUntil: null,
-            events: [],
-            reservedUntil: null,
-          });
+        if (!calendars.error) {
+          const pods = [];
+          // initialize workpods
+          for (const id in calendars.calendars) {
+            pods.push({
+              workpodId: calendars.calendars[id],
+              isReserved: false,
+              freeFor: 0,
+              freeUntil: null,
+              events: [],
+              reservedUntil: null,
+            });
+          }
+          setWorkPods(pods);
         }
-        setWorkPods(pods);
       })
       .catch((error) => console.error(error));
-  }, [date, backendUrl, loading, workPods.length]);
+  }, [date]);
 
   // fetch data for each workpod
   useEffect(() => {
@@ -176,7 +180,7 @@ const SearchResults = () => {
         })
         .catch((error) => console.error(error));
     });
-  }, [workPods, workPods.length, date, backendUrl, dateString, loading]);
+  }, [workPods.length, date]);
 
   useEffect(() => {
     if (loadedCount === workPods.length && workPods.length > 0) {
@@ -191,8 +195,10 @@ const SearchResults = () => {
   if (loading) return <div>Loading...</div>;
   return (
     <div id="searchResults" className="page-content">
-      <h1 className="page-title">Available workpods</h1>
-      <p>Available workpods at {format(date, "dd/MM/yyyy HH:mm")}:</p>
+      <h1 className="page-title">{t("searchresults-title")}</h1>
+      <p>
+        {t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:
+      </p>
       <div className="results">
         <ul className="available-results">
           {
@@ -206,6 +212,9 @@ const SearchResults = () => {
                 /*let minutes = workpod.freeFor;
                                 let hours = minutesToHours(minutes);
                                 let minutesLeft = minutes % 60;*/
+                const freeUntil = workpod.freeUntil
+                  ? format(workpod.freeUntil, "HH:mm")
+                  : "N/A";
                 return (
                   <li key={idx} className="lab-arrow">
                     <Link
@@ -216,11 +225,7 @@ const SearchResults = () => {
                     >
                       <p className="workpod-title">{workpod.workpodId}</p>
                       <p className="workpod-time">
-                        Free until{" "}
-                        {workpod.freeUntil
-                          ? format(workpod.freeUntil, "HH:mm")
-                          : "N/A"}
-                        .
+                        {t("searchresults-freeuntil", { time: freeUntil })}.
                         {/*  Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.*/}
                       </p>
@@ -239,6 +244,9 @@ const SearchResults = () => {
               .filter((workpod) => workpod.isReserved)
               //.sort((a, b) => b.freeFor - a.freeFor)
               .map((workpod, idx) => {
+                const reservedUntil = workpod.reservedUntil
+                  ? format(workpod.reservedUntil, "HH:mm")
+                  : "N/A";
                 return (
                   <li key={idx} className="lab-arrow">
                     <Link
@@ -250,11 +258,9 @@ const SearchResults = () => {
                       <p className="workpod-title">{workpod.workpodId}</p>
 
                       <p className="workpod-time">
-                        {" "}
-                        Reserved until{" "}
-                        {workpod.reservedUntil
-                          ? format(workpod.reservedUntil, "HH:mm")
-                          : "N/A"}
+                        {t("searchresults-reserveduntil", {
+                          time: reservedUntil,
+                        })}
                         .
                       </p>
                     </Link>
