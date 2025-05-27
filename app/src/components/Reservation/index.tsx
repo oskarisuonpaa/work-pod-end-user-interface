@@ -1,10 +1,10 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import "./Reservation.css";
-import { useEffect, useState } from "react";
 import {
   deleteReservation,
   getSingleReservation,
-} from "../../utils/backendCommunication";
+} from "../../utils/backendCommunication.ts";
 
 type ReservationType = {
   id: string;

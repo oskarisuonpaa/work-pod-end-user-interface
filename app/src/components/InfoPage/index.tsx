@@ -1,6 +1,6 @@
-import { useAuth } from "../../auth/useAuth";
-import LinkButton from "../LinkButton";
-import PageWrapper from "../PageWrapper";
+import { useAuth } from "../../auth/useAuth.ts";
+import LinkButton from "../LinkButton/index.tsx";
+import PageWrapper from "../PageWrapper/index.tsx";
 import "./Info.css";
 
 const InfoPage = () => {

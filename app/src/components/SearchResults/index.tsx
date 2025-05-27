@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router";
+import type { EventInput } from "@fullcalendar/core/index.js";
 import {
   differenceInMinutes,
   format,
@@ -8,8 +8,8 @@ import {
   add,
 } from "date-fns";
 import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router";
 import "./SearchResults.css";
-import type { EventInput } from "@fullcalendar/core/index.js";
 
 interface WorkPod {
   workpodId: string;

@@ -1,6 +1,6 @@
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
-import { useAuth } from "../auth/useAuth";
-import PageWrapper from "./PageWrapper";
+import { useAuth } from "../auth/useAuth.ts";
+import PageWrapper from "./PageWrapper/index.tsx";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();

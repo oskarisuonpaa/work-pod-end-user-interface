@@ -1,11 +1,11 @@
 // Search
 import "./Search.css"
-import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
-import { fi } from "date-fns/locale";
 import {addDays} from "date-fns";
+import { fi } from "date-fns/locale";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("fi", fi);
