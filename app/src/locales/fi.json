@@ -1,5 +1,12 @@
 {
     "welcome": "Tervetuloa",
+    "navbar-dashboard": "Työpöytä",
+    "navbar-workpods": "Workpodit",
+    "navbar-reservations": "Varaukset",
+    "navbar-search": "Haku",
+    "navbar-login": "Kirjaudu sisään",
+    "navbar-logout": "Kirjaudu ulos",
+
     
     "search-title": "Etsi vapaana olevia Workpodeja",
     "search-reservation-info": "Voit tehdä varauksen enintään 30 päivää etukäteen.",
