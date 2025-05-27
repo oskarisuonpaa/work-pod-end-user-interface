@@ -9,19 +9,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("fi", fi);
 setDefaultLocale("fi");
-
-// search is mainly needed if someone doesn't care which workpod they use
-// and just wants to find an available one
-// what are the "working hours" for the workpods? 8-16, 6-20?
-// presumably 8-16, later than that there will be fewer users
-// so less need for reservations
-// once search parameters are in, look through the calendars of the workpods
-// to see if any are available at the selected time and onwards
-// searchresults - include all times for the selected day starting from the selected time?
-
 // TODO: custom css for datepicker
 
 const Search = () => {
+    //const currentDate = new Date();
       const [startDate, setStartDate] = useState<Date | null>(new Date());
       const navigate = useNavigate();
         const handleSubmit = (event: React.FormEvent) => {

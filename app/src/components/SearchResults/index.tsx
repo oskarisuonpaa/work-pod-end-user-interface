@@ -7,7 +7,8 @@ import "./SearchResults.css";
 const SearchResults = () => {
     // receive data from the search page
     const location = useLocation();
-    const { date } = location.state || {}; // use optional chaining to avoid errors if state is undefined
+    const { date } = location.state || {};
+    console.log(date);
     const [workPods, setWorkPods] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dateString, setDateString] = useState<string>("");
@@ -30,7 +31,7 @@ const SearchResults = () => {
                 console.log("Calendars:", calendars);
                 // initialize workpods
                 for (const id in calendars.calendars) {
-                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, events: [], reservedUntil: null });
+                    pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, freeUntil: null, events: [], reservedUntil: null });
                 }
                 setWorkPods(pods);
 
@@ -62,6 +63,7 @@ const SearchResults = () => {
                 .then(data => {
                     setWorkPods((prevPods) => {
                         const newPods = [...prevPods];
+                        let freeUntil = null;
 
                         if (data.length === 0) {
                             console.log("No reservations found for", workpodId);
@@ -71,7 +73,8 @@ const SearchResults = () => {
                             dateEnd = setHours(dateEnd, 23);
                             dateEnd = setMinutes(dateEnd, 59);
                             newPods[idx].freeFor = differenceInMinutes(dateEnd, date);
-                            newPods[idx] = { ...newPods[idx], events: data };
+                            freeUntil = dateEnd;
+                            newPods[idx] = { ...newPods[idx], freeUntil, events: data };
 
                             return newPods;
                         }
@@ -95,6 +98,7 @@ const SearchResults = () => {
                             if (nextReservation) {
                                 const startDate = new Date(nextReservation.start);
                                 freeFor = differenceInMinutes(startDate, date)
+                                freeUntil = startDate;
 
                             } else {
                                 // no reservations after the selected date, free for the rest of the day
@@ -102,6 +106,7 @@ const SearchResults = () => {
                                 dateEnd = setHours(dateEnd, 23);
                                 dateEnd = setMinutes(dateEnd, 59);
                                 freeFor = differenceInMinutes(dateEnd, date);
+                                freeUntil = dateEnd;
                             }
                         } else { //isReserved
                             // need to use sortedEvents, check the end time of the first event
@@ -129,7 +134,7 @@ const SearchResults = () => {
                         }
 
 
-                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, events: data };
+                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, freeUntil, events: data };
                                 return newPods;
                             });
                     console.log("Data for workpod id", workpod, data);
@@ -156,7 +161,7 @@ const SearchResults = () => {
     return (
         <div id="searchResults" className="page-content">
             <h1 className="page-title">Available workpods</h1>
-            <p>Available workpods at {format(date, "dd/MM/yyyy HH:MM")}:</p>
+            <p>Available workpods at {format(date, "dd/MM/yyyy HH:mm")}:</p>
             <div className="results">
                 <ul className="available-results">
                     {
