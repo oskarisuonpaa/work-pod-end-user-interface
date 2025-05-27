@@ -12,7 +12,6 @@ import {
 import PageWrapper from "../../components/PageWrapper";
 
 import "./Workpod.css";
-import { isSameSlot } from "../../utils/helpers";
 
 const Workpod = () => {
   const { user } = useAuth();
