@@ -7,40 +7,42 @@ type CalendarProps = {
     start: string;
     end: string;
     status: string;
-    owner: string;
+    title: string;
   }) => void;
 };
 
-const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => (
-  <FullCalendar
-    plugins={[timeGridPlugin]}
-    locale="fi"
-    initialView="timeGridDay"
-    allDaySlot={false}
-    nowIndicator={true}
-    events={events}
-    eventClick={(info) => {
-      const { start, end, extendedProps, id } = info.event;
+const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => {
+  const handleEventClick = (info: any) => {
+    const { start, end, extendedProps, id, title } = info.event;
 
-      if (start && end && extendedProps) {
-        const slot = {
-          start: start.toISOString(),
-          end: end.toISOString(),
-          status: extendedProps.status,
-          owner: extendedProps.description
-            ? extendedProps.description.split(": ")[1]
-            : "",
-          eventId: id || undefined,
-        };
+    if (start && end && extendedProps) {
+      const slot = {
+        start: start.toISOString(),
+        end: end.toISOString(),
+        status: extendedProps.status,
+        title: title || "",
+        eventId: id || undefined,
+      };
 
-        onSlotSelect(slot);
-      }
-    }}
-    eventMinHeight={40}
-    slotMinTime="08:00:00"
-    slotMaxTime="18:00:00"
-    height="60vh"
-  />
-);
+      onSlotSelect(slot);
+    }
+  };
+
+  return (
+    <FullCalendar
+      plugins={[timeGridPlugin]}
+      locale="fi"
+      initialView="timeGridDay"
+      allDaySlot={false}
+      nowIndicator={true}
+      events={events}
+      eventClick={handleEventClick}
+      eventMinHeight={40}
+      slotMinTime="08:00:00"
+      slotMaxTime="18:00:00"
+      height="60vh"
+    />
+  );
+};
 
 export default WorkpodCalendar;

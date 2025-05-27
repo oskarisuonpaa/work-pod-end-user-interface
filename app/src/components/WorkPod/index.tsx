@@ -2,17 +2,19 @@ import { useParams } from "react-router";
 import { useState } from "react";
 import { useAuth } from "../../auth/useAuth";
 import WorkpodCalendar from "./WorkpodCalendar";
-import ReservationButton from "./ReservationButton";
+import ReserveButton from "./ReserveButton";
 import CancelButton from "./CancelButton";
-import useWorkpodCalendar from "./useWorkpodCalendar";
+import useWorkpodCalendar from "../../hooks/useWorkpodCalendar";
 import {
   postReservation,
   deleteReservation,
 } from "../../utils/BackendCommunication";
+import PageWrapper from "../../components/PageWrapper";
 
 import "./Workpod.css";
+import { isSameSlot } from "../../utils/helpers";
 
-const WorkPod = () => {
+const Workpod = () => {
   const { user } = useAuth();
   const { workpodId } = useParams<{ workpodId: string }>();
   const { events, setEvents } = useWorkpodCalendar(workpodId);
@@ -21,7 +23,7 @@ const WorkPod = () => {
     start: string;
     end: string;
     status: string;
-    owner: string;
+    title: string;
     eventId?: string;
   } | null>(null);
 
@@ -33,12 +35,7 @@ const WorkPod = () => {
 
       const updatedEvents = events.filter(
         (event) =>
-          !(
-            new Date(event.start).getTime() ===
-              new Date(slot.start).getTime() &&
-            new Date(event.end).getTime() === new Date(slot.end).getTime() &&
-            event.extendedProps?.status === "free"
-          )
+          !(isSameSlot(event, slot) && event.extendedProps?.status === "free")
       );
 
       const reservedSlot = {
@@ -48,7 +45,7 @@ const WorkPod = () => {
         backgroundColor: "#3b82f6",
         borderColor: "#3b82f6",
         textColor: "#fff",
-        extendedProps: { status: "reserved", owner: user.email },
+        extendedProps: { status: "reserved" },
       };
 
       setEvents([...updatedEvents, reservedSlot]);
@@ -60,6 +57,7 @@ const WorkPod = () => {
     end: string;
     eventId?: string;
   }) => {
+    console.log("handleCancelReservation", slot);
     if (!workpodId || !slot.eventId) return;
 
     if (confirm("Are you sure you want to cancel this reservation?")) {
@@ -73,23 +71,19 @@ const WorkPod = () => {
 
   if (!workpodId) return <div>Workpod ID is missing</div>;
 
+  console.log(selectedSlot);
+
   return (
-    <div className="page-content">
-      <div className="page-title">
-        <h1>{workpodId}</h1>
-      </div>
-
+    <PageWrapper pageTitle={workpodId}>
       <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} />
-
       {selectedSlot && selectedSlot.status === "free" && (
-        <ReservationButton slot={selectedSlot} onReserve={handleReservation} />
+        <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
       )}
-
-      {selectedSlot && selectedSlot.owner === user?.email && (
+      {selectedSlot && selectedSlot.title === user?.name && (
         <CancelButton slot={selectedSlot} onCancel={handleCancelReservation} />
       )}
-    </div>
+    </PageWrapper>
   );
 };
 
-export default WorkPod;
+export default Workpod;

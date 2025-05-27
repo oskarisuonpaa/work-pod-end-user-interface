@@ -9,12 +9,12 @@ export const Availability = {
 
 type Availability = (typeof Availability)[keyof typeof Availability];
 
-type WorkPodLinkProps = {
+type WorkpodLinkProps = {
   podID: string;
   availability: Availability;
 };
 
-const WorkPodLink = ({ podID, availability }: WorkPodLinkProps) => {
+const WorkpodLink = ({ podID, availability }: WorkpodLinkProps) => {
   return (
     <Link to={"/workpods/" + podID} className="work-pod-link">
       <div className={`hexagon ${availability}`}>
@@ -25,4 +25,4 @@ const WorkPodLink = ({ podID, availability }: WorkPodLinkProps) => {
   );
 };
 
-export default WorkPodLink;
+export default WorkpodLink;

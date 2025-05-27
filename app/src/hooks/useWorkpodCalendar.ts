@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getWorkpodCalendar } from "../../utils/BackendCommunication";
-import { generateFreeSlots } from "./helpers";
+import { getWorkpodCalendar } from "../utils/BackendCommunication";
+import { generateFreeSlots } from "../utils/helpers";
 
 const useWorkpodCalendar = (workpodId?: string) => {
   const [events, setEvents] = useState<any[]>([]);
