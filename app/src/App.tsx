@@ -5,11 +5,11 @@ import Info from "./components/InfoPage";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/Workpods";
+import WorkPods from "./components/WorkPods";
 import Reservations from "./components/Reservations";
 import Reservation from "./components/Reservation";
-import WorkPod from "./components/Workpod";
-import NavBar from "./components/Navbar";
+import WorkPod from "./components/WorkPod";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
