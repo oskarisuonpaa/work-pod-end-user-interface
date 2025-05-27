@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode";
 
 type GoogleJwtPayload = {
   name: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export function getUserNameFromToken(token: string): string {

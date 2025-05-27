@@ -1,8 +1,8 @@
 import {
-  createContext,
   useState,
   useEffect,
   useRef,
+  useCallback,
   type ReactNode,
 } from "react";
 import { useNavigate } from "react-router";
@@ -12,14 +12,7 @@ import {
   getUserFromToken,
 } from "./authUtils";
 import type { AuthContextType, User } from "./types";
-
-export const AuthContext = createContext<AuthContextType>({
-  token: "",
-  user: null,
-  isAuthenticated: () => false,
-  onLogin: () => {},
-  onLogout: () => {},
-});
+import { AuthContext } from "./AuthContext";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -37,14 +30,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(() =>
     isTokenValid(token) ? getUserFromToken(token) : null
   );
-
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setToken("");
     setUser(null);
     localStorage.removeItem("authToken");
     if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
     navigate("/login");
-  };
+  }, [navigate]);
 
   const handleLogin = (googleToken: string) => {
     if (isTokenValid(googleToken)) {
@@ -68,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setUser(null);
     }
-  }, [token]);
+  }, [token, handleLogout]);
 
   const value: AuthContextType = {
     token,

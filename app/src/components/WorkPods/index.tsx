@@ -5,7 +5,7 @@ import PageWrapper from "../PageWrapper";
 import WorkpodLink from "./WorkpodLink";
 
 const Workpods = () => {
-  const [workPods, setWorkPods] = useState<any[]>([]);
+  const [workPods, setWorkPods] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchWorkpods = async () => {

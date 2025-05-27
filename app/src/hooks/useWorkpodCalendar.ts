@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
-import { getWorkpodCalendar } from "../utils/backendCommunication";
 import { generateFreeSlots } from "../utils/helpers";
+import { getWorkpodCalendar } from "../utils/backendCommunication";
+
+type CalendarEvent = {
+  id: string;
+  title: string;
+  start: Date;
+  end: Date;
+};
 
 const useWorkpodCalendar = (workpodId?: string) => {
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
 
   useEffect(() => {
     if (!workpodId) return;

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   deleteReservation,
   getSingleReservation,
-} from "../../utils/BackendCommunication";
+} from "../../utils/backendCommunication";
 
 type ReservationType = {
   id: string;
@@ -26,12 +26,11 @@ const Reservation = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  if (!calendarId || !reservationId) {
-    navigate("/reservations");
-    return null;
-  }
-
   useEffect(() => {
+    if (!calendarId || !reservationId) {
+      navigate("/reservations");
+      return;
+    }
     const fetchReservation = async () => {
       try {
         const data = await getSingleReservation(calendarId, reservationId);
@@ -47,7 +46,7 @@ const Reservation = () => {
     };
 
     fetchReservation();
-  }, [calendarId, reservationId]);
+  }, [calendarId, reservationId, navigate]);
 
   const handleCancel = async () => {
     const confirmed = confirm(
@@ -56,6 +55,9 @@ const Reservation = () => {
     if (!confirmed) return;
 
     try {
+      if (!calendarId || !reservationId) {
+        throw new Error("Missing calendarId or reservationId.");
+      }
       await deleteReservation(calendarId, reservationId);
       alert(`Reservation ${reservationId} cancelled.`);
       navigate("/reservations");
@@ -64,6 +66,10 @@ const Reservation = () => {
       alert("Failed to cancel reservation. Please try again.");
     }
   };
+
+  if (!calendarId || !reservationId) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -74,7 +80,6 @@ const Reservation = () => {
       </div>
     );
   }
-
   if (error || !reservation) {
     return (
       <div className="page-content">

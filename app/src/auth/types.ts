@@ -2,13 +2,13 @@ export type JWTPayload = {
   exp: number;
   name?: string;
   email?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export type User = {
   name?: string;
   email?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 export type AuthContextType = {

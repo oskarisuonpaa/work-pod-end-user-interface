@@ -1,4 +1,9 @@
-export function generateFreeSlots(bookedEvents: any[]) {
+interface BookedEvent {
+  start: string | Date;
+  end: string | Date;
+}
+
+export function generateFreeSlots(bookedEvents: BookedEvent[]) {
   const startHour = 8;
   const endHour = 18;
   const today = new Date();
@@ -12,11 +17,11 @@ export function generateFreeSlots(bookedEvents: any[]) {
 
     for (let hour = startHour; hour < endHour; hour++) {
       const start = new Date(day);
+      start.setHours(hour, 0, 0, 0);
       const end = new Date(day);
-      start.setHours(hour);
-      end.setHours(hour + 1);
+      end.setHours(hour + 1, 0, 0, 0);
 
-      const overlaps = bookedEvents.some((event: any) => {
+      const overlaps = bookedEvents.some((event: BookedEvent) => {
         const bookedStart = new Date(event.start).getTime();
         const bookedEnd = new Date(event.end).getTime();
         const slotStart = start.getTime();
