@@ -1,4 +1,4 @@
-import "./WorkPods.css";
+import "./Workpods.css";
 import { Fragment, useEffect, useState } from "react";
 import { getWorkpods } from "@utils/BackendCommunication";
 import PageWrapper from "../PageWrapper";
