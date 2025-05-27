@@ -1,6 +1,6 @@
 // SearchResults
 import { useLocation, Link } from "react-router";
-import { minutesToHours, differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
+import { differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
 import { useEffect, useState } from "react";
 import "./SearchResults.css";
 
@@ -8,7 +8,6 @@ const SearchResults = () => {
     // receive data from the search page
     const location = useLocation();
     const { date } = location.state || {};
-    console.log(date);
     const [workPods, setWorkPods] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dateString, setDateString] = useState<string>("");
@@ -130,13 +129,13 @@ const SearchResults = () => {
                                     }
                                 }
                             }
-                                newPods[idx].reservedUntil = reservedUntil;
+                            newPods[idx].reservedUntil = reservedUntil;
                         }
 
 
-                                newPods[idx] = { ...newPods[idx], isReserved, freeFor, freeUntil, events: data };
-                                return newPods;
-                            });
+                        newPods[idx] = { ...newPods[idx], isReserved, freeFor, freeUntil, events: data };
+                        return newPods;
+                    });
                     console.log("Data for workpod id", workpod, data);
                     setLoadedCount(count => count + 1);
 
@@ -172,15 +171,17 @@ const SearchResults = () => {
                             .filter(workpod => !workpod.isReserved)
                             .sort((a, b) => b.freeFor - a.freeFor)
                             .map((workpod, idx) => {
-                                let minutes = workpod.freeFor;
+                                /*let minutes = workpod.freeFor;
                                 let hours = minutesToHours(minutes);
-                                let minutesLeft = minutes % 60;
+                                let minutesLeft = minutes % 60;*/
                                 return (
                                     <li key={idx} className="lab-arrow">
-                                        <Link to={`/workpods/${workpod.workpodId}/${format(date,"yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
+                                        <Link to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
+                                            <p className="workpod-time">
+                                                Free until {format(workpod.freeUntil, "HH:mm")}.
+                                                {/*  Free for: {hours > 0 && ` ${hours} hours`}
+                                                {minutesLeft > 0 && ` ${minutesLeft} minutes`}.*/}
 
-                                            <p className="workpod-time"> Free for: {hours > 0 && ` ${hours} hours`}
-                                                {minutesLeft > 0 && ` ${minutesLeft} minutes`}.
 
                                             </p>
                                         </Link>
@@ -200,7 +201,7 @@ const SearchResults = () => {
                             .map((workpod, idx) => {
                                 return (
                                     <li key={idx} className="lab-arrow">
-                                        <Link to={`/workpods/${workpod.workpodId}/${format(date,"yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
+                                        <Link to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
 
                                             <p className="workpod-time"> Reserved until {format(workpod.reservedUntil, "HH:mm")}.
 
