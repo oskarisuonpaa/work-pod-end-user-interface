@@ -51,8 +51,8 @@ const Workpod = () => {
       const freeSlot = {
         id: `${slot.start}-${slot.end}-free`,
         title: "Free",
-        start: new Date(slot.start),
-        end: new Date(slot.end),
+        start: (new Date(slot.start)).toISOString(),
+        end: (new Date(slot.end)).toISOString(),
       };
 
       setEvents([...updatedEvents, freeSlot]);
