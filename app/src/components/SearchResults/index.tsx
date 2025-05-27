@@ -61,7 +61,7 @@ const SearchResults = () => {
         }
       })
       .catch((error) => console.error(error));
-  }, [date]);
+  }, [date, backendUrl, loading, workPods.length]);
 
   // fetch data for each workpod
   useEffect(() => {
@@ -180,7 +180,7 @@ const SearchResults = () => {
         })
         .catch((error) => console.error(error));
     });
-  }, [workPods.length, date]);
+  }, [workPods, workPods.length, date, backendUrl, dateString, loading]);
 
   useEffect(() => {
     if (loadedCount === workPods.length && workPods.length > 0) {

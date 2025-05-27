@@ -1,15 +1,15 @@
 import { Routes, Route, Navigate } from "react-router";
-import LoginScreen from "./components/LoginPage";
-import Dashboard from "./components/DashboardPage";
-import Info from "./components/InfoPage";
+import DashboardPage from "./components/DashboardPage";
+import InfoPage from "./components/InfoPage";
+import LoginPage from "./components/LoginPage";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Reservation from "./components/Reservation";
+import Reservations from "./components/Reservations";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
-import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/Workpods";
-import Reservations from "./components/Reservations";
-import Reservation from "./components/Reservation";
-import WorkPod from "./components/Workpod";
-import NavBar from "./components/Navbar";
+import Workpod from "./components/Workpod";
+import Workpods from "./components/Workpods";
 
 const App = () => {
   return (
