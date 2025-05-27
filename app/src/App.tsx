@@ -1,16 +1,15 @@
 import { Routes, Route, Navigate } from "react-router";
-import LoginScreen from "./components/LoginScreen";
-import LoginForm from "./components/LoginForm";
-import Dashboard from "./components/Dashboard";
-import Info from "./components/Info";
+import LoginScreen from "./components/LoginPage";
+import Dashboard from "./components/DashboardPage";
+import Info from "./components/InfoPage";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/WorkPods";
+import WorkPods from "./components/Workpods";
 import Reservations from "./components/Reservations";
 import Reservation from "./components/Reservation";
-import WorkPod from "./components/WorkPod";
-import NavBar from "./components/NavBar";
+import WorkPod from "./components/Workpod";
+import NavBar from "./components/Navbar";
 
 const App = () => {
   return (
@@ -54,7 +53,6 @@ const App = () => {
           }
         />
         <Route path="info" element={<Info />} />
-        <Route path="login-form" element={<LoginForm />} />
         <Route
           path="dashboard"
           element={

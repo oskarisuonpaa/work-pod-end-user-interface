@@ -1,0 +1,34 @@
+.page-wrapper {
+  padding: 0 0 3.75rem;
+  margin: 0 auto 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-content {
+  max-width: 62.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-title-container {
+  margin: 0;
+  padding: 0;
+  max-width: 62.5rem;
+  width: 100%;
+}
+
+.page-title {
+  text-align: left;
+  line-height: 1.2em;
+  max-width: 49.375rem;
+  position: relative;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 47.5em) {
+  .page-title h1 {
+    font-size: 2.375rem;
+  }
+}

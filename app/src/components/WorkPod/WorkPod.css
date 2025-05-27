@@ -2,11 +2,25 @@
   margin-top: 20px;
 }
 
-.reservation-button {
+.reserve-button {
   background: var(--green);
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
   width: 100%;
+}
+
+.cancel-button {
+  background-color: var(--red);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.fc-timegrid-event {
+  font-size: medium;
+  font-weight: bold;
 }

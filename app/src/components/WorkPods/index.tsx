@@ -1,10 +1,10 @@
 import "./WorkPods.css";
-import WorkPodLink from "./WorkPodLink";
 import { Fragment, useEffect, useState } from "react";
-
 import { getWorkpods } from "../../utils/BackendCommunication";
+import PageWrapper from "../PageWrapper";
+import WorkpodLink from "./WorkpodLink";
 
-const WorkPods = () => {
+const Workpods = () => {
   const [workPods, setWorkPods] = useState<any[]>([]);
 
   useEffect(() => {
@@ -22,28 +22,26 @@ const WorkPods = () => {
   let lastRoom = "";
 
   return (
-    <div className="page-content">
-      <div className="page-title">
-        <h1>Work Pods</h1>
-      </div>
+    <PageWrapper pageTitle="Work Pods">
       <div className="work-pods-container">
-        {workPods.length != 0 &&
+        {workPods.length !== 0 &&
           workPods.map((pod, idx) => {
             const room = pod.split("-")[0];
             const showSeparator = room !== lastRoom && idx !== 0;
             lastRoom = room;
+
             return (
               <Fragment key={pod}>
                 {showSeparator && <div className="separator"></div>}
                 <div className="work-pods-container">
-                  <WorkPodLink podID={pod} availability={"available"} />
+                  <WorkpodLink podID={pod} availability="available" />
                 </div>
               </Fragment>
             );
           })}
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
-export default WorkPods;
+export default Workpods;

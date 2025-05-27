@@ -1,47 +1,31 @@
+import {
+  createContext,
+  useState,
+  useEffect,
+  useRef,
+  type ReactNode,
+} from "react";
 import { useNavigate } from "react-router";
-import { useState, createContext, useContext, useEffect, useRef } from "react";
-import { jwtDecode } from "jwt-decode";
+import {
+  isTokenValid,
+  getTokenExpirationDelay,
+  getUserFromToken,
+} from "./authUtils";
+import type { AuthContextType, User } from "./types";
 
-const useAuth = () => useContext(AuthContext);
-
-const AuthContext = createContext<{
-  token: string;
-  onLogin: (googleToken: string) => void;
-  onLogout: () => void;
-}>({
+export const AuthContext = createContext<AuthContextType>({
   token: "",
+  user: null,
+  isAuthenticated: () => false,
   onLogin: () => {},
   onLogout: () => {},
 });
 
 type AuthProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-type JWTPayload = {
-  exp: number;
-};
-
-const isTokenValid = (token: string): boolean => {
-  try {
-    const { exp } = jwtDecode<JWTPayload>(token);
-    return exp * 1000 > Date.now();
-  } catch {
-    return false;
-  }
-};
-
-const getTokenExpirationDelay = (token: string): number => {
-  try {
-    const { exp } = jwtDecode<JWTPayload>(token);
-    const delay = exp * 1000 - Date.now();
-    return delay > 0 ? delay : 0;
-  } catch {
-    return 0;
-  }
-};
-
-const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
   const logoutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -50,8 +34,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return isTokenValid(stored) ? stored : "";
   });
 
+  const [user, setUser] = useState<User | null>(() =>
+    isTokenValid(token) ? getUserFromToken(token) : null
+  );
+
   const handleLogout = () => {
     setToken("");
+    setUser(null);
     localStorage.removeItem("authToken");
     if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
     navigate("/login");
@@ -60,6 +49,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const handleLogin = (googleToken: string) => {
     if (isTokenValid(googleToken)) {
       setToken(googleToken);
+      setUser(getUserFromToken(googleToken));
       localStorage.setItem("authToken", googleToken);
       const delay = getTokenExpirationDelay(googleToken);
       logoutTimerRef.current = setTimeout(handleLogout, delay);
@@ -71,19 +61,22 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current);
-    if (token) {
+    if (token && isTokenValid(token)) {
       const delay = getTokenExpirationDelay(token);
       logoutTimerRef.current = setTimeout(handleLogout, delay);
+      setUser(getUserFromToken(token));
+    } else {
+      setUser(null);
     }
   }, [token]);
 
-  const value = {
+  const value: AuthContextType = {
     token,
+    user,
+    isAuthenticated: () => isTokenValid(token),
     onLogin: handleLogin,
     onLogout: handleLogout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export { AuthProvider, AuthContext, useAuth };

@@ -1,32 +1,50 @@
-// Navbar
-import { Link } from "react-router";
-import { useAuth } from "../AuthProvider";
+import { Link, useLocation } from "react-router";
+import { useAuth } from "../../auth/useAuth";
 import { useTranslation } from "react-i18next";
 import "./NavBar.css";
 
-const NavBar = () => {
-  const { token, onLogout } = useAuth();
-  const { t, i18n } = useTranslation();
+const Navbar = () => {
+  const { isAuthenticated, onLogout } = useAuth();
+  const location = useLocation();
+  const loggedIn = isAuthenticated();
+
+  const { i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   }
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const NavLink = ({ to, label }: { to: string; label: string }) => (
+    <Link to={to} className={isActive(to) ? "active-link" : ""}>
+      {label}
+    </Link>
+  );
+
   return (
     <>
     <nav className="navbar">
-      {token && (
+      {loggedIn && (
         <>
-          <Link to="/dashboard">{t("navbar-dashboard") }</Link>
-          <Link to="/workpods">{t("navbar-workpods")} </Link>
-          <Link to="/reservations">{t("navbar-reservations")} </Link>
-          <Link to="/search">{t("navbar-search")} </Link>
+          <NavLink to="/dashboard" label="Dashboard" />
+          <NavLink to="/workpods" label="Workpods" />
+          <NavLink to="/reservations" label="Reservations" />
+          <NavLink to="/search" label="Search" />
         </>
       )}
+      <NavLink to="/info" label="Info" />
 
-      <Link to="/info">Info</Link>
-      {!token && <Link to="/login">{t("navbar-login")} </Link>}
-      {token && (
-        <Link onClick={onLogout} to="/login">
-          {t("navbar-logout")}
+      {!loggedIn && <NavLink to="/login" label="Login" />}
+
+      {loggedIn && (
+        <Link
+          to="/login"
+          onClick={(e) => {
+            e.preventDefault();
+            onLogout();
+          }}
+        >
+          Logout
         </Link>
       )}
     <span className="language-selector">
@@ -48,4 +66,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Navbar;
