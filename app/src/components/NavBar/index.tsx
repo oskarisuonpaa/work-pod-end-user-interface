@@ -1,11 +1,17 @@
 import { Link, useLocation } from "react-router";
 import { useAuth } from "../../auth/useAuth";
+import { useTranslation } from "react-i18next";
 import "./NavBar.css";
 
 const Navbar = () => {
   const { isAuthenticated, onLogout } = useAuth();
   const location = useLocation();
   const loggedIn = isAuthenticated();
+
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  }
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -16,18 +22,19 @@ const Navbar = () => {
   );
 
   return (
+    <>
     <nav className="navbar">
       {loggedIn && (
         <>
-          <NavLink to="/dashboard" label="Dashboard" />
-          <NavLink to="/workpods" label="Workpods" />
-          <NavLink to="/reservations" label="Reservations" />
-          <NavLink to="/search" label="Search" />
+          <NavLink to="/dashboard" label={t("navbar-dashboard")} />
+          <NavLink to="/workpods" label={t("navbar-workpods")} />
+          <NavLink to="/reservations" label={t("navbar-reservations")} />
+          <NavLink to="/search" label={t("navbar-search")} />
         </>
       )}
       <NavLink to="/info" label="Info" />
 
-      {!loggedIn && <NavLink to="/login" label="Login" />}
+      {!loggedIn && <NavLink to="/login" label={t("navbar-login")} />}
 
       {loggedIn && (
         <Link
@@ -37,10 +44,25 @@ const Navbar = () => {
             onLogout();
           }}
         >
-          Logout
+          {t("navbar-logout")}
         </Link>
       )}
+    <span className="language-selector">
+      <button
+        className={i18n.language === "en" ? "lng-active" : "lng"}
+        onClick={() => changeLanguage("en")}
+      >
+        EN
+      </button>
+      <button
+        className={i18n.language === "fi" ? "lng-active" : "lng"}
+        onClick={() => changeLanguage("fi")}
+      >
+        FI
+      </button>
+      </span>
     </nav>
+    </>
   );
 };
 
