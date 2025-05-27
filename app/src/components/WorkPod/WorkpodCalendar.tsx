@@ -1,8 +1,9 @@
+import type { EventClickArg, EventInput } from "@fullcalendar/core/index.js";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 
 type CalendarProps = {
-  events: any[];
+  events: EventInput[];
   onSlotSelect: (slot: {
     start: string;
     end: string;
@@ -12,7 +13,7 @@ type CalendarProps = {
 };
 
 const WorkpodCalendar = ({ events, onSlotSelect }: CalendarProps) => {
-  const handleEventClick = (info: any) => {
+  const handleEventClick = (info: EventClickArg) => {
     const { start, end, extendedProps, id, title } = info.event;
 
     if (start && end && extendedProps) {
