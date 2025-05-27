@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReservationLink from "../ReservationLink";
 import "./Reservations.css";
 import { getUserReservations } from "../../utils/BackendCommunication";
+import PageWrapper from "../PageWrapper";
 
 type ReservationType = {
   id: string;
@@ -12,15 +13,15 @@ type ReservationType = {
 
 const Reservations = () => {
   const [reservations, setReservations] = useState<ReservationType[]>([]);
-  const [firstLoad, setFirstLoad] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
         const reservations = await getUserReservations();
         setReservations(reservations);
-        if (firstLoad) {
-          setFirstLoad(false);
+        if (isLoading) {
+          setIsLoading(false);
         }
       } catch (error) {
         console.error("Error fetching reservations:", error);
@@ -30,24 +31,12 @@ const Reservations = () => {
     fetchReservations();
   }, []);
 
-  if (firstLoad) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Loading...</h1>
-        </div>
-      </div>
-    );
+  if (isLoading) {
+    return <PageWrapper pageTitle="Loading..."></PageWrapper>;
   }
 
   if (reservations.length === 0) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>No Reservations Found</h1>
-        </div>
-      </div>
-    );
+    return <PageWrapper pageTitle="No Reservations Found"></PageWrapper>;
   }
 
   return (
