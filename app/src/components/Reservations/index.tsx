@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ReservationLink from "../ReservationLink";
 import "./Reservations.css";
-import { getUserReservations } from "../../utils/BackendCommunication";
 import PageWrapper from "../PageWrapper";
+import { getUserReservations } from "../../utils/backendCommunication";
 
 type ReservationType = {
   id: string;
@@ -20,9 +20,7 @@ const Reservations = () => {
       try {
         const reservations = await getUserReservations();
         setReservations(reservations);
-        if (isLoading) {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching reservations:", error);
       }

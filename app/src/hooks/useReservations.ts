@@ -1,6 +1,5 @@
-// src/hooks/useReservations.ts
 import { useEffect, useState } from "react";
-import { getUserReservations } from "../utils/BackendCommunication";
+import { getUserReservations } from "../utils/backendCommunication";
 
 export type ReservationType = {
   id: string;
