@@ -49,14 +49,10 @@ const Workpod = () => {
       const updatedEvents = events.filter((event) => event.id !== slot.eventId);
 
       const freeSlot = {
+        id: `${slot.start}-${slot.end}-free`,
         title: "Free",
-        start: slot.start,
-        end: slot.end,
-        backgroundColor: "var(--green)",
-        borderColor: "#c3e6cb",
-        extendedProps: {
-          status: "free",
-        },
+        start: new Date(slot.start),
+        end: new Date(slot.end),
       };
 
       setEvents([...updatedEvents, freeSlot]);
