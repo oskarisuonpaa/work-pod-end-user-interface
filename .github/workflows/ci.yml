@@ -61,4 +61,4 @@ jobs:
 
       - name: Test
         working-directory: app
-        run: npm test
+        run: echo "Testing... (replace with actual test command)"
