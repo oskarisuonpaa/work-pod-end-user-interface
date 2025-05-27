@@ -1,3 +1,10 @@
 {
-    "welcome": "Tervetuloa"
+    "welcome": "Tervetuloa",
+    
+    "search-title": "Etsi vapaana olevia työpodeja",
+    "search-reservation-info": "Voit tehdä varauksen enintään 30 päivää etukäteen.",
+    "search-label-date": "Päivämäärä",
+    "search-date-placeholder": "Valitse päivämäärä",
+    "search-label-time": "Aika",
+    "search-button": "Hae"
 }

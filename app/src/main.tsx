@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { AuthProvider } from "./components/AuthProvider/index.tsx";
+import "./i18n.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

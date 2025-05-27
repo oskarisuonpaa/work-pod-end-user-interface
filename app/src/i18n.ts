@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en.json';
 import fi from './locales/fi.json';
 
-// Define your translation resources with proper types
+// Define translation resources with proper types
 const resources = {
   en: { translation: en },
   fí: { translation: fi } } as const;
