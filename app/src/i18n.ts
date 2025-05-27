@@ -7,7 +7,9 @@ import fi from './locales/fi.json';
 // Define translation resources
 const resources = {
   en: { translation: en },
-  fi: { translation: fi } };
+  fi: { translation: fi }
+};
+
 
 i18n
   .use(initReactI18next)
@@ -18,5 +20,12 @@ i18n
       escapeValue: false, // React already escapes
     },
   });
+
+  const savedLanguage = localStorage.getItem('userLanguage');
+
+if (savedLanguage) {
+  i18n.changeLanguage(savedLanguage);
+}
+
 
 export default i18n;
