@@ -8,7 +8,7 @@ const Navbar = () => {
   const location = useLocation();
   const loggedIn = isAuthenticated();
 
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
   }
@@ -26,15 +26,15 @@ const Navbar = () => {
     <nav className="navbar">
       {loggedIn && (
         <>
-          <NavLink to="/dashboard" label="Dashboard" />
-          <NavLink to="/workpods" label="Workpods" />
-          <NavLink to="/reservations" label="Reservations" />
-          <NavLink to="/search" label="Search" />
+          <NavLink to="/dashboard" label={t("navbar-dashboard")} />
+          <NavLink to="/workpods" label={t("navbar-workpods")} />
+          <NavLink to="/reservations" label={t("navbar-reservations")} />
+          <NavLink to="/search" label={t("navbar-search")} />
         </>
       )}
       <NavLink to="/info" label="Info" />
 
-      {!loggedIn && <NavLink to="/login" label="Login" />}
+      {!loggedIn && <NavLink to="/login" label={t("navbar-login")} />}
 
       {loggedIn && (
         <Link
@@ -44,7 +44,7 @@ const Navbar = () => {
             onLogout();
           }}
         >
-          Logout
+          {t("navbar-logout")}
         </Link>
       )}
     <span className="language-selector">
