@@ -9,6 +9,7 @@ on:
       - main
 
 jobs:
+  # 🔒 Block direct pushes to main
   block-direct-main-push:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !startsWith(github.event.head_commit.message, 'Merge pull request')
     runs-on: ubuntu-latest
@@ -18,17 +19,21 @@ jobs:
           echo "❌ Direct pushes to main are not allowed! Use a pull request."
           exit 1
 
+  # 🧹 Lint
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: npm i
+        working-directory: app
+        run: npm ci
 
       - name: Lint
+        working-directory: app
         run: npm run lint
 
+  # 🏗️ Build
   build:
     runs-on: ubuntu-latest
     needs: lint
@@ -36,11 +41,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: npm i
+        working-directory: app
+        run: npm ci
 
       - name: Build
+        working-directory: app
         run: npm run build
 
+  # ✅ Test
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -48,7 +56,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: npm i
+        working-directory: app
+        run: npm ci
 
       - name: Test
+        working-directory: app
         run: npm test
