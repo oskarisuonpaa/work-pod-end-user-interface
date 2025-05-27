@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { useAuth } from "../../auth/useAuth.ts";
-import useWorkpodCalendar from "../../hooks/useWorkpodCalendar.ts";
+import { useAuth } from "@auth/useAuth";
+import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
 import {
   postReservation,
   deleteReservation,
-} from "../../utils/backendCommunication.ts";
+} from "@utils/backendCommunication";
 
 import "./Workpod.css";
-import PageWrapper from "../PageWrapper/index.tsx";
-import CancelButton from "./CancelButton.tsx";
-import ReserveButton from "./ReserveButton.tsx";
-import WorkpodCalendar from "./WorkpodCalendar.tsx";
+import PageWrapper from "../PageWrapper";
+import CancelButton from "./CancelButton";
+import ReserveButton from "./ReserveButton";
+import WorkpodCalendar from "./WorkpodCalendar";
 
 const Workpod = () => {
   const { user } = useAuth();

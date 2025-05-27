@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../../auth/useAuth.ts";
-import { useReservations } from "../../hooks/useReservations.ts";
+import { useAuth } from "@auth/useAuth";
+import { useReservations } from "@hooks/useReservations";
 import "./Dashboard.css";
-import LinkButton from "../LinkButton/index.tsx";
-import PageWrapper from "../PageWrapper/index.tsx";
-import UpcomingReservations from "./UpcomingReservations.tsx";
+import LinkButton from "../LinkButton";
+import PageWrapper from "../PageWrapper";
+import UpcomingReservations from "./UpcomingReservations";
 
 const DashboardPage = () => {
   const navigate = useNavigate();

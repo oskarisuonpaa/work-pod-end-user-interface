@@ -1,5 +1,5 @@
-import type { ReservationType } from "../../hooks/useReservations";
-import ReservationLink from "../ReservationLink/index.tsx";
+import type { ReservationType } from "@hooks/useReservations";
+import ReservationLink from "../ReservationLink";
 
 type Props = {
   reservations: ReservationType[];
