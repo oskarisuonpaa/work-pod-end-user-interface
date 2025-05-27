@@ -1,6 +1,6 @@
 // SearchResults
 import { useLocation, Link } from "react-router";
-import { minutesToHours, differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
+import { differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
 import { useEffect, useState } from "react";
 import "./SearchResults.css";
 
@@ -8,7 +8,6 @@ const SearchResults = () => {
     // receive data from the search page
     const location = useLocation();
     const { date } = location.state || {};
-    console.log(date);
     const [workPods, setWorkPods] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dateString, setDateString] = useState<string>("");
