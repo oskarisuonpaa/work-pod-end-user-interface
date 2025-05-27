@@ -1,7 +1,7 @@
-import { Link, useLocation } from "react-router";
-import { useAuth } from "../../auth/useAuth";
 import { useTranslation } from "react-i18next";
-import "./NavBar.css";
+import { Link, useLocation } from "react-router";
+import { useAuth } from "@auth/useAuth";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { isAuthenticated, onLogout } = useAuth();
@@ -24,45 +24,45 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="navbar">
-      {loggedIn && (
-        <>
-          <NavLink to="/dashboard" label={t("navbar-dashboard")} />
-          <NavLink to="/workpods" label={t("navbar-workpods")} />
-          <NavLink to="/reservations" label={t("navbar-reservations")} />
-          <NavLink to="/search" label={t("navbar-search")} />
-        </>
-      )}
-      <NavLink to="/info" label="Info" />
+      <nav className="navbar">
+        {loggedIn && (
+          <>
+            <NavLink to="/dashboard" label={t("navbar-dashboard")} />
+            <NavLink to="/workpods" label={t("navbar-workpods")} />
+            <NavLink to="/reservations" label={t("navbar-reservations")} />
+            <NavLink to="/search" label={t("navbar-search")} />
+          </>
+        )}
+        <NavLink to="/info" label="Info" />
 
-      {!loggedIn && <NavLink to="/login" label={t("navbar-login")} />}
+        {!loggedIn && <NavLink to="/login" label={t("navbar-login")} />}
 
-      {loggedIn && (
-        <Link
-          to="/login"
-          onClick={(e) => {
-            e.preventDefault();
-            onLogout();
-          }}
-        >
-          {t("navbar-logout")}
-        </Link>
-      )}
-    <span className="language-selector">
-      <button
-        className={i18n.language === "en" ? "lng-active" : "lng"}
-        onClick={() => changeLanguage("en")}
-      >
-        EN
-      </button>
-      <button
-        className={i18n.language === "fi" ? "lng-active" : "lng"}
-        onClick={() => changeLanguage("fi")}
-      >
-        FI
-      </button>
-      </span>
-    </nav>
+        {loggedIn && (
+          <Link
+            to="/login"
+            onClick={(e) => {
+              e.preventDefault();
+              onLogout();
+            }}
+          >
+            {t("navbar-logout")}
+          </Link>
+        )}
+        <span className="language-selector">
+          <button
+            className={i18n.language === "en" ? "lng-active" : "lng"}
+            onClick={() => changeLanguage("en")}
+          >
+            EN
+          </button>
+          <button
+            className={i18n.language === "fi" ? "lng-active" : "lng"}
+            onClick={() => changeLanguage("fi")}
+          >
+            FI
+          </button>
+        </span>
+      </nav>
     </>
   );
 };

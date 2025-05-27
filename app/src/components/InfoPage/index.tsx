@@ -1,4 +1,4 @@
-import { useAuth } from "../../auth/useAuth";
+import { useAuth } from "@auth/useAuth.ts";
 import LinkButton from "../LinkButton";
 import PageWrapper from "../PageWrapper";
 import "./Info.css";

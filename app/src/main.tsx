@@ -1,12 +1,11 @@
-// index.tsx
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
 import "./index.css";
-import App from "./App.tsx";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { AuthProvider } from "./auth/AuthProvider";
 import "./i18n.ts";
+import { StrictMode } from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { BrowserRouter } from "react-router";
+import { AuthProvider } from "@auth/AuthProvider";
+import App from "App";
+import { createRoot } from "react-dom/client";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

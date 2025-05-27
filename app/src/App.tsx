@@ -1,30 +1,30 @@
 import { Routes, Route, Navigate } from "react-router";
-import LoginScreen from "./components/LoginPage";
-import Dashboard from "./components/DashboardPage";
-import Info from "./components/InfoPage";
+import DashboardPage from "./components/DashboardPage";
+import InfoPage from "./components/InfoPage";
+import LoginPage from "./components/LoginPage";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Reservation from "./components/Reservation";
+import Reservations from "./components/Reservations";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
-import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/WorkPods";
-import Reservations from "./components/Reservations";
-import Reservation from "./components/Reservation";
-import WorkPod from "./components/WorkPod";
-import NavBar from "./components/NavBar";
+import Workpod from "./components/Workpod";
+import Workpods from "./components/Workpods";
 
 const App = () => {
   return (
     <div className="page-container">
-      <NavBar />
+      <Navbar />
 
       <Routes>
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="login" element={<LoginScreen />} />
+        <Route path="login" element={<LoginPage />} />
 
         <Route
           path="workpods"
           element={
             <ProtectedRoute>
-              <WorkPods />
+              <Workpods />
             </ProtectedRoute>
           }
         />
@@ -32,7 +32,7 @@ const App = () => {
           path="workpods/:workpodId/:date?"
           element={
             <ProtectedRoute>
-              <WorkPod />
+              <Workpod />
             </ProtectedRoute>
           }
         />
@@ -52,12 +52,12 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="info" element={<Info />} />
+        <Route path="info" element={<InfoPage />} />
         <Route
           path="dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardPage />
             </ProtectedRoute>
           }
         />
@@ -79,7 +79,14 @@ const App = () => {
           }
         />
 
-        <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <NotFound />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

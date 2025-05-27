@@ -6,13 +6,13 @@ import {
   type ReactNode,
 } from "react";
 import { useNavigate } from "react-router";
+import { AuthContext } from "./AuthContext.ts";
 import {
   isTokenValid,
   getTokenExpirationDelay,
   getUserFromToken,
-} from "./authUtils";
+} from "./authUtils.ts";
 import type { AuthContextType, User } from "./types";
-import { AuthContext } from "./AuthContext";
 
 type AuthProviderProps = {
   children: ReactNode;

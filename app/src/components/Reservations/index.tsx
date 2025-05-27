@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import ReservationLink from "../ReservationLink";
 import "./Reservations.css";
-import PageWrapper from "../PageWrapper";
-import { getUserReservations } from "../../utils/BackendCommunication";
+import { getUserReservations } from "@utils/BackendCommunication";
+import PageWrapper from "../PageWrapper/index";
+import ReservationLink from "../ReservationLink";
 
 type ReservationType = {
   id: string;
