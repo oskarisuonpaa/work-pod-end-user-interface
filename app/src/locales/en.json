@@ -15,5 +15,10 @@
     "search-label-date": "Date",
     "search-date-placeholder": "Select a date",
     "search-label-time": "Time",
-    "search-button": "Search"
+    "search-button": "Search",
+
+    "searchresults-title": "Available workpods",
+    "searchresults-text1": "Available workpods at",
+    "searchresults-freeuntil": "Free until {{time}}",
+    "searchresults-reserveduntil": "Reserved until {{time}}"
 }

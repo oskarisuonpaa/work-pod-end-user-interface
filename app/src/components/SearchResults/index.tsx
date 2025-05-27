@@ -2,6 +2,7 @@
 import { useLocation, Link } from "react-router";
 import { differenceInMinutes, format, isWithinInterval, setHours, setMinutes, add } from "date-fns";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./SearchResults.css";
 
 const SearchResults = () => {
@@ -14,6 +15,7 @@ const SearchResults = () => {
     const [loadedCount, setLoadedCount] = useState(0);
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const { t } = useTranslation();
     useEffect(() => {
         // fetch list of workpods
         if (!date || !loading) return;
@@ -26,13 +28,15 @@ const SearchResults = () => {
         })
             .then(response => response.json())
             .then(calendars => {
-                const pods = [];
                 console.log("Calendars:", calendars);
+                if (!calendars.error) {
+                const pods = [];
                 // initialize workpods
                 for (const id in calendars.calendars) {
                     pods.push({ workpodId: calendars.calendars[id], isReserved: false, freeFor: 0, freeUntil: null, events: [], reservedUntil: null });
                 }
                 setWorkPods(pods);
+            }
 
             })
             .catch(error => console.error(error));
@@ -159,8 +163,8 @@ const SearchResults = () => {
     if (loading) return <div>Loading...</div>;
     return (
         <div id="searchResults" className="page-content">
-            <h1 className="page-title">Available workpods</h1>
-            <p>Available workpods at {format(date, "dd/MM/yyyy HH:mm")}:</p>
+            <h1 className="page-title">{t("searchresults-title")}</h1>
+            <p>{t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:</p>
             <div className="results">
                 <ul className="available-results">
                     {
@@ -174,11 +178,15 @@ const SearchResults = () => {
                                 /*let minutes = workpod.freeFor;
                                 let hours = minutesToHours(minutes);
                                 let minutesLeft = minutes % 60;*/
+                                // how to check if freeUntil is not null?
+                                // inline?
+
+                                const freeUntil = format(workpod.freeUntil, "HH:mm") || null;
                                 return (
                                     <li key={idx} className="lab-arrow">
                                         <Link to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
                                             <p className="workpod-time">
-                                                Free until {format(workpod.freeUntil, "HH:mm")}.
+                                                {t("searchresults-freeuntil", {time: freeUntil})}.
                                                 {/*  Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.*/}
 
@@ -199,11 +207,13 @@ const SearchResults = () => {
                             .filter(workpod => workpod.isReserved)
                             //.sort((a, b) => b.freeFor - a.freeFor)
                             .map((workpod, idx) => {
+                                const reservedUntil = format(workpod.reservedUntil, "HH:mm") || null;
+
                                 return (
                                     <li key={idx} className="lab-arrow">
                                         <Link to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}><p className="workpod-title">{workpod.workpodId}</p>
 
-                                            <p className="workpod-time"> Reserved until {format(workpod.reservedUntil, "HH:mm")}.
+                                            <p className="workpod-time">{t("searchresults-reserveduntil", {time: reservedUntil})}.
 
                                             </p>
                                         </Link>
