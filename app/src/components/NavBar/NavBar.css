@@ -25,3 +25,11 @@
   bottom: -6px;
   left: 0;
 }
+.navbar .lng {
+  background-color: var(--light-grey);
+  color: var(--black);
+}
+.navbar .lng-active {
+  background-color: var(--blue);
+  color: var(--white);
+}
