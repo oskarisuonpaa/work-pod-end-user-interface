@@ -18,21 +18,37 @@ jobs:
           echo "❌ Direct pushes to main are not allowed! Use a pull request."
           exit 1
 
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
-        run: echo "Building..."
+        run: npm run build
 
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Test
-        run: echo "Testing..."
+        run: npm test
