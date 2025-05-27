@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { AuthProvider } from "./components/AuthProvider/index.tsx";
+import { AuthProvider } from "./auth/AuthProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

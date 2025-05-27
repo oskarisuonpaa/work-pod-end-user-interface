@@ -1,30 +1,22 @@
 import { useParams } from "react-router";
-import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
-import { useAuth } from "../AuthProvider";
+import { useAuth } from "../../auth/useAuth";
 import WorkpodCalendar from "./WorkpodCalendar";
 import ReservationButton from "./ReservationButton";
+import CancelButton from "./CancelButton";
 import useWorkpodCalendar from "./useWorkpodCalendar";
 import {
   postReservation,
   deleteReservation,
 } from "../../utils/BackendCommunication";
-import CancelButton from "./CancelButton";
 
 import "./Workpod.css";
 
-type DecodedUser = {
-  name: string;
-  email: string;
-  [key: string]: any;
-};
-
 const WorkPod = () => {
-  const { token } = useAuth();
-  const user = jwtDecode<DecodedUser>(token);
+  const { user } = useAuth();
   const { workpodId } = useParams<{ workpodId: string }>();
-
   const { events, setEvents } = useWorkpodCalendar(workpodId);
+
   const [selectedSlot, setSelectedSlot] = useState<{
     start: string;
     end: string;
@@ -34,7 +26,7 @@ const WorkPod = () => {
   } | null>(null);
 
   const handleReservation = async (slot: { start: string; end: string }) => {
-    if (!workpodId) return;
+    if (!workpodId || !user?.name) return;
 
     if (confirm("Are you sure you want to reserve this slot?")) {
       await postReservation(workpodId, slot.start, slot.end);
@@ -50,13 +42,13 @@ const WorkPod = () => {
       );
 
       const reservedSlot = {
-        title: `${user.name}`,
+        title: user.name,
         start: slot.start,
         end: slot.end,
         backgroundColor: "#3b82f6",
         borderColor: "#3b82f6",
         textColor: "#fff",
-        extendedProps: { status: "reserved" },
+        extendedProps: { status: "reserved", owner: user.email },
       };
 
       setEvents([...updatedEvents, reservedSlot]);
@@ -86,11 +78,14 @@ const WorkPod = () => {
       <div className="page-title">
         <h1>{workpodId}</h1>
       </div>
+
       <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} />
+
       {selectedSlot && selectedSlot.status === "free" && (
         <ReservationButton slot={selectedSlot} onReserve={handleReservation} />
       )}
-      {selectedSlot && selectedSlot.owner == user.email && (
+
+      {selectedSlot && selectedSlot.owner === user?.email && (
         <CancelButton slot={selectedSlot} onCancel={handleCancelReservation} />
       )}
     </div>
