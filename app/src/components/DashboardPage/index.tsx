@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "@auth/useAuth";
+import { useReservations } from "@hooks/useReservations";
+import "./Dashboard.css";
 import LinkButton from "../LinkButton";
 import PageWrapper from "../PageWrapper";
 import UpcomingReservations from "./UpcomingReservations";
-import { useReservations } from "../../hooks/useReservations";
-import { useAuth } from "../../auth/useAuth";
-import "./Dashboard.css";
 
 const DashboardPage = () => {
   const navigate = useNavigate();

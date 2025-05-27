@@ -1,6 +1,6 @@
 import "./WorkPods.css";
 import { Fragment, useEffect, useState } from "react";
-import { getWorkpods } from "../../utils/backendCommunication";
+import { getWorkpods } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper";
 import WorkpodLink from "./WorkpodLink";
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { generateFreeSlots } from "../utils/helpers";
-import { getWorkpodCalendar } from "../utils/backendCommunication";
+import { getWorkpodCalendar } from "@utils/backendCommunication";
+import { generateFreeSlots } from "@utils/helpers";
 
 type CalendarEvent = {
   id: string;

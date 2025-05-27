@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router";
+import type { EventInput } from "@fullcalendar/core/index.js";
 import {
   differenceInMinutes,
   format,
@@ -9,8 +9,8 @@ import {
 } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation, Link } from "react-router";
 import "./SearchResults.css";
-import type { EventInput } from "@fullcalendar/core/index.js";
 
 interface WorkPod {
   workpodId: string;
@@ -28,8 +28,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [dateString, setDateString] = useState<string>("");
   const [loadedCount, setLoadedCount] = useState(0);
-      const { t } = useTranslation();
-
+  const { t } = useTranslation();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
@@ -46,23 +45,23 @@ const SearchResults = () => {
       .then((calendars) => {
         console.log("Calendars:", calendars);
         if (!calendars.error) {
-        const pods = [];
-        // initialize workpods
-        for (const id in calendars.calendars) {
-          pods.push({
-            workpodId: calendars.calendars[id],
-            isReserved: false,
-            freeFor: 0,
-            freeUntil: null,
-            events: [],
-            reservedUntil: null,
-          });
+          const pods = [];
+          // initialize workpods
+          for (const id in calendars.calendars) {
+            pods.push({
+              workpodId: calendars.calendars[id],
+              isReserved: false,
+              freeFor: 0,
+              freeUntil: null,
+              events: [],
+              reservedUntil: null,
+            });
+          }
+          setWorkPods(pods);
         }
-        setWorkPods(pods);
-    }
       })
       .catch((error) => console.error(error));
-  }, [date]);
+  }, [date, backendUrl, loading, workPods.length]);
 
   // fetch data for each workpod
   useEffect(() => {
@@ -181,7 +180,7 @@ const SearchResults = () => {
         })
         .catch((error) => console.error(error));
     });
-  }, [workPods.length, date]);
+  }, [workPods, workPods.length, date, backendUrl, dateString, loading]);
 
   useEffect(() => {
     if (loadedCount === workPods.length && workPods.length > 0) {
@@ -197,7 +196,9 @@ const SearchResults = () => {
   return (
     <div id="searchResults" className="page-content">
       <h1 className="page-title">{t("searchresults-title")}</h1>
-      <p>{t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:</p>
+      <p>
+        {t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:
+      </p>
       <div className="results">
         <ul className="available-results">
           {
@@ -211,7 +212,9 @@ const SearchResults = () => {
                 /*let minutes = workpod.freeFor;
                                 let hours = minutesToHours(minutes);
                                 let minutesLeft = minutes % 60;*/
-                const freeUntil = workpod.freeUntil ? format(workpod.freeUntil, "HH:mm") : "N/A";
+                const freeUntil = workpod.freeUntil
+                  ? format(workpod.freeUntil, "HH:mm")
+                  : "N/A";
                 return (
                   <li key={idx} className="lab-arrow">
                     <Link
@@ -222,8 +225,7 @@ const SearchResults = () => {
                     >
                       <p className="workpod-title">{workpod.workpodId}</p>
                       <p className="workpod-time">
-                        {t("searchresults-freeuntil", {time: freeUntil})}
-                        .
+                        {t("searchresults-freeuntil", { time: freeUntil })}.
                         {/*  Free for: {hours > 0 && ` ${hours} hours`}
                                                 {minutesLeft > 0 && ` ${minutesLeft} minutes`}.*/}
                       </p>
@@ -242,7 +244,9 @@ const SearchResults = () => {
               .filter((workpod) => workpod.isReserved)
               //.sort((a, b) => b.freeFor - a.freeFor)
               .map((workpod, idx) => {
-                const reservedUntil = workpod.reservedUntil ? format(workpod.reservedUntil, "HH:mm") : "N/A";
+                const reservedUntil = workpod.reservedUntil
+                  ? format(workpod.reservedUntil, "HH:mm")
+                  : "N/A";
                 return (
                   <li key={idx} className="lab-arrow">
                     <Link
@@ -254,7 +258,9 @@ const SearchResults = () => {
                       <p className="workpod-title">{workpod.workpodId}</p>
 
                       <p className="workpod-time">
-                        {t("searchresults-reserveduntil", {time: reservedUntil})}
+                        {t("searchresults-reserveduntil", {
+                          time: reservedUntil,
+                        })}
                         .
                       </p>
                     </Link>
@@ -266,7 +272,6 @@ const SearchResults = () => {
       </div>
     </div>
   );
-
 };
 
 export default SearchResults;

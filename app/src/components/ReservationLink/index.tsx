@@ -1,7 +1,7 @@
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router";
 import "./ReservationLink.css";
-import { parseDate, parseTime } from "../../utils/dateTime";
+import { parseDate, parseTime } from "@utils/dateTime";
 
 type ReservationLinkProps = {
   id: string;

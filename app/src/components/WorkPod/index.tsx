@@ -1,17 +1,17 @@
-import { useNavigate, useParams } from "react-router";
 import { useState } from "react";
-import { useAuth } from "../../auth/useAuth";
-import WorkpodCalendar from "./WorkpodCalendar";
-import ReserveButton from "./ReserveButton";
-import CancelButton from "./CancelButton";
-import useWorkpodCalendar from "../../hooks/useWorkpodCalendar";
+import { useNavigate, useParams } from "react-router";
+import { useAuth } from "@auth/useAuth";
+import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
 import {
   postReservation,
   deleteReservation,
-} from "../../utils/backendCommunication";
-import PageWrapper from "../PageWrapper";
+} from "@utils/backendCommunication";
 
 import "./Workpod.css";
+import PageWrapper from "../PageWrapper";
+import CancelButton from "./CancelButton";
+import ReserveButton from "./ReserveButton";
+import WorkpodCalendar from "./WorkpodCalendar";
 
 const Workpod = () => {
   const { user } = useAuth();
@@ -49,14 +49,10 @@ const Workpod = () => {
       const updatedEvents = events.filter((event) => event.id !== slot.eventId);
 
       const freeSlot = {
+        id: `${slot.start}-${slot.end}-free`,
         title: "Free",
-        start: slot.start,
-        end: slot.end,
-        backgroundColor: "var(--green)",
-        borderColor: "#c3e6cb",
-        extendedProps: {
-          status: "free",
-        },
+        start: new Date(slot.start),
+        end: new Date(slot.end),
       };
 
       setEvents([...updatedEvents, freeSlot]);
