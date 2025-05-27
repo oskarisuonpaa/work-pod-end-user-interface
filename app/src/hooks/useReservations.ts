@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserReservations } from "../utils/backendCommunication";
+import { getUserReservations } from "../utils/BackendCommunication";
 
 export type ReservationType = {
   id: string;

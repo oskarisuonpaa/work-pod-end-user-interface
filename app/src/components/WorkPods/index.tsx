@@ -1,8 +1,8 @@
 import "./WorkPods.css";
 import { Fragment, useEffect, useState } from "react";
-import { getWorkpods } from "../../utils/backendCommunication";
+import { getWorkpods } from "../../utils/BackendCommunication";
 import PageWrapper from "../PageWrapper";
-import WorkpodLink from "./WorkpodLink";
+import WorkpodLink from "./WorkPodLink";
 
 const Workpods = () => {
   const [workPods, setWorkPods] = useState<string[]>([]);
