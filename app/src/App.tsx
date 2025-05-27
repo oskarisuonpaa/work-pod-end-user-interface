@@ -29,7 +29,7 @@ const App = () => {
           }
         />
         <Route
-          path="workpods/:workpodId"
+          path="workpods/:workpodId/:date?"
           element={
             <ProtectedRoute>
               <WorkPod />
@@ -79,7 +79,7 @@ const App = () => {
           }
         />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
       </Routes>
     </div>
   );

@@ -2,28 +2,21 @@
 import "./Search.css"
 import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { fi } from "date-fns/locale";
-import {addDays, setHours, setMinutes} from "date-fns";
+import {addDays} from "date-fns";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("fi", fi);
 setDefaultLocale("fi");
-
-// search is mainly needed if someone doesn't care which workpod they use
-// and just wants to find an available one
-// what are the "working hours" for the workpods? 8-16, 6-20?
-// presumably 8-16, later than that there will be fewer users
-// so less need for reservations
-// once search parameters are in, look through the calendars of the workpods
-// to see if any are available at the selected time and onwards
-// searchresults - include all times for the selected day starting from the selected time?
-
 // TODO: custom css for datepicker
 
 const Search = () => {
+    //const currentDate = new Date();
       const [startDate, setStartDate] = useState<Date | null>(new Date());
       const navigate = useNavigate();
+      const { t } = useTranslation();
         const handleSubmit = (event: React.FormEvent) => {
             event.preventDefault();
             const date = startDate; // contains both date and time
@@ -40,21 +33,21 @@ const Search = () => {
         }
 return (
 <div id="searchContainer" className="page-content">
-    <h1 className="page-title">Search for available workpods</h1>
-    <p>You can make a reservation up to 30 days in advance.</p>
+    <h1 className="page-title">{t("search-title")}</h1>
+    <p>{t("search-reservation-info")}</p>
     <form id="searchForm" onSubmit={handleSubmit}>
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date">{t("search-label-date")}:</label>
         <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
       includeDateIntervals={[ { start: new Date(), end: addDays(new Date(), 30) } ]}
       dateFormat="dd/MM/yyyy"
       selectsDisabledDaysInRange
-      placeholderText="Select a date."
+      placeholderText={t('search-placeholder-date')}
       locale="fi"
       calendarClassName="custom-calendar"
     /><br />
-    <label htmlFor="time">Time:</label>
+    <label htmlFor="time">{t("search-label-time")}</label>
   
         <DatePicker
         showTimeSelect 
@@ -62,12 +55,10 @@ return (
         onChange={(time) => setStartDate(time)}
         showTimeSelectOnly
         dateFormat="HH:mm"
-        minTime={setHours(setMinutes(new Date(), 30), 7)}
-        maxTime={setHours(setMinutes(new Date(), 0), 20)}
         calendarClassName="custom-time"
         />
         <br />
-        <button type="submit" id="searchButton">Search</button>
+        <button type="submit" id="searchButton">{t("search-button")}</button>
     </form>
 </div>
 )};
