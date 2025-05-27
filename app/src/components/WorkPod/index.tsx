@@ -9,7 +9,7 @@ import {
   postReservation,
   deleteReservation,
 } from "../../utils/BackendCommunication";
-import PageWrapper from "../../components/PageWrapper";
+import PageWrapper from "../PageWrapper";
 
 import "./Workpod.css";
 

@@ -1,10 +1,11 @@
 import type { ReactNode } from "react";
+import "./PageWrapper.css";
 
 const PageWrapper = ({
   children,
   pageTitle,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   pageTitle: string;
 }) => {
   return (
@@ -12,7 +13,7 @@ const PageWrapper = ({
       <div className="page-title-container">
         <h1 className="page-title">{pageTitle}</h1>
       </div>
-      <div className="page-content">{children}</div>
+      {children && <div className="page-content">{children}</div>}
     </div>
   );
 };

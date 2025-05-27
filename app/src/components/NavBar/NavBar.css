@@ -1,3 +1,11 @@
+.navbar {
+  background: var(--light-blue);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .navbar a {
   color: var(--black);
   text-decoration: none;
