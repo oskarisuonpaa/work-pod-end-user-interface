@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Reservations.css";
-import { getUserReservations } from "@utils/BackendCommunication";
+import { getUserReservations } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper/index";
 import ReservationLink from "../ReservationLink";
 

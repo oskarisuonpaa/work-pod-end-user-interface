@@ -5,7 +5,7 @@ import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
 import {
   postReservation,
   deleteReservation,
-} from "@utils/BackendCommunication";
+} from "@utils/backendCommunication";
 
 import "./WorkPod.css";
 import PageWrapper from "../PageWrapper";

@@ -2,14 +2,14 @@ import { Routes, Route, Navigate } from "react-router";
 import DashboardPage from "./components/DashboardPage";
 import InfoPage from "./components/InfoPage";
 import LoginPage from "./components/LoginPage";
-import Navbar from "./components/NavBar";
+import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Reservation from "./components/Reservation";
 import Reservations from "./components/Reservations";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
-import Workpod from "./components/WorkPod";
-import Workpods from "./components/WorkPods";
+import Workpod from "./components/Workpod";
+import Workpods from "./components/Workpods";
 
 const App = () => {
   return (
