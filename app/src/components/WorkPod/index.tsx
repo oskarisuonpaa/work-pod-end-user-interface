@@ -11,7 +11,7 @@ import {
 } from "../../utils/BackendCommunication";
 import PageWrapper from "../PageWrapper";
 
-import "./Workpod.css";
+import "./WorkPod.css";
 
 const Workpod = () => {
   const { user } = useAuth();
