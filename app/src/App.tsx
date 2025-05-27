@@ -1,15 +1,15 @@
 import { Routes, Route, Navigate } from "react-router";
-import LoginScreen from "./components/LoginPage";
-import Dashboard from "./components/DashboardPage";
-import Info from "./components/InfoPage";
+import Navbar from "./components/Navbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Reservation from "./components/Reservation";
+import Reservations from "./components/Reservations";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Workpods from "./components/Workpods";
-import Reservations from "./components/Reservations";
-import Reservation from "./components/Reservation";
 import Workpod from "./components/Workpod";
-import Navbar from "./components/Navbar";
+import Workpods from "./components/Workpods";
+import LoginPage from "./components/LoginPage";
+import InfoPage from "./components/InfoPage";
+import DashboardPage from "./components/DashboardPage";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
 
       <Routes>
         <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="login" element={<LoginScreen />} />
+        <Route path="login" element={<LoginPage />} />
 
         <Route
           path="workpods"
@@ -52,12 +52,12 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="info" element={<Info />} />
+        <Route path="info" element={<InfoPage />} />
         <Route
           path="dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardPage />
             </ProtectedRoute>
           }
         />
