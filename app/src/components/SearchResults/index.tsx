@@ -7,7 +7,8 @@ import "./SearchResults.css";
 const SearchResults = () => {
     // receive data from the search page
     const location = useLocation();
-    const { date } = location.state || {}; // use optional chaining to avoid errors if state is undefined
+    const { date } = location.state || {};
+    console.log(date);
     const [workPods, setWorkPods] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [dateString, setDateString] = useState<string>("");
@@ -160,7 +161,7 @@ const SearchResults = () => {
     return (
         <div id="searchResults" className="page-content">
             <h1 className="page-title">Available workpods</h1>
-            <p>Available workpods at {format(date, "dd/MM/yyyy HH:MM")}:</p>
+            <p>Available workpods at {format(date, "dd/MM/yyyy HH:mm")}:</p>
             <div className="results">
                 <ul className="available-results">
                     {
