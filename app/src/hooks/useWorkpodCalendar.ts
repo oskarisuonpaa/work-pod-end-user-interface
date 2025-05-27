@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getWorkpodCalendar } from "../utils/BackendCommunication";
+import { getWorkpodCalendar } from "../utils/backendCommunication";
 import { generateFreeSlots } from "../utils/helpers";
 
 const useWorkpodCalendar = (workpodId?: string) => {

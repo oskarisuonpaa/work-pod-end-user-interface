@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   deleteReservation,
   getSingleReservation,
-} from "../../utils/BackendCommunication";
+} from "../../utils/backendCommunication";
 
 type ReservationType = {
   id: string;
