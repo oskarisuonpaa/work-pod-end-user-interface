@@ -5,16 +5,16 @@ import Info from "./components/InfoPage";
 import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WorkPods from "./components/Workpods";
+import Workpods from "./components/Workpods";
 import Reservations from "./components/Reservations";
 import Reservation from "./components/Reservation";
-import WorkPod from "./components/Workpod";
-import NavBar from "./components/Navbar";
+import Workpod from "./components/Workpod";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   return (
     <div className="page-container">
-      <NavBar />
+      <Navbar />
 
       <Routes>
         <Route index element={<Navigate to="/dashboard" replace />} />
@@ -24,7 +24,7 @@ const App = () => {
           path="workpods"
           element={
             <ProtectedRoute>
-              <WorkPods />
+              <Workpods />
             </ProtectedRoute>
           }
         />
@@ -32,7 +32,7 @@ const App = () => {
           path="workpods/:workpodId/:date?"
           element={
             <ProtectedRoute>
-              <WorkPod />
+              <Workpod />
             </ProtectedRoute>
           }
         />
@@ -79,7 +79,14 @@ const App = () => {
           }
         />
 
-        <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <NotFound />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );
