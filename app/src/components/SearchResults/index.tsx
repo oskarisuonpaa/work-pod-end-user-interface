@@ -5,7 +5,7 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
-import updateWorkPods from "./UpdateWorkpods";
+import updateWorkPods from "./updateWorkPods.ts";
 import type { WorkPod } from "@auth/types.ts"
 import "./SearchResults.css";
 
