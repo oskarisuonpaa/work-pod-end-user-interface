@@ -3,6 +3,7 @@ import "./Reservations.css";
 import { getUserReservations } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper/index";
 import ReservationLink from "../ReservationLink";
+import { useTranslation } from "react-i18next"
 
 type ReservationType = {
   id: string;
@@ -14,6 +15,7 @@ type ReservationType = {
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState<ReservationType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -30,15 +32,15 @@ const ReservationsPage = () => {
   }, []);
 
   if (isLoading) {
-    return <PageWrapper pageTitle="Loading..."></PageWrapper>;
+    return <PageWrapper pageTitle={t("loading")+"..."}></PageWrapper>;
   }
 
   if (reservations.length === 0) {
-    return <PageWrapper pageTitle="No Reservations Found"></PageWrapper>;
+    return <PageWrapper pageTitle={t("reservations-no-reservations")}></PageWrapper>;
   }
 
   return (
-    <PageWrapper pageTitle="Your Reservations">
+    <PageWrapper pageTitle={t("reservations-your")}>
       <div className="reservations-container">
         <ul>
           {reservations.map((reservation) => (
