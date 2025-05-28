@@ -17,7 +17,7 @@ type ReservationType = {
   room: string;
 };
 
-const Reservation = () => {
+const ReservationInfoPage = () => {
   const { calendarId, reservationId } = useParams<{
     calendarId: string;
     reservationId: string;
@@ -105,4 +105,4 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default ReservationInfoPage;
