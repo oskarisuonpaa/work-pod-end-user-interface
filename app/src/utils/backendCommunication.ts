@@ -107,4 +107,13 @@ export const getSingleReservation = async (
   return response.data;
 };
 
-/*export const authenticateUser = async (_accessToken: string) => {}; */
+export const authenticateUser = async (accessToken: string) => {
+  const response = await axios.post(
+    `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
+    {
+      googleIdToken: accessToken,
+    }
+  );
+
+  return response.data;
+};

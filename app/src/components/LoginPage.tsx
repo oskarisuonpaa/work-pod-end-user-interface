@@ -7,6 +7,7 @@ import {
 import { useAuth } from "@auth/useAuth";
 import PageWrapper from "./PageWrapper";
 import ActionButton from "./ActionButton";
+import { authenticateUser } from "@utils/backendCommunication";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();
@@ -21,6 +22,9 @@ const LoginPage = () => {
           console.error("Access token is missing in the response");
           return;
         }
+
+        const response = await authenticateUser(access_token);
+        console.log("Login successful:", response);
       } catch (error) {
         console.error("Login failed:", error);
       }
