@@ -62,6 +62,12 @@ const SearchResults = () => {
                 }
             })
             .catch((error) => console.error(error));
+            // the linter is overzealous in adding dependencies;
+            // this useEffect only requires the date variable, and it's only intended to be run once, to fetch the initial list of workpods
+            // will rework it later to remove checks for workPods.length and loading
+            // (which are only in place to prevent multiple fetches, so calling this function when their state changes is counterproductive)
+            // backendUrl is an environment variable; it isn't going to change
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date]);
 
     // fetch data for each workpod
@@ -181,6 +187,9 @@ const SearchResults = () => {
                 })
                 .catch((error) => console.error(error));
         });
+        // will rework this useEffect later, but including more variables will make it not work correctly
+        // whatever the linter is saying
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [workPods.length, date]);
 
     useEffect(() => {
