@@ -29,3 +29,11 @@ export interface WorkPod {
     events: EventInput[];
     reservedUntil: Date | null;
 }
+
+export interface DataItem {
+  description: string;
+  end: string;    // ISO date string
+  id: string;
+  start: string;  // ISO date string
+  title: string;
+}
