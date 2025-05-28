@@ -12,12 +12,14 @@ import PageWrapper from "../PageWrapper";
 import CancelButton from "./CancelButton";
 import ReserveButton from "./ReserveButton";
 import WorkpodCalendar from "./WorkpodCalendar";
+import { useTranslation } from "react-i18next";
 
 const Workpod = () => {
   const { user } = useAuth();
   const { workpodId } = useParams<{ workpodId: string }>();
   const { events, setEvents } = useWorkpodCalendar(workpodId);
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const [selectedSlot, setSelectedSlot] = useState<{
     start: string;
@@ -30,7 +32,7 @@ const Workpod = () => {
   const handleReservation = async (slot: { start: string; end: string }) => {
     if (!workpodId || !user?.name) return;
 
-    if (confirm("Are you sure you want to reserve this slot?")) {
+    if (confirm(t("reserve-confirm-reserve"))) {
       await postReservation(workpodId, slot.start, slot.end);
       navigate(0);
     }
@@ -43,7 +45,7 @@ const Workpod = () => {
   }) => {
     if (!workpodId || !slot.eventId) return;
 
-    if (confirm("Are you sure you want to cancel this reservation?")) {
+    if (confirm(t("reserve-confirm-cancel"))) {
       await deleteReservation(workpodId, slot.eventId);
 
       const updatedEvents = events.filter((event) => event.id !== slot.eventId);
@@ -60,7 +62,7 @@ const Workpod = () => {
     }
   };
 
-  if (!workpodId) return <div>Workpod ID is missing</div>;
+  if (!workpodId) return <div>{t("reserve-id-missing")}</div>;
 
   return (
     <PageWrapper pageTitle={workpodId}>

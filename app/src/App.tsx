@@ -92,7 +92,9 @@ const App = () => {
     </div>
   );
 };
-const { t } = useTranslation();
-const NotFound = () => <p>{t("nothing-here")}: 404!</p>;
+const NotFound = () => {
+  const { t } = useTranslation();
+  return (<p>{t("nothing-here")}: 404!</p>
+)};
 
 export default App;

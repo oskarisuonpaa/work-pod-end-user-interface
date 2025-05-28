@@ -5,6 +5,7 @@ import {
   deleteReservation,
   getSingleReservation,
 } from "@utils/backendCommunication";
+import { useTranslation } from "react-i18next";
 
 type ReservationType = {
   id: string;
@@ -21,6 +22,7 @@ const Reservation = () => {
     reservationId: string;
   }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [reservation, setReservation] = useState<ReservationType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +40,7 @@ const Reservation = () => {
       } catch (err) {
         console.error("Error fetching reservation:", err);
         setError(
-          "Failed to load reservation. It may not exist or is not accessible."
+          t("reservation-failed-load")
         );
       } finally {
         setIsLoading(false);
@@ -50,20 +52,20 @@ const Reservation = () => {
 
   const handleCancel = async () => {
     const confirmed = confirm(
-      "Are you sure you want to cancel this reservation?"
+      t("reserve-confirm-cancel")
     );
     if (!confirmed) return;
 
     try {
       if (!calendarId || !reservationId) {
-        throw new Error("Missing calendarId or reservationId.");
+        throw new Error(t("error-missing-ids"));
       }
       await deleteReservation(calendarId, reservationId);
-      alert(`Reservation ${reservationId} cancelled.`);
+      alert(t("reservation-canceled", {reservationId:reservationId}));
       navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
-      alert("Failed to cancel reservation. Please try again.");
+      alert(t("error-failed-cancel"));
     }
   };
 
@@ -75,7 +77,7 @@ const Reservation = () => {
     return (
       <div className="page-content">
         <div className="page-title">
-          <h1>Loading...</h1>
+          <h1>{t("loading")}...</h1>
         </div>
       </div>
     );
@@ -84,11 +86,11 @@ const Reservation = () => {
     return (
       <div className="page-content">
         <div className="page-title">
-          <h1>Reservation Not Found</h1>
+          <h1>{t("reservation-not-found")}</h1>
         </div>
         <p>
           {error ||
-            "The reservation you are looking for does not exist or doesn't belong to you."}
+            t("reservation-not-yours")}
         </p>
       </div>
     );
@@ -97,17 +99,17 @@ const Reservation = () => {
   return (
     <div className="page-content">
       <div className="page-title">
-        <h1>Reservation Info</h1>
+        <h1>{t("reservation-info")}</h1>
       </div>
       <div className="reservation-info">
-        <h2>Work Pod: {reservation.room}</h2>
-        <p className="date-info">Date: {reservation.date}</p>
+        <h2>{t("workpod")}: {reservation.room}</h2>
+        <p className="date-info">{t("date")}: {reservation.date}</p>
         <p className="time-info">
-          Time: {reservation.start} - {reservation.end}
+          {t("time")}: {reservation.start} - {reservation.end}
         </p>
       </div>
       <button className="cancel-button" onClick={handleCancel}>
-        Cancel Reservation
+        {t("cancel-button")}
       </button>
     </div>
   );

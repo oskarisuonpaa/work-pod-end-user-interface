@@ -2,9 +2,15 @@
     "welcome": "Welcome",
     "loading": "Loading",
     "nothing-here": "There's nothing here",
+    "date": "Date",
+    "time": "Time",
+    "workpod": "WorkPod",
 
     "dashboard-upcoming": "Upcoming Slots",
     "dashboard-readQR": "Read QR",
+
+    "error-missing-ids": "Missing calendarId or reservationId.",
+    "error-failed-cancel": "Failed to cancel reservation. Please try again.",
 
     "navbar-dashboard": "Dashboard",
     "navbar-workpods": "WorkPods",
@@ -15,6 +21,18 @@
     
     "reservations-no-reservations": "No Reservations Found",
     "reservations-your": "Your Reservations",
+    "reserve-button": "Reserve Slot",
+    "cancel-button": "Cancel Reservation",
+    "reservation-canceled": "Reservation {reservationId} cancelled",
+
+    "reservation-info": "Reservation Info",
+    "reservation-not-found": "Reservation Not Found",
+    "reservation-not-yours": "The reservation you are looking for does not exist or doesn't belong to you.",
+    "reservation-failed-load": "Failed to load reservation. It may not exist or is not accessible.",
+
+    "reserve-confirm-reserve": "Are you sure you want to reserve this slot?",
+    "reserve-confirm-cancel": "Are you sure you want to cancel this reservation?",
+    "reserve-id-missing": "Workpod ID is missing",
 
     "search-title": "Search for available workpods",
     "search-reservation-info": "You can make a reservation up to 30 days in advance.",
