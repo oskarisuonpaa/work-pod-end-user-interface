@@ -3,10 +3,11 @@ import { getWorkpodCalendar } from "@utils/backendCommunication";
 import { generateFreeSlots } from "@utils/helpers";
 
 type CalendarEvent = {
-  id: string;
+  id?: string;
   title: string;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
+  
 };
 
 const useWorkpodCalendar = (workpodId?: string) => {

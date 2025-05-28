@@ -11,7 +11,8 @@ const Navbar = () => {
   const { t, i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
-  };
+    localStorage.setItem('userLanguage', lng);
+  }
 
   const isActive = (path: string) => location.pathname === path;
 

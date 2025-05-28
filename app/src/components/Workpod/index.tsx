@@ -51,8 +51,8 @@ const Workpod = () => {
       const freeSlot = {
         id: `${slot.start}-${slot.end}-free`,
         title: "Free",
-        start: new Date(slot.start),
-        end: new Date(slot.end),
+        start: slot.start,
+        end: slot.end,
         backgroundColor: "var(--green)",
         borderColor: "#c3e6cb",
         extendedProps: {
