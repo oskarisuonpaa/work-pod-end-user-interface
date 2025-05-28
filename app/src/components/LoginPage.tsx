@@ -7,7 +7,6 @@ import {
 import { useAuth } from "@auth/useAuth";
 import PageWrapper from "./PageWrapper";
 import ActionButton from "./ActionButton";
-import axios from "axios";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();
@@ -18,6 +17,10 @@ const LoginPage = () => {
     onSuccess: async (tokenResponse: TokenResponse) => {
       try {
         const { access_token } = tokenResponse;
+        if (!access_token) {
+          console.error("Access token is missing in the response");
+          return;
+        }
       } catch (error) {
         console.error("Login failed:", error);
       }
