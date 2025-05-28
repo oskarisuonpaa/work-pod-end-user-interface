@@ -106,3 +106,5 @@ export const getSingleReservation = async (
 
   return response.data;
 };
+
+/*export const authenticateUser = async (_accessToken: string) => {}; */

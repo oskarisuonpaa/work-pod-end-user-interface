@@ -3,10 +3,10 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import { useReservations } from "@hooks/useReservations";
 import "./Dashboard.css";
-import LinkButton from "../LinkButton";
 import PageWrapper from "../PageWrapper";
 import UpcomingReservations from "./UpcomingReservations";
 import { useTranslation } from "react-i18next"
+import ActionButton from "@components/ActionButton";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -26,9 +26,9 @@ const DashboardPage = () => {
     <PageWrapper pageTitle={user?.name || "User"}>
       <div className="container">
         <div className="schedule-container">
-          <h3>{t("dashboard-upcoming")}</h3>
-          {isLoading && <h4>{t("loading")}...</h4>}
-          {error && <h4 className="error">{error}</h4>}
+          <h2>{t("dashboard-upcoming")}</h2>
+          {isLoading && <h3>{t("loading")}...</h3>}
+          {error && <h3 className="error">{error}</h3>}
           {!isLoading && !error && (
             <UpcomingReservations reservations={reservations} />
           )}
@@ -36,13 +36,13 @@ const DashboardPage = () => {
         <div className="link-container">
           <ul>
             <li>
-              <LinkButton label={t("navbar-workpods")} to="/workpods" />
+              <ActionButton label={t("navbar-workpods")} to="/workpods" />
             </li>
             <li>
-              <LinkButton label={t("dashboard-readQR")} to="#" />
+              <ActionButton label={t("dashboard-readQR")} to="#" />
             </li>
             <li>
-              <LinkButton label={t("navbar-reservations")} to="/reservations" />
+              <ActionButton label={t("navbar-reservations")} to="/reservations" />
             </li>
           </ul>
         </div>

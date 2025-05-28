@@ -12,7 +12,7 @@ type ReservationType = {
   calendarId: string;
 };
 
-const Reservations = () => {
+const ReservationsPage = () => {
   const [reservations, setReservations] = useState<ReservationType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
@@ -40,10 +40,7 @@ const Reservations = () => {
   }
 
   return (
-    <div className="page-content">
-      <div className="page-title">
-        <h1>{t("reservations-your")}</h1>
-      </div>
+    <PageWrapper pageTitle={t("reservations-your")}>
       <div className="reservations-container">
         <ul>
           {reservations.map((reservation) => (
@@ -59,8 +56,8 @@ const Reservations = () => {
           ))}
         </ul>
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
-export default Reservations;
+export default ReservationsPage;

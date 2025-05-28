@@ -6,6 +6,8 @@ import {
   getSingleReservation,
 } from "@utils/backendCommunication";
 import { useTranslation } from "react-i18next";
+import PageWrapper from "@components/PageWrapper";
+import ActionButton from "@components/ActionButton";
 
 type ReservationType = {
   id: string;
@@ -16,7 +18,7 @@ type ReservationType = {
   room: string;
 };
 
-const Reservation = () => {
+const ReservationInfoPage = () => {
   const { calendarId, reservationId } = useParams<{
     calendarId: string;
     reservationId: string;
@@ -74,33 +76,21 @@ const Reservation = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>{t("loading")}...</h1>
-        </div>
-      </div>
-    );
+    return <PageWrapper pageTitle={t("loading")+"..."} />;
   }
   if (error || !reservation) {
     return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>{t("reservation-not-found")}</h1>
-        </div>
+      <PageWrapper pageTitle={t("reservation-not-found")}>
         <p>
           {error ||
             t("reservation-not-yours")}
         </p>
-      </div>
+      </PageWrapper>
     );
   }
 
   return (
-    <div className="page-content">
-      <div className="page-title">
-        <h1>{t("reservation-info")}</h1>
-      </div>
+    <PageWrapper pageTitle={t("reservation-info")}>
       <div className="reservation-info">
         <h2>{t("workpod")}: {reservation.room}</h2>
         <p className="date-info">{t("date")}: {reservation.date}</p>
@@ -108,11 +98,13 @@ const Reservation = () => {
           {t("time")}: {reservation.start} - {reservation.end}
         </p>
       </div>
-      <button className="cancel-button" onClick={handleCancel}>
-        {t("cancel-button")}
-      </button>
-    </div>
+      <ActionButton
+        className="cancel"
+        onClick={handleCancel}
+        label={t("cancel-button")}
+      />
+    </PageWrapper>
   );
 };
 
-export default Reservation;
+export default ReservationInfoPage;
