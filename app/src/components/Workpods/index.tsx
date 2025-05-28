@@ -3,9 +3,11 @@ import { Fragment, useEffect, useState } from "react";
 import { getWorkpods } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper";
 import WorkpodLink from "./WorkpodLink";
+import { useTranslation } from "react-i18next"
 
 const Workpods = () => {
   const [workPods, setWorkPods] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchWorkpods = async () => {
@@ -22,7 +24,7 @@ const Workpods = () => {
   let lastRoom = "";
 
   return (
-    <PageWrapper pageTitle="Work Pods">
+    <PageWrapper pageTitle={t("navbar-workpods")}>
       <div className="work-pods-container">
         {workPods.length !== 0 &&
           workPods.map((pod, idx) => {
