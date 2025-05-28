@@ -1,38 +1,9 @@
-import {
-  GoogleLogin,
-  useGoogleLogin,
-  type CredentialResponse,
-  type TokenResponse,
-} from "@react-oauth/google";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "@auth/useAuth";
 import PageWrapper from "./PageWrapper";
-import ActionButton from "./ActionButton";
-import { authenticateUser } from "@utils/backendCommunication";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();
-
-  const handleLoginClick = useGoogleLogin({
-    flow: "implicit",
-    scope: "openid email profile",
-    onSuccess: async (tokenResponse: TokenResponse) => {
-      try {
-        const { access_token } = tokenResponse;
-        if (!access_token) {
-          console.error("Access token is missing in the response");
-          return;
-        }
-
-        const response = await authenticateUser(access_token);
-        console.log("Login successful:", response);
-      } catch (error) {
-        console.error("Login failed:", error);
-      }
-    },
-    onError: () => {
-      console.error("Google login failed");
-    },
-  });
 
   const handleSuccess = (response: CredentialResponse) => {
     if (response.credential) {
@@ -48,11 +19,13 @@ const LoginPage = () => {
 
   return (
     <PageWrapper pageTitle="Workpod Scheduler">
-      <GoogleLogin onSuccess={handleSuccess} onError={handleError} useOneTap />
-      <ActionButton
-        label="Login with Google"
-        className="login-button"
-        onClick={handleLoginClick}
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={handleError}
+        theme="filled_blue"
+        size="large"
+        text="signin_with"
+        width="100%"
       />
     </PageWrapper>
   );
