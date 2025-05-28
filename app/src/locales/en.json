@@ -1,5 +1,6 @@
 {
     "welcome": "Welcome",
+    "title": "Workpod Scheduler",
     "loading": "Loading",
     "nothing-here": "There's nothing here",
     "date": "Date",
@@ -14,6 +15,10 @@
     "error-missing-ids": "Missing calendarId or reservationId.",
     "error-failed-cancel": "Failed to cancel reservation. Please try again.",
 
+    "info-title": "Workpod Reservation System",
+    "info-access-text": "Note: access is for authorized users only; log in using LAB/LUT credentials.",
+    "info-text1": "To reserve a work pod, select a work pod from the workPods page, or search for an available work pod using the Search page. You can view your reservations on the Reservations page.",
+    "info-text2": "To cancel a reservation, go to the Reservations page and select the reservation you want to cancel. Please cancel your reservation if you no longer need it to make it available for another user.",
     "navbar-dashboard": "Dashboard",
     "navbar-workpods": "WorkPods",
     "navbar-reservations": "Reservations",
@@ -47,5 +52,6 @@
     "searchresults-title": "Available workpods",
     "searchresults-text1": "Available workpods at",
     "searchresults-freeuntil": "Free until {{time}}",
-    "searchresults-reserveduntil": "Reserved until {{time}}"
+    "searchresults-reserveduntil": "Reserved until {{time}}",
+    "searchresults-no-date": "No date selected"
 }

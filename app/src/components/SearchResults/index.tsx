@@ -103,8 +103,8 @@ const SearchResults = () => {
     // display the results
     // list of available workpods + how many hours they are available
     // TODO add useParams for date on workpod page and add date={dateToShow} to fullCalendar
-    if (!date) return <div>No date selected</div>;
-    if (loading) return <div>Loading...</div>;
+    if (!date) return <div>{t("searchresults-no-date")}.</div>;
+    if (loading) return <div>{t("loading")}...</div>;
     return (
         <PageWrapper pageTitle={t("searchresults-title")}>
             <p className="search-results">{t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:</p>

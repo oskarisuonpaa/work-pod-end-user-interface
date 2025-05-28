@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@auth/useAuth";
+import { useEffect, useState } from 'react';
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -9,10 +10,13 @@ const Navbar = () => {
   const loggedIn = isAuthenticated();
 
   const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState<string>(i18n.language);
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
+    setLang(lng);
     localStorage.setItem('userLanguage', lng);
   }
+  useEffect(() => { document.title = t('title') }, [lang]);
 
   const isActive = (path: string) => location.pathname === path;
 
