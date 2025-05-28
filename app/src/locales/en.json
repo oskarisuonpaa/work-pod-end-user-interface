@@ -33,6 +33,7 @@
     "reserve-confirm-reserve": "Are you sure you want to reserve this slot?",
     "reserve-confirm-cancel": "Are you sure you want to cancel this reservation?",
     "reserve-id-missing": "Workpod ID is missing",
+    "reserve-to-from": "Reserve slot from {start} to {end}.",
 
     "search-title": "Search for available workpods",
     "search-reservation-info": "You can make a reservation up to 30 days in advance.",
