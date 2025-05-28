@@ -1,5 +1,9 @@
 {
     "welcome": "Welcome",
+    "loading": "Loading",
+
+    "dashboard-upcoming": "Upcoming Slots",
+    "dashboard-readQR": "Read QR",
 
     "navbar-dashboard": "Dashboard",
     "navbar-workpods": "Workpods",

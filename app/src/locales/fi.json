@@ -1,5 +1,11 @@
 {
     "welcome": "Tervetuloa",
+    "loading": "Ladataan",
+
+    "dashboard-upcoming": "Tulevat varaukset",
+    "dashboard-QR": "Lue QR-koodi",
+
+
     "navbar-dashboard": "Työpöytä",
     "navbar-workpods": "Workpodit",
     "navbar-reservations": "Varaukset",
