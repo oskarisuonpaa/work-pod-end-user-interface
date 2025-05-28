@@ -1,3 +1,5 @@
+import type { EventInput } from "@fullcalendar/core/index.js";
+
 export type JWTPayload = {
   exp: number;
   name?: string;
@@ -18,3 +20,12 @@ export type AuthContextType = {
   onLogin: (googleToken: string) => void;
   onLogout: () => void;
 };
+
+export interface WorkPod {
+    workpodId: string;
+    isReserved: boolean;
+    freeFor: number;
+    freeUntil: Date | null;
+    events: EventInput[];
+    reservedUntil: Date | null;
+}
