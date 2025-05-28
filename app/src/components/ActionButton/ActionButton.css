@@ -1,0 +1,53 @@
+.button-style--border {
+  display: block;
+  position: relative;
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 0.625rem 2.5rem 0.625rem 0.625rem;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  max-width: 31.25rem;
+  width: 100%;
+  text-align: left;
+}
+
+.button-style--border:hover,
+.button-style--border:focus {
+  background-color: #001e90;
+  outline: none;
+}
+
+.button-style--border::before {
+  content: "\e901";
+  font-family: "lamk-icons" !important;
+  font-size: 1.875rem;
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+}
+
+.button-style--border.inline {
+  display: inline-block;
+}
+
+.button-style--cancel {
+  background-color: var(--red);
+  color: var(--white);
+}
+
+.button-style--cancel:hover,
+.button-style--cancel:focus {
+  background-color: #b02a37;
+}

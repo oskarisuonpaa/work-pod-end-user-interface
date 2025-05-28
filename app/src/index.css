@@ -31,16 +31,31 @@
   font-display: block;
 }
 
-body {
+* {
   margin: 0;
   padding: 0;
-  background-color: var(--white);
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--black);
+  min-width: 300px;
   height: 100%;
   width: 100%;
-  display: block;
-  color: var(--black);
   font-size: 1rem;
   font-weight: 300;
+  overflow-x: hidden;
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  unicode-bidi: isolate;
 }
 
 h2 {
