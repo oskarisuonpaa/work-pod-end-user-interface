@@ -8,19 +8,27 @@
   color: var(--black);
   text-decoration: none;
   margin-bottom: 20px;
-}
-
-.slot-name {
-  margin: 0;
-}
-
-.slot-time {
-  margin: 0;
+  position: relative;
 }
 
 .slot-info {
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
+}
+
+.slot::before {
+  content: "\e901";
+  font-family: "lamk-icons" !important;
+  font-size: 1.875rem;
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
 }

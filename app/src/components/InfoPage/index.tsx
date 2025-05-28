@@ -1,7 +1,7 @@
 import { useAuth } from "@auth/useAuth.ts";
-import LinkButton from "../LinkButton";
 import PageWrapper from "../PageWrapper";
 import "./Info.css";
+import ActionButton from "@components/ActionButton";
 
 const InfoPage = () => {
   const { isAuthenticated } = useAuth();
@@ -14,7 +14,7 @@ const InfoPage = () => {
           Note: access is for authorized users only; log in using LAB/LUT
           credentials.
           <br />
-          <LinkButton label="Login" to="/login" />
+          <ActionButton label="Login" to="/login" />
         </p>
       )}
 

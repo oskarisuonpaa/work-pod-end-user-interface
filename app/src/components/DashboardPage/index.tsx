@@ -3,9 +3,9 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import { useReservations } from "@hooks/useReservations";
 import "./Dashboard.css";
-import LinkButton from "../LinkButton";
 import PageWrapper from "../PageWrapper";
 import UpcomingReservations from "./UpcomingReservations";
+import ActionButton from "@components/ActionButton";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -24,9 +24,9 @@ const DashboardPage = () => {
     <PageWrapper pageTitle={user?.name || "User"}>
       <div className="container">
         <div className="schedule-container">
-          <h3>Upcoming Slots</h3>
-          {isLoading && <h4>Loading...</h4>}
-          {error && <h4 className="error">{error}</h4>}
+          <h2>Upcoming Slots</h2>
+          {isLoading && <h3>Loading...</h3>}
+          {error && <h3 className="error">{error}</h3>}
           {!isLoading && !error && (
             <UpcomingReservations reservations={reservations} />
           )}
@@ -34,13 +34,13 @@ const DashboardPage = () => {
         <div className="link-container">
           <ul>
             <li>
-              <LinkButton label="Work Pods" to="/workpods" />
+              <ActionButton label="Workpods" to="/workpods" />
             </li>
             <li>
-              <LinkButton label="Read QR" to="#" />
+              <ActionButton label="Read QR" to="#" />
             </li>
             <li>
-              <LinkButton label="Reservations" to="/reservations" />
+              <ActionButton label="Reservations" to="/reservations" />
             </li>
           </ul>
         </div>
