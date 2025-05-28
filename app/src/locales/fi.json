@@ -1,13 +1,42 @@
 {
     "welcome": "Tervetuloa",
+    "loading": "Ladataan",
+    "nothing-here": "Sivua ei löydy",
+    "date": "Pvm",
+    "time": "Aika",
+    "workpod": "Workpod",
+
+    "dashboard-upcoming": "Tulevat varaukset",
+    "dashboard-QR": "Lue QR-koodi",
+
+    "error-missing-ids": "calendarId tai reservationId puuttuu.",
+    "error-failed-cancel": "Varauksen peruminen epäonnistui. Yritä uudelleen.",
+
     "navbar-dashboard": "Työpöytä",
-    "navbar-workpods": "Workpodit",
+    "navbar-workpods": "WorkPodit",
     "navbar-reservations": "Varaukset",
     "navbar-search": "Haku",
     "navbar-login": "Kirjaudu sisään",
     "navbar-logout": "Kirjaudu ulos",
 
-    
+    "reservations-no-reservations": "Varauksia ei löytynyt",
+    "reservations-your": "Omat varaukset",
+    "reserve-button": "Varaa aika",
+    "cancel-button": "Peru varaus",
+    "reservation-canceled": "Varaus {reservationId} peruttu",
+
+
+    "reservation-info": "Varauksen tiedot",
+    "reservation-not-found": "Varausta ei löytynyt",
+    "reservation-failed-load": "Varauksen lataus epäonnistui. Varausta ei ole olemassa tai se ei ole saatavilla.",
+
+    "reserve-confirm-reserve": "Haluatko varmasti varata tämän ajan?",
+    "reserve-confirm-cancel": "Haluatko varmasti peruuttaa tämän varauksen?",
+    "reserve-id-missing": "Workpodin ID puuttuu",
+    "reserve-to-from": "varaa aika {start} alkaen {end} asti.",
+    "reservation-not-yours": "Hakemaasi varausta ei ole olemassa tai se ei ole omasi.",
+
+
     "search-title": "Etsi vapaana olevia Workpodeja",
     "search-reservation-info": "Voit tehdä varauksen enintään 30 päivää etukäteen.",
     "search-label-date": "Päivämäärä",
