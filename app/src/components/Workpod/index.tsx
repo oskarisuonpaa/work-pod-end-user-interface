@@ -7,7 +7,7 @@ import {
   deleteReservation,
 } from "@utils/backendCommunication";
 
-import "./WorkPod.css";
+import "./Workpod.css";
 import PageWrapper from "../PageWrapper";
 import CancelButton from "./CancelButton";
 import ReserveButton from "./ReserveButton";

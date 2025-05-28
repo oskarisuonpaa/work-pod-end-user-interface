@@ -4,7 +4,7 @@ import "./Reservation.css";
 import {
   deleteReservation,
   getSingleReservation,
-} from "@utils/BackendCommunication";
+} from "@utils/backendCommunication";
 
 type ReservationType = {
   id: string;

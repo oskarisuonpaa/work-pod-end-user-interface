@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@auth/useAuth";
-import "./NavBar.css";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { isAuthenticated, onLogout } = useAuth();
