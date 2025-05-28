@@ -49,6 +49,7 @@
     "searchresults-title": "Vapaana olevat workpodit",
     "searchresults-text1": "Vapaana olevat workpodit",
     "searchresults-freeuntil": "Vapaa klo {{time}} asti",
-    "searchresults-reserveduntil": "Varattu klo {{time}} asti"
+    "searchresults-reserveduntil": "Varattu klo {{time}} asti",
+    "searchresults-no-date": "Päivämäärää ei ole valittu"
 
 }

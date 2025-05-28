@@ -47,5 +47,6 @@
     "searchresults-title": "Available workpods",
     "searchresults-text1": "Available workpods at",
     "searchresults-freeuntil": "Free until {{time}}",
-    "searchresults-reserveduntil": "Reserved until {{time}}"
+    "searchresults-reserveduntil": "Reserved until {{time}}",
+    "searchresults-no-date": "No date selected"
 }
