@@ -1,6 +1,7 @@
 {
     "welcome": "Tervetuloa",
     "loading": "Ladataan",
+    "nothing-here": "Sivua ei löydy",
 
     "dashboard-upcoming": "Tulevat varaukset",
     "dashboard-QR": "Lue QR-koodi",

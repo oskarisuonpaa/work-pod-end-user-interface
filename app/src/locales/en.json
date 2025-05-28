@@ -1,6 +1,7 @@
 {
     "welcome": "Welcome",
     "loading": "Loading",
+    "nothing-here": "There's nothing here",
 
     "dashboard-upcoming": "Upcoming Slots",
     "dashboard-readQR": "Read QR",

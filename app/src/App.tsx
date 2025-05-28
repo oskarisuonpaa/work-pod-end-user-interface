@@ -10,6 +10,7 @@ import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import Workpod from "./components/Workpod";
 import Workpods from "./components/Workpods";
+import { useTranslation } from "react-i18next"
 
 const App = () => {
   return (
@@ -91,7 +92,7 @@ const App = () => {
     </div>
   );
 };
-
-const NotFound = () => <p>There's nothing here: 404!</p>;
+const { t } = useTranslation();
+const NotFound = () => <p>{t("nothing-here")}: 404!</p>;
 
 export default App;
