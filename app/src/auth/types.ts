@@ -21,7 +21,7 @@ export type AuthContextType = {
   onLogout: () => void;
 };
 
-export interface WorkPod {
+export type WorkPod = {
     workpodId: string;
     isReserved: boolean;
     freeFor: number;
@@ -30,7 +30,7 @@ export interface WorkPod {
     reservedUntil: Date | null;
 }
 
-export interface DataItem {
+export type  DataItem = {
   description: string;
   end: string;    // ISO date string
   id: string;
