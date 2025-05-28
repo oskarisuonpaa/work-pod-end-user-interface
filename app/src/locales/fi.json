@@ -5,6 +5,8 @@
     "date": "Pvm",
     "time": "Aika",
     "workpod": "Workpod",
+    "workpod-scheduler": "Workpodien varausjärjestelmä",
+    "login-google": "Kirjaudu Googlen kautta",
 
     "dashboard-upcoming": "Tulevat varaukset",
     "dashboard-QR": "Lue QR-koodi",

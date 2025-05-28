@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
 import updateWorkPods from "./updateWorkPods.ts";
 import type { WorkPod } from "@auth/types.ts"
+import PageWrapper from "../PageWrapper"
 import "./SearchResults.css";
 
 
@@ -105,9 +106,8 @@ const SearchResults = () => {
     if (!date) return <div>No date selected</div>;
     if (loading) return <div>Loading...</div>;
     return (
-        <div id="searchResults" className="page-content">
-            <h1 className="page-title">{t("searchresults-title")}</h1>
-            <p>{t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:</p>
+        <PageWrapper pageTitle={t("searchresults-title")}>
+            <p className="search-results">{t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:</p>
             <div className="results">
                 <ul className="available-results">
                     {
@@ -174,7 +174,7 @@ const SearchResults = () => {
                     }
                 </ul>
             </div>
-        </div>
+        </PageWrapper>
     );
 
 };

@@ -7,9 +7,11 @@ import {
 import { useAuth } from "@auth/useAuth";
 import PageWrapper from "./PageWrapper";
 import ActionButton from "./ActionButton";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();
+  const {t} = useTranslation();
 
   const handleLoginClick = useGoogleLogin({
     flow: "implicit",
@@ -43,10 +45,10 @@ const LoginPage = () => {
   };
 
   return (
-    <PageWrapper pageTitle="Workpod Scheduler">
+    <PageWrapper pageTitle={t("workpod-scheduler")}>
       <GoogleLogin onSuccess={handleSuccess} onError={handleError} useOneTap />
       <ActionButton
-        label="Login with Google"
+        label={t("login-google")}
         className="login-button"
         onClick={handleLoginClick}
       />

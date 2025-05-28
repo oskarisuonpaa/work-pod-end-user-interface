@@ -5,6 +5,8 @@
     "date": "Date",
     "time": "Time",
     "workpod": "WorkPod",
+    "workpod-scheduler": "Workpod Scheduler",
+    "login-google": "Login with Google",
 
     "dashboard-upcoming": "Upcoming Slots",
     "dashboard-readQR": "Read QR",
