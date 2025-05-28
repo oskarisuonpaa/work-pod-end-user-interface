@@ -14,11 +14,7 @@ const LoginPage = () => {
       try {
         const { access_token } = tokenResponse;
 
-        const response = await axios.get(
-          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
-        );
-
-        console.log("Login successful:", response.data);
+        console.log("Access Token:", access_token);
       } catch (error) {
         console.error("Login failed:", error);
       }
