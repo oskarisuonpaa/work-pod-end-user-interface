@@ -13,6 +13,9 @@
     "navbar-login": "Kirjaudu sisään",
     "navbar-logout": "Kirjaudu ulos",
 
+    "reservations-no-reservations": "Varauksia ei löytynyt",
+    "reservations-your": "Omat varaukset",
+
     
     "search-title": "Etsi vapaana olevia Workpodeja",
     "search-reservation-info": "Voit tehdä varauksen enintään 30 päivää etukäteen.",

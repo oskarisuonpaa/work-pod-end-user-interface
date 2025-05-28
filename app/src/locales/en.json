@@ -12,7 +12,8 @@
     "navbar-login": "Login",
     "navbar-logout": "Logout",
     
-
+    "reservations-no-reservations": "No Reservations Found",
+    "reservations-your": "Your Reservations",
 
     "search-title": "Search for available workpods",
     "search-reservation-info": "You can make a reservation up to 30 days in advance.",
