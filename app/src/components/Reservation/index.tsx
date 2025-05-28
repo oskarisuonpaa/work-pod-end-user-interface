@@ -5,6 +5,8 @@ import {
   deleteReservation,
   getSingleReservation,
 } from "@utils/backendCommunication";
+import PageWrapper from "@components/PageWrapper";
+import ActionButton from "@components/ActionButton";
 
 type ReservationType = {
   id: string;
@@ -72,33 +74,21 @@ const Reservation = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Loading...</h1>
-        </div>
-      </div>
-    );
+    return <PageWrapper pageTitle="Loading.." />;
   }
   if (error || !reservation) {
     return (
-      <div className="page-content">
-        <div className="page-title">
-          <h1>Reservation Not Found</h1>
-        </div>
+      <PageWrapper pageTitle="Reservation Not Found">
         <p>
           {error ||
             "The reservation you are looking for does not exist or doesn't belong to you."}
         </p>
-      </div>
+      </PageWrapper>
     );
   }
 
   return (
-    <div className="page-content">
-      <div className="page-title">
-        <h1>Reservation Info</h1>
-      </div>
+    <PageWrapper pageTitle="Reservation Info">
       <div className="reservation-info">
         <h2>Work Pod: {reservation.room}</h2>
         <p className="date-info">Date: {reservation.date}</p>
@@ -106,10 +96,12 @@ const Reservation = () => {
           Time: {reservation.start} - {reservation.end}
         </p>
       </div>
-      <button className="cancel-button" onClick={handleCancel}>
-        Cancel Reservation
-      </button>
-    </div>
+      <ActionButton
+        className="cancel"
+        onClick={handleCancel}
+        label="Cancel Reservation"
+      />
+    </PageWrapper>
   );
 };
 

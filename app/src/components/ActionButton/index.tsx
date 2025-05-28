@@ -23,7 +23,7 @@ const ActionButton = ({
   className = "",
   ...rest
 }: ActionButtonProps) => {
-  const baseClass = `button-style--border ${className}`.trim();
+  const baseClass = `button ${className}`.trim();
 
   if ("to" in rest && rest.to) {
     return (

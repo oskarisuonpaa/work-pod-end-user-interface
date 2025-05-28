@@ -1,3 +1,6 @@
+import ActionButton from "@components/ActionButton";
+import { parseTime } from "@utils/dateTime";
+
 type Props = {
   slot: { start: string; end: string };
   onReserve: (slot: { start: string; end: string }) => void;
@@ -5,9 +8,12 @@ type Props = {
 
 const ReserveButton = ({ slot, onReserve }: Props) => (
   <div className="button-container">
-    <button className="reserve-button" onClick={() => onReserve(slot)}>
-      Reserve Slot
-    </button>
+    <ActionButton
+      label={`Reserve slot from ${parseTime(slot.start)} to ${parseTime(
+        slot.end
+      )}`}
+      onClick={() => onReserve(slot)}
+    />
   </div>
 );
 

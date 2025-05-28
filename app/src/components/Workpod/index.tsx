@@ -53,6 +53,11 @@ const Workpod = () => {
         title: "Free",
         start: new Date(slot.start),
         end: new Date(slot.end),
+        backgroundColor: "var(--green)",
+        borderColor: "#c3e6cb",
+        extendedProps: {
+          status: "free",
+        },
       };
 
       setEvents([...updatedEvents, freeSlot]);
