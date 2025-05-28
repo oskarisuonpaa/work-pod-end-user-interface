@@ -6,6 +6,7 @@ import { useState } from "react";
 import DatePicker,  { registerLocale, setDefaultLocale } from "react-datepicker";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import PageWrapper from "../PageWrapper"
 import "react-datepicker/dist/react-datepicker.css";
 
 registerLocale("fi", fi);
@@ -32,11 +33,11 @@ const Search = () => {
             });
         }
 return (
-<div id="searchContainer" className="page-content">
-    <h1 className="page-title">{t("search-title")}</h1>
+    <PageWrapper pageTitle={t("search-title")}>
+        
     <p>{t("search-reservation-info")}</p>
     <form id="searchForm" onSubmit={handleSubmit}>
-        <label htmlFor="date">{t("search-label-date")}:</label>
+        <label htmlFor="date">{t("date")}: </label>
         <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
@@ -47,7 +48,7 @@ return (
       locale="fi"
       calendarClassName="custom-calendar"
     /><br />
-    <label htmlFor="time">{t("search-label-time")}</label>
+    <label htmlFor="time">{t("search-label-time")} </label>
   
         <DatePicker
         showTimeSelect 
@@ -60,7 +61,7 @@ return (
         <br />
         <button type="submit" id="searchButton">{t("search-button")}</button>
     </form>
-</div>
+</PageWrapper>
 )};
 
 export default Search;
