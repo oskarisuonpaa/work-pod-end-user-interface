@@ -15,6 +15,13 @@
   position: relative;
 }
 
+.language-selector {
+  height: 2em;
+  width: 4em;
+  padding-top: 0.5rem;
+
+
+}
 .navbar a.active-link::after {
   content: "";
   display: block;
@@ -28,8 +35,12 @@
 .navbar .lng {
   background-color: var(--light-grey);
   color: var(--black);
+  height: 2em;
+  width: 2em;
 }
 .navbar .lng-active {
   background-color: var(--blue);
   color: var(--white);
+  height: 2em;
+  width: 2em;
 }

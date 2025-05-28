@@ -1,9 +1,11 @@
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "@auth/useAuth";
 import PageWrapper from "./PageWrapper";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
   const { onLogin } = useAuth();
+  const { t } = useTranslation();
 
   const handleSuccess = (response: CredentialResponse) => {
     if (response.credential) {
@@ -18,7 +20,7 @@ const LoginPage = () => {
   };
 
   return (
-    <PageWrapper pageTitle="Workpod Scheduler">
+    <PageWrapper pageTitle={t("workpod-scheduler")}>
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={handleError}

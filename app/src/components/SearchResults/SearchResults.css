@@ -8,6 +8,11 @@
 
 }
 
+.search-results {
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+
 .results ul {
     list-style: none;
     padding: 0;
@@ -25,7 +30,7 @@
     border: 1px solid black;
     display: block;
     margin: 20px;
-    padding: 0 20px;
+    padding: 10px 20px;
 }
 
 .lab-arrow {
