@@ -30,7 +30,7 @@
     "reservations-your": "Your Reservations",
     "reserve-button": "Reserve Slot",
     "cancel-button": "Cancel Reservation",
-    "reservation-canceled": "Reservation {reservationId} cancelled",
+    "reservation-canceled": "Reservation {{reservationId}} cancelled",
 
     "reservation-info": "Reservation Info",
     "reservation-not-found": "Reservation Not Found",
