@@ -41,7 +41,7 @@
     "reserve-confirm-reserve": "Haluatko varmasti varata tämän ajan?",
     "reserve-confirm-cancel": "Haluatko varmasti peruuttaa tämän varauksen?",
     "reserve-id-missing": "Workpodin ID puuttuu",
-    "reserve-to-from": "varaa aika {start} alkaen {end} asti.",
+    "reserve-to-from": "varaa aika klo {{start}}-{{end}}.",
     "reservation-not-yours": "Hakemaasi varausta ei ole olemassa tai se ei ole omasi.",
 
 
