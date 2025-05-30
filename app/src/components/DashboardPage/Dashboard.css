@@ -38,3 +38,19 @@
   height: 100%;
   transform: translateY(50%);
 }
+
+@media screen and (max-width: 30em) {
+  .container {
+    flex-direction: column;
+  }
+
+  .schedule-container {
+    height: auto;
+    padding: 10px;
+  }
+
+  .link-container {
+    transform: none;
+    height: auto;
+  }
+}

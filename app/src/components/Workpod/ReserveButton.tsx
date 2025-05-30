@@ -8,16 +8,17 @@ type Props = {
 };
 
 const ReserveButton = ({ slot, onReserve }: Props) => {
-const { t } = useTranslation();
-const start = parseTime(slot.start);
-const end = parseTime(slot.end);
-return (
-  <div className="button-container">
-    <ActionButton
-      label={t("reserve-to-from", {start: start, end: end})}
-      onClick={() => onReserve(slot)}
-    />
-  </div>
-)};
+  const { t } = useTranslation();
+  const start = parseTime(slot.start);
+  const end = parseTime(slot.end);
+  return (
+    <div className="button-container">
+      <ActionButton
+        label={t("reserve-to-from", { start: start, end: end })}
+        onClick={() => onReserve(slot)}
+      />
+    </div>
+  );
+};
 
 export default ReserveButton;
