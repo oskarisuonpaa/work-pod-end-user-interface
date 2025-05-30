@@ -31,7 +31,7 @@
     "reservations-your": "Omat varaukset",
     "reserve-button": "Varaa aika",
     "cancel-button": "Peru varaus",
-    "reservation-canceled": "Varaus {reservationId} peruttu",
+    "reservation-canceled": "Varaus {{reservationId}} peruttu",
 
 
     "reservation-info": "Varauksen tiedot",
