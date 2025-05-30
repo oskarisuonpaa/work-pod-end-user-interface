@@ -1,5 +1,6 @@
 {
     "welcome": "Tervetuloa",
+    "title": "Workpodien varausjärjestelmä",
     "loading": "Ladataan",
     "nothing-here": "Sivua ei löydy",
     "date": "Pvm",
@@ -13,6 +14,11 @@
 
     "error-missing-ids": "calendarId tai reservationId puuttuu.",
     "error-failed-cancel": "Varauksen peruminen epäonnistui. Yritä uudelleen.",
+
+    "info-title": "Workpodien varausjärjestelmä",
+    "info-access-text": "Huomio: pääsy vain tunnistetuille käyttäjille; kirjaudu sisään käyttäen LAB/LUT-tunnuksiasi.",
+    "info-text1": "Voit varata workpodin valitsemalla sen WorkPodit-sivulta tai etsimällä vapaan workpodin Haku-sivulla. Voit tarkastella varauksiasi Varaukset-sivulla.",
+    "info-text2": "Voit peruuttaa varauksen Varaukset-sivulla valitsemalla varauksen, jonka haluat perua. Peruuta varaus, jos et enää tarvitse sitä, jotta se olisi muiden käyttäjien käytettävissä.",
 
     "navbar-dashboard": "Työpöytä",
     "navbar-workpods": "WorkPodit",
@@ -49,6 +55,7 @@
     "searchresults-title": "Vapaana olevat workpodit",
     "searchresults-text1": "Vapaana olevat workpodit",
     "searchresults-freeuntil": "Vapaa klo {{time}} asti",
-    "searchresults-reserveduntil": "Varattu klo {{time}} asti"
+    "searchresults-reserveduntil": "Varattu klo {{time}} asti",
+    "searchresults-no-date": "Päivämäärää ei ole valittu"
 
 }
