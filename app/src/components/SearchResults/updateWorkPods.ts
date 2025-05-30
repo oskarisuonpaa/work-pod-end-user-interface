@@ -41,7 +41,7 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
     let freeFor = 0;
     const sortedEvents = [...data].sort(
         (a, b) =>
-            new Date(b.start).getTime() - new Date(a.start).getTime()
+            new Date(a.start).getTime() - new Date(b.start).getTime()
     );
     //if isReserved is false, calculate freeFor
     if (!isReserved) {
@@ -83,8 +83,9 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
                         // but doesn't start right away so the pod will be available for a bit
                         reservedUntil = endDate;
                         break;
-                    }
+                    } 
                     endDate = new Date(nextEvent.end);
+                    
                 }
             }
         }
