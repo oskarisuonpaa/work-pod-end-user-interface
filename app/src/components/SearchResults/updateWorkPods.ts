@@ -83,9 +83,8 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
                         // but doesn't start right away so the pod will be available for a bit
                         reservedUntil = endDate;
                         break;
-                    } 
+                    }
                     endDate = new Date(nextEvent.end);
-                    
                 }
             }
         }
