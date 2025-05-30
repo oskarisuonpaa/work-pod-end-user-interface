@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 const Workpod = () => {
   const { user } = useAuth();
   const { workpodId } = useParams<{ workpodId: string }>();
+  const { date } = useParams<{date: string|undefined}>() || new Date().toISOString().slice(0, 10)
   const { events, setEvents } = useWorkpodCalendar(workpodId);
   const navigate = useNavigate();
   const {t} = useTranslation();
@@ -71,7 +72,7 @@ const Workpod = () => {
 
   return (
     <PageWrapper pageTitle={workpodId}>
-      <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} />
+      <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} date={date}/>
       {selectedSlot && selectedSlot.status === "free" && (
         <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
       )}
