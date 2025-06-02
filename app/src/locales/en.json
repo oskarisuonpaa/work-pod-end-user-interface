@@ -5,7 +5,7 @@
     "nothing-here": "There's nothing here",
     "date": "Date",
     "time": "Time",
-    "workpod": "WorkPod",
+    "workpod": "Workpod",
     "workpod-scheduler": "Workpod Scheduler",
     "login-google": "Login with Google",
 
@@ -20,7 +20,7 @@
     "info-text1": "To reserve a work pod, select a work pod from the workPods page, or search for an available work pod using the Search page. You can view your reservations on the Reservations page.",
     "info-text2": "To cancel a reservation, go to the Reservations page and select the reservation you want to cancel. Please cancel your reservation if you no longer need it to make it available for another user.",
     "navbar-dashboard": "Dashboard",
-    "navbar-workpods": "WorkPods",
+    "navbar-workpods": "Workpods",
     "navbar-reservations": "Reservations",
     "navbar-search": "Search",
     "navbar-login": "Login",
