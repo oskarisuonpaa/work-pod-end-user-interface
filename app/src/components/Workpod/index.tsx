@@ -4,7 +4,6 @@ import { useAuth } from "@auth/useAuth";
 import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
 import usePostReservation from "@hooks/usePostReservation";
 import useDeleteReservation from "@hooks/useDeleteReservation";
-import type { SelectedSlot } from "@types";
 
 import "./Workpod.css";
 import PageWrapper from "../PageWrapper";
@@ -12,6 +11,9 @@ import CancelButton from "./CancelButton";
 import ReserveButton from "./ReserveButton";
 import WorkpodCalendar from "./WorkpodCalendar";
 import { useTranslation } from "react-i18next";
+import type { SelectedSlot } from "@types";
+
+const isValidDate = (s?: string) => !!s && !isNaN(Date.parse(s));
 
 const Workpod = () => {
   const { user } = useAuth();
@@ -19,10 +21,13 @@ const Workpod = () => {
     workpodId: string;
     date?: string;
   }>();
-  const date = paramDate ?? new Date().toISOString().slice(0, 10);
-  const { data: events = [] } = useWorkpodCalendar(workpodId);
   const { t } = useTranslation();
 
+  const date = isValidDate(paramDate)
+    ? paramDate!
+    : new Date().toISOString().slice(0, 10);
+
+  const { data: events = [] } = useWorkpodCalendar(workpodId);
   const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
 
   const { mutateAsync: reserve } = usePostReservation();
@@ -61,8 +66,8 @@ const Workpod = () => {
       {selectedSlot?.status === "free" && (
         <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
       )}
-      {selectedSlot?.title === user?.name && selectedSlot && (
-        <CancelButton slot={selectedSlot} onCancel={handleCancelReservation} />
+      {selectedSlot?.title === user?.name && (
+        <CancelButton slot={selectedSlot!} onCancel={handleCancelReservation} />
       )}
     </PageWrapper>
   );

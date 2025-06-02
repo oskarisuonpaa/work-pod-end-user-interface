@@ -1,46 +1,33 @@
 import "./Workpods.css";
-import { Fragment, useEffect, useState } from "react";
-import { getWorkpods } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper";
 import WorkpodLink from "./WorkpodLink";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
+import { useWorkpods } from "@hooks/useWorkpods";
 
 const Workpods = () => {
-  const [workPods, setWorkPods] = useState<string[]>([]);
+  const { data: workPods = [] } = useWorkpods();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    const fetchWorkpods = async () => {
-      try {
-        const data = await getWorkpods();
-        setWorkPods(data.calendars);
-      } catch (error) {
-        console.error("Error fetching workpods:", error);
-      }
-    };
-    fetchWorkpods();
-  }, []);
-
-  let lastRoom = "";
+  const grouped = workPods.reduce((acc, pod) => {
+    const [room] = pod.split("-");
+    if (!acc[room]) acc[room] = [];
+    acc[room].push(pod);
+    return acc;
+  }, {} as Record<string, string[]>);
 
   return (
     <PageWrapper pageTitle={t("navbar-workpods")}>
       <div className="work-pods-container">
-        {workPods.length !== 0 &&
-          workPods.map((pod, idx) => {
-            const room = pod.split("-")[0];
-            const showSeparator = room !== lastRoom && idx !== 0;
-            lastRoom = room;
-
-            return (
-              <Fragment key={pod}>
-                {showSeparator && <div className="separator"></div>}
-                <div className="work-pods-container">
-                  <WorkpodLink podID={pod} availability="available" />
-                </div>
-              </Fragment>
-            );
-          })}
+        {Object.entries(grouped).map(([room, pods]) => (
+          <div className="room-group" key={room}>
+            <h3 className="room-heading">{room}</h3>
+            <div className="room-pods">
+              {pods.map((pod) => (
+                <WorkpodLink key={pod} podID={pod} availability="available" />
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </PageWrapper>
   );
