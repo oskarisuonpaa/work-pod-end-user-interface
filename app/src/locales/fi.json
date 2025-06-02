@@ -11,6 +11,7 @@
 
   "dashboard-upcoming": "Tulevat varaukset",
   "dashboard-readQR": "Lue QR-koodi",
+  "extra-tag": "testi",
 
   "error-missing-ids": "calendarId tai reservationId puuttuu.",
   "error-failed-cancel": "Varauksen peruminen epäonnistui. Yritä uudelleen.",
