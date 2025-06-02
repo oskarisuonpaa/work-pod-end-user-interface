@@ -28,6 +28,7 @@ export type WorkPod = {
     freeUntil: Date | null;
     events: EventInput[];
     reservedUntil: Date | null;
+    reservedFor: number;
 }
 
 export type  DataItem = {
