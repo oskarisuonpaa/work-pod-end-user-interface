@@ -23,9 +23,9 @@
 .fc-timegrid-event {
   font-size: medium;
   font-weight: bold;
-  width: 960px;
+  width: 950px;
 }
 
 col {
-  width: 40px !important;
+  width: 50px !important;
 }

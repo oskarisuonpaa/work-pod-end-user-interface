@@ -33,7 +33,7 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
   return (
     <FullCalendar
       plugins={[timeGridPlugin]}
-      locale="fi"
+      locale="en"
       initialView="timeGridDay"
       allDaySlot={false}
       nowIndicator={true}
