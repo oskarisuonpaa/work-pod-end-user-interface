@@ -10,7 +10,7 @@
   "login-google": "Kirjaudu Googlen kautta",
 
   "dashboard-upcoming": "Tulevat varaukset",
-  "dashboard-QR": "Lue QR-koodi",
+  "dashboard-readQR": "Lue QR-koodi",
 
   "error-missing-ids": "calendarId tai reservationId puuttuu.",
   "error-failed-cancel": "Varauksen peruminen epäonnistui. Yritä uudelleen.",

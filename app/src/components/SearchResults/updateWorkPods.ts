@@ -73,22 +73,29 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
         const firstEvent = sortedEvents[0];
         let endDate = new Date(firstEvent.end);
         let reservedUntil = new Date(firstEvent.end);
+        console.log(sortedEvents)
         if (endDate > date) {
+            console.log(`enddate ${endDate} later than ${date}`,workpodId)
             if (sortedEvents.length > 1) {
                 for (let i = 1; i < sortedEvents.length; i++) {
                     const nextEvent = sortedEvents[i];
                     const nextStartDate = new Date(nextEvent.start);
                     if (nextStartDate > endDate) {
+                        console.log(`enddate ${endDate} NOT later than start ${nextStartDate}`,workpodId)
+
                         // found the next event that starts after the current event ends
                         // but doesn't start right away so the pod will be available for a bit
                         reservedUntil = endDate;
                         break;
                     }
+                        console.log(`enddate ${endDate} is later than ${nextStartDate}`,workpodId)
                     endDate = new Date(nextEvent.end);
                 }
+                reservedUntil = endDate;
             }
         }
         newPods[idx].reservedUntil = reservedUntil;
+        newPods[idx].reservedFor = differenceInMinutes(date,reservedUntil)
     }
 
     newPods[idx] = {

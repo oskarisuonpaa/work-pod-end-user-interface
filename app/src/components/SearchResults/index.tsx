@@ -49,6 +49,7 @@ const SearchResults = () => {
                             freeUntil: null,
                             events: [],
                             reservedUntil: null,
+                            reservedFor: 0
                         });
                     }
                     setWorkPods(pods);
@@ -56,8 +57,6 @@ const SearchResults = () => {
                 }
             })
             .catch((error) => console.error(error));
-        // the linter is overzealous in adding dependencies;
-        // backendUrl is an environment variable; it isn't going to change
     }, [date]);
 
     // fetch data for each workpod
@@ -96,13 +95,10 @@ const SearchResults = () => {
     // need to remove any reserved workpods from the list
     // we also need to sort workpods by freeFor
     // so we can show the one with most time available first
-    const workPodList = workPods
+    const workPodsAvailable = workPods
         .filter((workpod) => !workpod.isReserved)
         .sort((a, b) => b.freeFor - a.freeFor)
         .map((workpod, idx) => {
-            /*let minutes = workpod.freeFor;
-                            let hours = minutesToHours(minutes);
-                            let minutesLeft = minutes % 60;*/
             const freeUntil = workpod.freeUntil ? format(workpod.freeUntil, "HH:mm") : "N/A";
             return (
                 <li key={idx} className="lab-arrow">
@@ -116,20 +112,17 @@ const SearchResults = () => {
                         <p className="workpod-time">
                             {t("searchresults-freeuntil", { time: freeUntil })}
                             .
-                            {/*  Free for: {hours > 0 && ` ${hours} hours`}
-                                                {minutesLeft > 0 && ` ${minutesLeft} minutes`}.*/}
                         </p>
                     </Link>
                 </li>
             );
         })
 
-    const workPodsReserved =                         // show currently reserved workpods
-        // we also need to sort workpods by reservedUntil
-        // so we can show the one that will be available first
+    const workPodsReserved =
+        // show currently reserved workpods
         workPods
             .filter((workpod) => workpod.isReserved)
-            //.sort((a, b) => b.freeFor - a.freeFor)
+            .sort((a, b) => b.reservedFor - a.reservedFor)
             .map((workpod, idx) => {
                 const reservedUntil = workpod.reservedUntil ? format(workpod.reservedUntil, "HH:mm") : "N/A";
                 return (
@@ -163,7 +156,7 @@ const SearchResults = () => {
             <div className="results">
                 <ul className="available-results">
                     {
-                        workPodList
+                        workPodsAvailable
                     }
                 </ul>
                 <ul className="reserved-results">
