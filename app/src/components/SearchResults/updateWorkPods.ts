@@ -26,7 +26,7 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
 
         return newPods;
     }
-    console.log("Reservations found for", workpodId, data);
+    console.log("Reservations found for", workpodId);
     // check if the selected date is within the interval of the event
     const isReserved = data.some(
         (event: { start: string; end: string }) => {
