@@ -4,8 +4,8 @@ interface BookedEvent {
 }
 
 export function generateFreeSlots(bookedEvents: BookedEvent[]) {
-  const startHour = 8;
-  const endHour = 18;
+  const startHour = 0;
+  const endHour = 24;
   const today = new Date();
   today.setMinutes(0, 0, 0);
 

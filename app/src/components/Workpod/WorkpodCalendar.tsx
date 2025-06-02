@@ -4,7 +4,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 
 type CalendarProps = {
   events: EventInput[];
-  date: string |undefined;
+  date: string | undefined;
   onSlotSelect: (slot: {
     start: string;
     end: string;
@@ -41,9 +41,9 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
       initialDate={date}
       eventClick={handleEventClick}
       eventMinHeight={40}
-      slotMinTime="08:00:00"
-      slotMaxTime="18:00:00"
-      height="60vh"
+      slotMinTime="00:00:00"
+      slotMaxTime="24:00:00"
+      height="1242px"
     />
   );
 };
