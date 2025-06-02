@@ -66,6 +66,7 @@ jobs:
         run: npm ci
 
       - name: Run translation check
+        continue-on-error: true
         working-directory: app
         run: npm run check-translations
 

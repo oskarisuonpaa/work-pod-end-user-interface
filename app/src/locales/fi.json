@@ -26,6 +26,7 @@
   "navbar-search": "Haku",
   "navbar-login": "Kirjaudu sisään",
   "navbar-logout": "Kirjaudu ulos",
+  "extra-tag": "testi",
 
   "reservations-no-reservations": "Varauksia ei löytynyt",
   "reservations-your": "Omat varaukset",
