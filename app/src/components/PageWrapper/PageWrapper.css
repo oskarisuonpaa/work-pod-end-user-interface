@@ -1,5 +1,5 @@
 .page-wrapper {
-  padding: 0 0 3.75rem;
+  padding: 0 1rem 3.75rem;
   margin: 0 auto 2.5rem;
   display: flex;
   flex-direction: column;
@@ -22,20 +22,20 @@
   text-align: left;
   line-height: 1.2em;
   margin: 0;
-  max-width: 49.375rem;
+  max-width: 100%;
   position: relative;
   font-size: 1.25rem;
   font-weight: 700;
+  word-break: break-word;
 }
 
-@media (min-width: 47.5em) {
+@media (min-width: 768px) {
+  .page-wrapper {
+    padding-bottom: 4rem;
+  }
+
   .page-title {
     font-size: 2.375rem;
-  }
-}
-
-@media screen and (max-width: 30em) {
-  .page-wrapper {
-    padding: 0 0.625rem;
+    max-width: 49.375rem;
   }
 }
