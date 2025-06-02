@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
 import ActionButton from "@components/ActionButton";
 import { parseTime } from "@utils/dateTime";
+import type { ReservationSlot } from "@types";
 
 type Props = {
-  slot: { start: string; end: string };
-  onReserve: (slot: { start: string; end: string }) => void;
+  slot: ReservationSlot;
+  onReserve: (slot: ReservationSlot) => void;
 };
 
 const ReserveButton = ({ slot, onReserve }: Props) => {

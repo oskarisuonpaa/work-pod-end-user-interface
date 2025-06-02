@@ -1,4 +1,4 @@
-import type { ReservationType } from "@hooks/useReservations";
+import type { ReservationType } from "@types";
 import ReservationLink from "../ReservationLink";
 
 type Props = {
