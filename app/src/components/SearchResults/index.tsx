@@ -79,7 +79,7 @@ const SearchResults = () => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    setWorkPods(prevPods => updateWorkPods(prevPods, data, date, idx, workpodId));
+                    setWorkPods(prevPods => updateWorkPods(prevPods, data, date, idx));
                     setLoadedCount((count) => count + 1);
                 })
                 .catch((error) => console.error(error));
