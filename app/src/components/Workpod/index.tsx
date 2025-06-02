@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
-import {
-  postReservation,
-  deleteReservation,
-} from "@utils/backendCommunication";
+import usePostReservation from "@hooks/usePostReservation";
+import useDeleteReservation from "@hooks/useDeleteReservation";
 
 import "./Workpod.css";
 import PageWrapper from "../PageWrapper";
@@ -17,10 +15,11 @@ import { useTranslation } from "react-i18next";
 const Workpod = () => {
   const { user } = useAuth();
   const { workpodId } = useParams<{ workpodId: string }>();
-  const { date } = useParams<{date: string|undefined}>() || new Date().toISOString().slice(0, 10)
-  const { events, setEvents } = useWorkpodCalendar(workpodId);
-  const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { date } =
+    useParams<{ date: string | undefined }>() ||
+    new Date().toISOString().slice(0, 10);
+  const { data: events = [] } = useWorkpodCalendar(workpodId);
+  const { t } = useTranslation();
 
   const [selectedSlot, setSelectedSlot] = useState<{
     start: string;
@@ -30,12 +29,17 @@ const Workpod = () => {
     eventId?: string;
   } | null>(null);
 
+  const postReservationMutation = usePostReservation();
+  const deleteReservationMutation = useDeleteReservation();
+
   const handleReservation = async (slot: { start: string; end: string }) => {
     if (!workpodId || !user?.name) return;
-
     if (confirm(t("reserve-confirm-reserve"))) {
-      await postReservation(workpodId, slot.start, slot.end);
-      navigate(0);
+      await postReservationMutation.mutateAsync({
+        workpodId,
+        start: slot.start,
+        end: slot.end,
+      });
     }
   };
 
@@ -45,25 +49,11 @@ const Workpod = () => {
     eventId?: string;
   }) => {
     if (!workpodId || !slot.eventId) return;
-
     if (confirm(t("reserve-confirm-cancel"))) {
-      await deleteReservation(workpodId, slot.eventId);
-
-      const updatedEvents = events.filter((event) => event.id !== slot.eventId);
-
-      const freeSlot = {
-        id: `${slot.start}-${slot.end}-free`,
-        title: "Free",
-        start: slot.start,
-        end: slot.end,
-        backgroundColor: "var(--green)",
-        borderColor: "#c3e6cb",
-        extendedProps: {
-          status: "free",
-        },
-      };
-
-      setEvents([...updatedEvents, freeSlot]);
+      await deleteReservationMutation.mutateAsync({
+        calendarId: workpodId,
+        eventId: slot.eventId,
+      });
       setSelectedSlot(null);
     }
   };
@@ -72,7 +62,11 @@ const Workpod = () => {
 
   return (
     <PageWrapper pageTitle={workpodId}>
-      <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} date={date}/>
+      <WorkpodCalendar
+        events={events}
+        onSlotSelect={setSelectedSlot}
+        date={date}
+      />
       {selectedSlot && selectedSlot.status === "free" && (
         <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
       )}

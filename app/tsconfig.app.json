@@ -20,7 +20,8 @@
       "@components/*": ["components/*"],
       "@utils/*": ["utils/*"],
       "@auth/*": ["auth/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@types": ["types"]
     },
 
     /* Linting */
