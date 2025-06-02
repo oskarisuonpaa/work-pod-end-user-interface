@@ -19,8 +19,6 @@
   height: 2em;
   width: 4em;
   padding-top: 0.5rem;
-
-
 }
 .navbar a.active-link::after {
   content: "";
@@ -43,4 +41,10 @@
   color: var(--white);
   height: 2em;
   width: 2em;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    display: none;
+  }
 }

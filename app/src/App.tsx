@@ -10,7 +10,8 @@ import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import Workpod from "./components/Workpod";
 import Workpods from "./components/Workpods";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
+import NavMenu from "@components/NavMenu";
 
 const App = () => {
   return (
@@ -89,12 +90,14 @@ const App = () => {
           }
         />
       </Routes>
+
+      <NavMenu />
     </div>
   );
 };
 const NotFound = () => {
   const { t } = useTranslation();
-  return (<p>{t("nothing-here")}: 404!</p>
-)};
+  return <p>{t("nothing-here")}: 404!</p>;
+};
 
 export default App;
