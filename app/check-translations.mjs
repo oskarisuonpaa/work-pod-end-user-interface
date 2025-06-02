@@ -38,7 +38,7 @@ function main() {
   const base = loadJson(defaultLangFile);
   console.log(`Comparing to ${defaultLang}`)
 
-let hasIssues = false;
+  let hasIssues = false;
 
   fs.readdirSync(localesDir).forEach(file => {
     if (file.endsWith('.json') && file !== 'en.json') {
@@ -52,14 +52,11 @@ let hasIssues = false;
       if (missing.length) console.log(`   ❌ Missing Keys: ${missing.join(', ')}`);
       if (extra.length) console.log(`   ⚠️ Extra Keys: ${extra.join(', ')}`);
       if (!missing.length && !extra.length) console.log(`   ✅ All keys match.`);
-
-if (missing.length || extra.length) hasIssues = true;
-
+      if (missing.length || extra.length) hasIssues = true;
     }
   });
 
-if (hasIssues) process.exit(1);
-
+  if (hasIssues) process.exit(1); //will cause an error during a pull request attempt if translations are missing
 }
 
 main();
