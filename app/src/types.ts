@@ -8,19 +8,18 @@ export type BookedEvent = {
 export type SelectedSlot = {
   start: string;
   end: string;
-  status: string;
+  status: SlotStatus;
   title: string;
   eventId?: string;
 };
 
 export type SlotStatus = "free" | "booked";
 
-export type SlotSelect = {
+export type ReservationSlot = { start: string; end: string };
+
+export type ReservationType = {
+  id: string;
   start: string;
   end: string;
-  status: SlotStatus;
-  title: string;
-  eventId?: string;
+  calendarId: string;
 };
-
-export type ReservationSlot = { start: string; end: string };

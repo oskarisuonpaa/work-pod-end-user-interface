@@ -41,21 +41,17 @@ const ReservationInfoPage = () => {
         setReservation(data);
       } catch (err) {
         console.error("Error fetching reservation:", err);
-        setError(
-          t("reservation-failed-load")
-        );
+        setError(t("reservation-failed-load"));
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchReservation();
-  }, [calendarId, reservationId, navigate]);
+  }, [calendarId, reservationId, navigate, t]);
 
   const handleCancel = async () => {
-    const confirmed = confirm(
-      t("reserve-confirm-cancel")
-    );
+    const confirmed = confirm(t("reserve-confirm-cancel"));
     if (!confirmed) return;
 
     try {
@@ -63,7 +59,7 @@ const ReservationInfoPage = () => {
         throw new Error(t("error-missing-ids"));
       }
       await deleteReservation(calendarId, reservationId);
-      alert(t("reservation-canceled", {reservationId:reservationId}));
+      alert(t("reservation-canceled", { reservationId: reservationId }));
       navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
@@ -76,15 +72,12 @@ const ReservationInfoPage = () => {
   }
 
   if (isLoading) {
-    return <PageWrapper pageTitle={t("loading")+"..."} />;
+    return <PageWrapper pageTitle={t("loading") + "..."} />;
   }
   if (error || !reservation) {
     return (
       <PageWrapper pageTitle={t("reservation-not-found")}>
-        <p>
-          {error ||
-            t("reservation-not-yours")}
-        </p>
+        <p>{error || t("reservation-not-yours")}</p>
       </PageWrapper>
     );
   }
@@ -92,8 +85,12 @@ const ReservationInfoPage = () => {
   return (
     <PageWrapper pageTitle={t("reservation-info")}>
       <div className="reservation-info">
-        <h2>{t("workpod")}: {reservation.room}</h2>
-        <p className="date-info">{t("date")}: {reservation.date}</p>
+        <h2>
+          {t("workpod")}: {reservation.room}
+        </h2>
+        <p className="date-info">
+          {t("date")}: {reservation.date}
+        </p>
         <p className="time-info">
           {t("time")}: {reservation.start} - {reservation.end}
         </p>
