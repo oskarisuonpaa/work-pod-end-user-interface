@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --build tsconfig.app.json && vite build",
+    "check-translations": "node check-translations.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "echo \"No tests specified\" && exit 0"
