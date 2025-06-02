@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 import type { WorkPod, DataItem } from "@auth/types.ts";
 
-const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx: number, workpodId: string) => {
+const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx: number) => {
     const newPods = [...prevPods];
     let freeUntil = null;
             const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
