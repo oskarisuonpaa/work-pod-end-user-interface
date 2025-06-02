@@ -12,3 +12,15 @@ export type SelectedSlot = {
   title: string;
   eventId?: string;
 };
+
+export type SlotStatus = "free" | "booked";
+
+export type SlotSelect = {
+  start: string;
+  end: string;
+  status: SlotStatus;
+  title: string;
+  eventId?: string;
+};
+
+export type ReservationSlot = { start: string; end: string };
