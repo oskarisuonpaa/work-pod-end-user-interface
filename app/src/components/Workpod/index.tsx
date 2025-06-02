@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useState, useCallback } from "react";
+import { useParams } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
-import {
-  postReservation,
-  deleteReservation,
-} from "@utils/backendCommunication";
+import usePostReservation from "@hooks/usePostReservation";
+import useDeleteReservation from "@hooks/useDeleteReservation";
 
 import "./Workpod.css";
 import PageWrapper from "../PageWrapper";
@@ -13,71 +11,63 @@ import CancelButton from "./CancelButton";
 import ReserveButton from "./ReserveButton";
 import WorkpodCalendar from "./WorkpodCalendar";
 import { useTranslation } from "react-i18next";
+import type { SelectedSlot } from "@types";
+
+const isValidDate = (s?: string) => !!s && !isNaN(Date.parse(s));
 
 const Workpod = () => {
   const { user } = useAuth();
-  const { workpodId } = useParams<{ workpodId: string }>();
-  const { date } = useParams<{date: string|undefined}>() || new Date().toISOString().slice(0, 10)
-  const { events, setEvents } = useWorkpodCalendar(workpodId);
-  const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { workpodId, date: paramDate } = useParams<{
+    workpodId: string;
+    date?: string;
+  }>();
+  const { t } = useTranslation();
 
-  const [selectedSlot, setSelectedSlot] = useState<{
-    start: string;
-    end: string;
-    status: string;
-    title: string;
-    eventId?: string;
-  } | null>(null);
+  const date = isValidDate(paramDate)
+    ? paramDate!
+    : new Date().toISOString().slice(0, 10);
 
-  const handleReservation = async (slot: { start: string; end: string }) => {
-    if (!workpodId || !user?.name) return;
+  const { data: events = [] } = useWorkpodCalendar(workpodId);
+  const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
 
-    if (confirm(t("reserve-confirm-reserve"))) {
-      await postReservation(workpodId, slot.start, slot.end);
-      navigate(0);
-    }
-  };
+  const { mutateAsync: reserve } = usePostReservation();
+  const { mutateAsync: cancel } = useDeleteReservation();
 
-  const handleCancelReservation = async (slot: {
-    start: string;
-    end: string;
-    eventId?: string;
-  }) => {
-    if (!workpodId || !slot.eventId) return;
+  const handleReservation = useCallback(
+    async (slot: { start: string; end: string }) => {
+      if (!workpodId || !user?.name) return;
+      if (confirm(t("reserve-confirm-reserve"))) {
+        await reserve({ workpodId, start: slot.start, end: slot.end });
+      }
+    },
+    [workpodId, user?.name, t, reserve]
+  );
 
-    if (confirm(t("reserve-confirm-cancel"))) {
-      await deleteReservation(workpodId, slot.eventId);
-
-      const updatedEvents = events.filter((event) => event.id !== slot.eventId);
-
-      const freeSlot = {
-        id: `${slot.start}-${slot.end}-free`,
-        title: "Free",
-        start: slot.start,
-        end: slot.end,
-        backgroundColor: "var(--green)",
-        borderColor: "#c3e6cb",
-        extendedProps: {
-          status: "free",
-        },
-      };
-
-      setEvents([...updatedEvents, freeSlot]);
-      setSelectedSlot(null);
-    }
-  };
+  const handleCancelReservation = useCallback(
+    async (slot: { start: string; end: string; eventId?: string }) => {
+      if (!workpodId || !slot.eventId) return;
+      if (confirm(t("reserve-confirm-cancel"))) {
+        await cancel({ calendarId: workpodId, eventId: slot.eventId });
+        setSelectedSlot(null);
+      }
+    },
+    [workpodId, cancel, t]
+  );
 
   if (!workpodId) return <div>{t("reserve-id-missing")}</div>;
 
   return (
     <PageWrapper pageTitle={workpodId}>
-      <WorkpodCalendar events={events} onSlotSelect={setSelectedSlot} date={date}/>
-      {selectedSlot && selectedSlot.status === "free" && (
+      <WorkpodCalendar
+        events={events}
+        onSlotSelect={setSelectedSlot}
+        date={date}
+      />
+      {selectedSlot?.status === "free" && (
         <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
       )}
-      {selectedSlot && selectedSlot.title === user?.name && (
-        <CancelButton slot={selectedSlot} onCancel={handleCancelReservation} />
+      {selectedSlot?.title === user?.name && (
+        <CancelButton slot={selectedSlot!} onCancel={handleCancelReservation} />
       )}
     </PageWrapper>
   );

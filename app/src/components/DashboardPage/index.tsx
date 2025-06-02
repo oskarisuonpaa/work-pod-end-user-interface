@@ -5,32 +5,36 @@ import { useReservations } from "@hooks/useReservations";
 import "./Dashboard.css";
 import PageWrapper from "../PageWrapper";
 import UpcomingReservations from "./UpcomingReservations";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
 import ActionButton from "@components/ActionButton";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
-  const { reservations, isLoading, error } = useReservations();
+  const { data: reservations, isLoading, error } = useReservations();
   const { t } = useTranslation();
 
+  const authenticated = isAuthenticated();
+
   useEffect(() => {
-    if (!isAuthenticated()) {
+    if (!authenticated) {
       navigate("/login");
     }
-  }, [isAuthenticated, navigate]);
+  }, [authenticated, navigate]);
 
-  if (!isAuthenticated()) return null;
+  if (!authenticated) return null;
 
   return (
-    <PageWrapper pageTitle={user?.name || "User"}>
+    <PageWrapper pageTitle={user?.name ?? t("dashboard-title-default")}>
       <div className="container">
         <div className="schedule-container">
           <h2>{t("dashboard-upcoming")}</h2>
           {isLoading && <h3>{t("loading")}...</h3>}
-          {error && <h3 className="error">{error}</h3>}
+          {error && (
+            <h3 className="error">{t("error-fetching-reservations")}</h3>
+          )}
           {!isLoading && !error && (
-            <UpcomingReservations reservations={reservations} />
+            <UpcomingReservations reservations={reservations ?? []} />
           )}
         </div>
         <div className="link-container">
@@ -40,9 +44,13 @@ const DashboardPage = () => {
             </li>
             <li>
               <ActionButton label={t("dashboard-readQR")} to="#" />
+              {/* Consider disabling or hiding if not implemented */}
             </li>
             <li>
-              <ActionButton label={t("navbar-reservations")} to="/reservations" />
+              <ActionButton
+                label={t("navbar-reservations")}
+                to="/reservations"
+              />
             </li>
           </ul>
         </div>

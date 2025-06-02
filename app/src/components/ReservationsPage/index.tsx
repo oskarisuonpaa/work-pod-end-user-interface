@@ -3,14 +3,8 @@ import "./Reservations.css";
 import { getUserReservations } from "@utils/backendCommunication";
 import PageWrapper from "../PageWrapper/index";
 import ReservationLink from "../ReservationLink";
-import { useTranslation } from "react-i18next"
-
-type ReservationType = {
-  id: string;
-  start: string;
-  end: string;
-  calendarId: string;
-};
+import { useTranslation } from "react-i18next";
+import type { ReservationType } from "@types";
 
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState<ReservationType[]>([]);
@@ -32,11 +26,13 @@ const ReservationsPage = () => {
   }, []);
 
   if (isLoading) {
-    return <PageWrapper pageTitle={t("loading")+"..."}></PageWrapper>;
+    return <PageWrapper pageTitle={t("loading") + "..."}></PageWrapper>;
   }
 
   if (reservations.length === 0) {
-    return <PageWrapper pageTitle={t("reservations-no-reservations")}></PageWrapper>;
+    return (
+      <PageWrapper pageTitle={t("reservations-no-reservations")}></PageWrapper>
+    );
   }
 
   return (
