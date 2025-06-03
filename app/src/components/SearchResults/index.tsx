@@ -2,7 +2,7 @@ import { format, setSeconds, setMinutes, setHours } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
-import updateWorkPods from "./updateWorkPods.ts";
+import updateAllWorkPods from "./updateWorkPods.ts";
 import PageWrapper from "../PageWrapper";
 import "./SearchResults.css";
 import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
@@ -55,8 +55,8 @@ const SearchResults = () => {
     const fetchAllCalendars = async () => {
       const timeMin = date.toISOString();
       const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
-      const timeMax = endOfDayLocal.toISOString(); 
-      
+      const timeMax = endOfDayLocal.toISOString();
+
       const promises = workPods.map((workpod, idx) =>
         getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
           .then((data) => ({ data, idx }))
@@ -68,14 +68,8 @@ const SearchResults = () => {
 
       const results = await Promise.all(promises);
 
-      results.forEach((result) => {
-        if (result) {
-          setWorkPods((prevPods) =>
-            updateWorkPods(prevPods, result.data, date, result.idx)
-          );
-          setLoadedCount((count) => count + 1);
-        }
-      });
+      setWorkPods(prevPods => updateAllWorkPods(prevPods, results, date));
+      setLoadedCount(results.filter(Boolean).length);
     };
 
     fetchAllCalendars();

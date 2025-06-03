@@ -7,6 +7,20 @@ import {
   add,
 } from "date-fns";
 
+const updateAllWorkPods = (
+  prevPods: WorkpodWithEvents[],
+  results: ({ data: any; idx: number } | null)[],
+  date: Date
+) => {
+  let newPods = [...prevPods];
+  results?.forEach(result => {
+    if (result) {
+      newPods = updateWorkPods(newPods, result.data, date, result.idx);
+    }
+  });
+  return newPods;
+};
+
 const updateWorkPods = (
   prevPods: WorkpodWithEvents[],
   data: DataItem[],
@@ -102,4 +116,4 @@ const updateWorkPods = (
   return newPods;
 };
 
-export default updateWorkPods;
+export default updateAllWorkPods;
