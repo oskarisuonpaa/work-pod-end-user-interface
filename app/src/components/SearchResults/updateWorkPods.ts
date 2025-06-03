@@ -7,11 +7,10 @@ import {
 } from "date-fns";
 import type { WorkPod, DataItem } from "@auth/types.ts";
 
-const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx: number) => {
+const updateWorkPods = (prevPods: WorkPod[], data: DataItem[], date: Date, idx: number) => {
     const newPods = [...prevPods];
     let freeUntil = null;
-            const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
-            
+    const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
 
     if (data.length === 0) {
         newPods[idx].isReserved = false;
@@ -89,7 +88,7 @@ const updateWorkPods = (prevPods : WorkPod[], data: DataItem[], date: Date, idx:
             }
         }
         newPods[idx].reservedUntil = reservedUntil;
-        newPods[idx].reservedFor = differenceInMinutes(date,reservedUntil)
+        newPods[idx].reservedFor = differenceInMinutes(date, reservedUntil)
     }
 
     newPods[idx] = {

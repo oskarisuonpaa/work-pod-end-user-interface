@@ -26,12 +26,40 @@
   left: 0;
 }
 
+.language-selector {
+  display: flex;
+  align-items: center;
+}
 
-.language-switcher {
-  background: transparent;
-  font-weight: 700;
-  padding: 0;
+.navbar .lng,
+.navbar .lng-active {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 1rem;
+  position: relative;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.navbar .lng {
+  color: var(--black);
+}
+
+.navbar .lng-active {
+  color: var(--black);
+}
+
+.navbar .lng-active::after {
+  content: "";
   display: block;
+  width: 100%;
+  height: 4px;
+  background-color: var(--black);
+  position: absolute;
+  bottom: -6px;
+  left: 0;
 }
 
 .language-switcher ul {
