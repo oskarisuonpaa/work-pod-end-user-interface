@@ -3,95 +3,89 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
 import updateWorkPods from "./updateWorkPods.ts";
-import type { WorkPod } from "@auth/types.ts";
 import PageWrapper from "../PageWrapper";
 import "./SearchResults.css";
+import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
+import type { WorkpodWithEvents } from "@types";
+import { useWorkpods } from "@hooks/useWorkpods.ts";
 
 const SearchResults = () => {
   const location = useLocation();
   const { date } = location.state || {};
-  const [workPods, setWorkPods] = useState<WorkPod[]>([]);
+  const [workPods, setWorkPods] = useState<WorkpodWithEvents[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dateString, setDateString] = useState<string>("");
+  const [, setDateString] = useState<string>("");
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const { t } = useTranslation();
+  const { data: calendars = [] } = useWorkpods();
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  // Step 1: Fetch initial workpod list
   useEffect(() => {
-    // fetch list of workpods
     if (!date || isFetching) return;
-    setDateString(date.toISOString());
-    setIsFetching(true);
-    fetch(backendUrl + "/calendars", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((calendars) => {
-        console.log("Calendars:", calendars);
-        if (!calendars.error) {
-          const pods = [];
-          // initialize workpods
-          for (const id in calendars.calendars) {
-            pods.push({
-              workpodId: calendars.calendars[id].alias,
-              isReserved: false,
-              freeFor: 0,
-              freeUntil: null,
-              events: [],
-              reservedUntil: null,
-              reservedFor: 0,
-            });
-          }
-          setWorkPods(pods);
-          setHasFetched(true);
-        }
-      })
-      .catch((error) => console.error(error));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, isFetching]);
 
-  // fetch data for each workpod
+    const fetchWorkpods = async () => {
+      setDateString(date.toISOString());
+      setIsFetching(true);
+
+      const pods = Object.values(calendars).map((calendar) => ({
+        workpodId: calendar.alias,
+        isReserved: false,
+        freeFor: 0,
+        freeUntil: null,
+        events: [],
+        reservedUntil: null,
+        reservedFor: 0,
+      }));
+
+      setWorkPods(pods);
+      setHasFetched(true);
+    };
+
+    fetchWorkpods();
+  }, [date, isFetching, calendars]);
+
+  // Step 2: Fetch calendar events in parallel
   useEffect(() => {
     if (!date || !hasFetched || !loading) return;
     setLoadedCount(0);
-    workPods.forEach((workpod, idx) => {
-      const workpodId = workpod.workpodId;
-      setDateString(date.toISOString()); //format(date, "yyyy-MM-dd'T'HH:mm+03");
-      const timeMin = dateString;
-      const timeMax = format(date, "yyyy-MM-dd'T'23:59:59'Z'");
-      const queryString = `/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`;
 
-      const url = backendUrl + queryString;
+    const fetchAllCalendars = async () => {
+      const timeMin = date.toISOString();
 
-      fetch(url, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setWorkPods((prevPods) => updateWorkPods(prevPods, data, date, idx));
+      const promises = workPods.map((workpod, idx) =>
+        getWorkpodCalendar(workpod.workpodId, timeMin)
+          .then((data) => ({ data, idx }))
+          .catch((error) => {
+            console.error("Error fetching calendar:", workpod.workpodId, error);
+            return null;
+          })
+      );
+
+      const results = await Promise.all(promises);
+
+      results.forEach((result) => {
+        if (result) {
+          setWorkPods((prevPods) =>
+            updateWorkPods(prevPods, result.data, date, result.idx)
+          );
           setLoadedCount((count) => count + 1);
-        })
-        .catch((error) => console.error(error));
-    });
-    // this useEffect breaks if you add every variable to the dependency array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasFetched, date]);
+        }
+      });
+    };
 
+    fetchAllCalendars();
+  }, [hasFetched, date, loading]);
+
+  // Step 3: Mark loading complete
   useEffect(() => {
     if (loadedCount === workPods.length && workPods.length > 0) {
       setLoading(false);
     }
   }, [loadedCount, workPods.length]);
 
-  // need to remove any reserved workpods from the list
-  // we also need to sort workpods by freeFor
-  // so we can show the one with most time available first
+  // Step 4: Render available and reserved pods
   const workPodsAvailable = workPods
     .filter((workpod) => !workpod.isReserved)
     .sort((a, b) => b.freeFor - a.freeFor)
@@ -113,38 +107,30 @@ const SearchResults = () => {
       );
     });
 
-  const workPodsReserved =
-    // show currently reserved workpods
-    workPods
-      .filter((workpod) => workpod.isReserved)
-      .sort((a, b) => b.reservedFor - a.reservedFor)
-      .map((workpod, idx) => {
-        const reservedUntil = workpod.reservedUntil
-          ? format(workpod.reservedUntil, "HH:mm")
-          : "N/A";
-        return (
-          <li key={idx} className="lab-arrow">
-            <Link
-              to={`/workpods/${workpod.workpodId}/${format(
-                date,
-                "yyyy-MM-dd"
-              )}`}
-            >
-              <p className="workpod-title">{workpod.workpodId}</p>
+  const workPodsReserved = workPods
+    .filter((workpod) => workpod.isReserved)
+    .sort((a, b) => b.reservedFor - a.reservedFor)
+    .map((workpod, idx) => {
+      const reservedUntil = workpod.reservedUntil
+        ? format(workpod.reservedUntil, "HH:mm")
+        : "N/A";
+      return (
+        <li key={idx} className="lab-arrow">
+          <Link
+            to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}
+          >
+            <p className="workpod-title">{workpod.workpodId}</p>
+            <p className="workpod-time">
+              {t("searchresults-reserveduntil", { time: reservedUntil })}.
+            </p>
+          </Link>
+        </li>
+      );
+    });
 
-              <p className="workpod-time">
-                {t("searchresults-reserveduntil", { time: reservedUntil })}.
-              </p>
-            </Link>
-          </li>
-        );
-      });
-
-  // display the results
-  // list of available workpods + how many hours they are available
-  // TODO add useParams for date on workpod page and add date={dateToShow} to fullCalendar
   if (!date) return <div>{t("searchresults-no-date")}.</div>;
   if (loading) return <div>{t("loading")}...</div>;
+
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
       <p className="search-results">
