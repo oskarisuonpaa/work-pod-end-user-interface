@@ -125,8 +125,8 @@ const SearchResults = () => {
       );
     });
 
-  if (!date) return <div>{t("searchresults-no-date")}.</div>;
-  if (loading) return <div>{t("loading")}...</div>;
+  if (!date) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
+  if (loading) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("loading")}...</div></PageWrapper>);
 
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
