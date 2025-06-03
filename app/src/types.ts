@@ -23,3 +23,16 @@ export type ReservationType = {
   end: string;
   calendarId: string;
 };
+
+export type Workpod = {
+  alias: string;
+  status: Availability;
+};
+
+const Availability = {
+  Free: "free",
+  Busy: "busy",
+  Unknown: "unknown",
+} as const;
+
+export type Availability = (typeof Availability)[keyof typeof Availability];

@@ -54,16 +54,16 @@ a.work-pod-link {
   transform: translateY(80%);
 }
 
-.available {
+.free {
   background: var(--dark-green);
 }
 
-.has-slots {
-  background: var(--orange);
+.busy {
+  background: var(--red);
 }
 
-.fully-booked {
-  background: var(--red);
+.unknown {
+  background: var(--orange);
 }
 
 .separator {
