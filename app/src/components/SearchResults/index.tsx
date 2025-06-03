@@ -37,7 +37,7 @@ const SearchResults = () => {
           // initialize workpods
           for (const id in calendars.calendars) {
             pods.push({
-              workpodId: calendars.calendars[id],
+              workpodId: calendars.calendars[id].alias,
               isReserved: false,
               freeFor: 0,
               freeUntil: null,
@@ -51,7 +51,8 @@ const SearchResults = () => {
         }
       })
       .catch((error) => console.error(error));
-  }, [backendUrl, date, isFetching]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, isFetching]);
 
   // fetch data for each workpod
   useEffect(() => {
@@ -78,7 +79,9 @@ const SearchResults = () => {
         })
         .catch((error) => console.error(error));
     });
-  }, [hasFetched, date, loading, workPods, dateString, backendUrl]);
+    // this useEffect breaks if you add every variable to the dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFetched, date]);
 
   useEffect(() => {
     if (loadedCount === workPods.length && workPods.length > 0) {
