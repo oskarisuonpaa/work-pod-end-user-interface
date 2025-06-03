@@ -23,7 +23,7 @@ const SearchResults = () => {
 
   // Step 1: Fetch initial workpod list
   useEffect(() => {
-    if (!date || isFetching) return;
+    if (!date || isFetching || calendars.length === 0) return;
 
     const fetchWorkpods = async () => {
       setDateString(date.toISOString());
@@ -41,6 +41,8 @@ const SearchResults = () => {
 
       setWorkPods(pods);
       setHasFetched(true);
+      console.log(calendars);
+
     };
 
     fetchWorkpods();
@@ -49,13 +51,12 @@ const SearchResults = () => {
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
     if (!date || !hasFetched || !loading) return;
-    setLoadedCount(0);
 
     const fetchAllCalendars = async () => {
       const timeMin = date.toISOString();
       const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
-      const timeMax = endOfDayLocal.toISOString(); // This is UTC, but for your local end of day
-
+      const timeMax = endOfDayLocal.toISOString(); 
+      
       const promises = workPods.map((workpod, idx) =>
         getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
           .then((data) => ({ data, idx }))
