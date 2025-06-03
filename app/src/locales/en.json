@@ -54,5 +54,6 @@
   "searchresults-text1": "Available workpods at",
   "searchresults-freeuntil": "Free until {{time}}",
   "searchresults-reserveduntil": "Reserved until {{time}}",
-  "searchresults-no-date": "No date selected"
+  "searchresults-no-date": "No date selected",
+  "searchresults-error": "An error occurred while searching for workpods. Please try again."
 }
