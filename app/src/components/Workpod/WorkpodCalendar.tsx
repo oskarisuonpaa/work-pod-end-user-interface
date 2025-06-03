@@ -22,8 +22,6 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
         eventId: id && id !== "" ? id : undefined,
       };
 
-      console.log("Selected slot:", slot);
-
       onSlotSelect(slot);
     }
   };
