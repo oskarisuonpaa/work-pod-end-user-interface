@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, setSeconds, setMinutes, setHours } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
@@ -12,17 +12,16 @@ const SearchResults = () => {
   const { date } = location.state || {};
   const [workPods, setWorkPods] = useState<WorkPod[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dateString, setDateString] = useState<string>("");
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const { t } = useTranslation();
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     // fetch list of workpods
     if (!date || isFetching) return;
-    setDateString(date.toISOString());
     setIsFetching(true);
     fetch(backendUrl + "/calendars", {
       headers: {
@@ -51,7 +50,7 @@ const SearchResults = () => {
         }
       })
       .catch((error) => console.error(error));
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, isFetching]);
 
   // fetch data for each workpod
@@ -60,10 +59,12 @@ const SearchResults = () => {
     setLoadedCount(0);
     workPods.forEach((workpod, idx) => {
       const workpodId = workpod.workpodId;
-      setDateString(date.toISOString()); //format(date, "yyyy-MM-dd'T'HH:mm+03");
-      const timeMin = dateString;
-      const timeMax = format(date, "yyyy-MM-dd'T'23:59:59'Z'");
+      const timeMin = date.toISOString();
+      console.log("Date", date);
+      const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
+      const timeMax = endOfDayLocal.toISOString(); // This is UTC, but for your local end of day
       const queryString = `/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`;
+      console.log("timemax", timeMax);
 
       const url = backendUrl + queryString;
 
@@ -80,6 +81,7 @@ const SearchResults = () => {
         .catch((error) => console.error(error));
     });
     // this useEffect breaks if you add every variable to the dependency array
+    // it only needs hasFetched and date to run once when the component mounts
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasFetched, date]);
 
