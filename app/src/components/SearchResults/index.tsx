@@ -19,7 +19,7 @@ const SearchResults = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const { t } = useTranslation();
-  const { data: calendars = [] } = useWorkpods();
+  const { data: calendars = [], isError } = useWorkpods();
 
   // Step 1: Fetch initial workpod list
   useEffect(() => {
@@ -53,6 +53,7 @@ const SearchResults = () => {
     if (!date || !hasFetched || !loading) return;
 
     const fetchAllCalendars = async () => {
+      try {
       const timeMin = date.toISOString();
       const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
       const timeMax = endOfDayLocal.toISOString();
@@ -70,7 +71,10 @@ const SearchResults = () => {
 
       setWorkPods(prevPods => updateAllWorkPods(prevPods, results, date));
       setLoadedCount(results.filter(Boolean).length);
-    };
+    } catch (error) {
+      console.error("Error fetching all calendars:", error);
+    }
+  };
 
     fetchAllCalendars();
   }, [hasFetched, date]);
@@ -125,6 +129,15 @@ const SearchResults = () => {
       );
     });
 
+    if (isError) {
+  return (
+    <PageWrapper pageTitle={t("searchresults-title")}>
+      <div className="error-message">
+        {t("searchresults-error")}
+      </div>
+    </PageWrapper>
+  );
+}
   if (!date) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
   if (loading) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("loading")}...</div></PageWrapper>);
 

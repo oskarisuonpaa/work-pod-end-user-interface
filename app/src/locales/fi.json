@@ -55,5 +55,6 @@
   "searchresults-text1": "Vapaana olevat workpodit",
   "searchresults-freeuntil": "Vapaa klo {{time}} asti",
   "searchresults-reserveduntil": "Varattu klo {{time}} asti",
-  "searchresults-no-date": "Päivämäärää ei ole valittu"
+  "searchresults-no-date": "Päivämäärää ei ole valittu",
+  "searchresults-error": "Workpodien hakemisessa tapahtui virhe. Yritä uudelleen."
 }
