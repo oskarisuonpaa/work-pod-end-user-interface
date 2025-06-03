@@ -9,7 +9,7 @@ import {
 
 const updateAllWorkPods = (
   prevPods: WorkpodWithEvents[],
-  results: ({ data: any; idx: number } | null)[],
+  results: ({ data: DataItem[]; idx: number } | null)[],
   date: Date
 ) => {
   let newPods = [...prevPods];
