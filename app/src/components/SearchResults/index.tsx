@@ -5,7 +5,7 @@ import { useLocation, Link } from "react-router";
 import updateWorkPods from "./updateWorkPods.ts";
 import PageWrapper from "../PageWrapper";
 import "./SearchResults.css";
-import { getWorkpodCalendarMax } from "@utils/backendCommunication.ts";
+import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
 import type { WorkpodWithEvents } from "@types";
 import { useWorkpods } from "@hooks/useWorkpods.ts";
 
@@ -57,7 +57,7 @@ const SearchResults = () => {
       const timeMax = endOfDayLocal.toISOString(); // This is UTC, but for your local end of day
 
       const promises = workPods.map((workpod, idx) =>
-        getWorkpodCalendarMax(workpod.workpodId, timeMin, timeMax)
+        getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
           .then((data) => ({ data, idx }))
           .catch((error) => {
             console.error("Error fetching calendar:", workpod.workpodId, error);

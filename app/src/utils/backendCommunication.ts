@@ -6,45 +6,13 @@ const formatDate = (date: Date) => {
 
 export const getWorkpodCalendar = async (
   workpodId: string,
-  timeMin?: string
-) => {
-  let timeMax;
-
-  if (timeMin) {
-    const date = new Date(timeMin);
-    timeMax = formatDate(new Date(date.getTime() + 30 * 24 * 60 * 60 * 1000));
-  } else {
-    const now = new Date();
-    now.setMinutes(0, 0, 0);
-    now.setHours(0, 0, 0);
-    timeMin = formatDate(now);
-    timeMax = formatDate(new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000));
-  }
-
-  const response = await axios.get(
-    `${
-      import.meta.env.VITE_BACKEND_URL
-    }/events?calendarId=${workpodId}&timeMin=${timeMin}&timeMax=${timeMax}`,
-    {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    }
-  );
-
-  return response.data;
-};
-
-// Added new function with specified max time range, runs faster than fetching everything
-export const getWorkpodCalendarMax = async (
-  workpodId: string,
   timeMin?: string,
   timeMax?: string
 ) => {
 
   if (timeMin) {
     const date = new Date(timeMin);
-    timeMax = timeMax || formatDate(new Date(date.getTime() + 30 * 24 * 60 * 60 * 1000));
+    timeMax = timeMax ||formatDate(new Date(date.getTime() + 30 * 24 * 60 * 60 * 1000));
   } else {
     const now = new Date();
     now.setMinutes(0, 0, 0);
