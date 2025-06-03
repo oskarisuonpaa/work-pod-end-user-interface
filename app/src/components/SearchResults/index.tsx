@@ -1,4 +1,4 @@
-import { format, setSeconds, setMinutes, setHours } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router";
@@ -24,37 +24,27 @@ const SearchResults = () => {
   // Step 1: Fetch initial workpod list
   useEffect(() => {
     if (!date || isFetching) return;
-    setDateString(date.toISOString());
-    setIsFetching(true);
-    fetch(backendUrl + "/calendars", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((calendars) => {
-        console.log("Calendars:", calendars);
-        if (!calendars.error) {
-          const pods = [];
-          // initialize workpods
-          for (const id in calendars.calendars) {
-            pods.push({
-              workpodId: calendars.calendars[id].alias,
-              isReserved: false,
-              freeFor: 0,
-              freeUntil: null,
-              events: [],
-              reservedUntil: null,
-              reservedFor: 0,
-            });
-          }
-          setWorkPods(pods);
-          setHasFetched(true);
-        }
-      })
-      .catch((error) => console.error(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, isFetching]);
+
+    const fetchWorkpods = async () => {
+      setDateString(date.toISOString());
+      setIsFetching(true);
+
+      const pods = Object.values(calendars).map((calendar) => ({
+        workpodId: calendar.alias,
+        isReserved: false,
+        freeFor: 0,
+        freeUntil: null,
+        events: [],
+        reservedUntil: null,
+        reservedFor: 0,
+      }));
+
+      setWorkPods(pods);
+      setHasFetched(true);
+    };
+
+    fetchWorkpods();
+  }, [date, isFetching, calendars]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
