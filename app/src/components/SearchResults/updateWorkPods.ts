@@ -40,6 +40,7 @@ const updateWorkPods = (
     });
   });
   let freeFor = 0;
+  // sort the events by start time
   const sortedEvents = [...data].sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
   );

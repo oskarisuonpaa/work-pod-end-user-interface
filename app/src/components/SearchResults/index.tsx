@@ -54,8 +54,8 @@ const SearchResults = () => {
     const fetchAllCalendars = async () => {
       const timeMin = date.toISOString();
       const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
-      const timeMax = endOfDayLocal.toISOString(); // This is UTC, but for your local end of day
-
+      const timeMax = endOfDayLocal.toISOString(); 
+      
       const promises = workPods.map((workpod, idx) =>
         getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
           .then((data) => ({ data, idx }))
