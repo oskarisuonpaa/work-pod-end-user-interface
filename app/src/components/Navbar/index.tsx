@@ -52,20 +52,22 @@ const Navbar = () => {
             {t("navbar-logout")}
           </Link>
         )}
-        <span className="language-selector">
-          <button
-            className={i18n.language === "en" ? "lng-active" : "lng"}
-            onClick={() => changeLanguage("en")}
-          >
-            EN
-          </button>
-          <button
-            className={i18n.language === "fi" ? "lng-active" : "lng"}
-            onClick={() => changeLanguage("fi")}
-          >
-            FI
-          </button>
-        </span>
+        <div className="language-switcher">
+          <ul>
+            <li><a href="#"
+              className={"lng" + (i18n.language === "en" ? " lng-active" : "")}
+              onClick={() => changeLanguage("en")}
+             >
+              EN</a>
+            </li>
+            <li><a href="#"
+              className={"lng" + (i18n.language === "fi" ? " lng-active" : "")}
+              onClick={() => changeLanguage("fi")}
+            >
+              FI</a>
+            </li>
+          </ul>
+        </div>
       </nav>
     </>
   );
