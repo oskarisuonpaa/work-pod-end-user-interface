@@ -6,13 +6,13 @@ const formatDate = (date: Date) => {
 
 export const getWorkpodCalendar = async (
   workpodId: string,
-  timeMin?: string
+  timeMin?: string,
+  timeMax?: string
 ) => {
-  let timeMax;
 
   if (timeMin) {
     const date = new Date(timeMin);
-    timeMax = formatDate(new Date(date.getTime() + 30 * 24 * 60 * 60 * 1000));
+    timeMax = timeMax ||formatDate(new Date(date.getTime() + 30 * 24 * 60 * 60 * 1000));
   } else {
     const now = new Date();
     now.setMinutes(0, 0, 0);
@@ -34,6 +34,7 @@ export const getWorkpodCalendar = async (
 
   return response.data;
 };
+
 
 export const getWorkpods = async () => {
   const response = await axios.get(
