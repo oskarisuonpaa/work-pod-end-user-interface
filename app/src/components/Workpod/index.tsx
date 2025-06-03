@@ -38,6 +38,12 @@ const Workpod = () => {
       if (!workpodId || !user?.name) return;
       if (confirm(t("reserve-confirm-reserve"))) {
         await reserve({ workpodId, start: slot.start, end: slot.end });
+        setSelectedSlot({
+          start: slot.start,
+          end: slot.end,
+          status: "booked",
+          title: user.name,
+        });
       }
     },
     [workpodId, user?.name, t, reserve]

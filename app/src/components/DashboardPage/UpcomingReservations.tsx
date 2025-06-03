@@ -1,5 +1,6 @@
 import type { ReservationType } from "@types";
 import ReservationLink from "../ReservationLink";
+import { t } from "i18next";
 
 type Props = {
   reservations: ReservationType[];
@@ -10,7 +11,7 @@ const UpcomingReservations = ({ reservations }: Props) => {
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
     .slice(0, 3);
 
-  if (sorted.length === 0) return <h4>No upcoming reservations</h4>;
+  if (sorted.length === 0) return <h4>{t("dashboard-no-upcoming")}</h4>;
 
   return (
     <ul>

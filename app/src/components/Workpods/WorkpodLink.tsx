@@ -1,13 +1,6 @@
 import { Link } from "react-router";
 import peepo from "../../assets/placeholder-pepe.jpg";
-
-export const Availability = {
-  Available: "available",
-  HasSlots: "has-slots",
-  FullyBooked: "fully-booked",
-} as const;
-
-type Availability = (typeof Availability)[keyof typeof Availability];
+import type { Availability } from "@types";
 
 type WorkpodLinkProps = {
   podID: string;

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router";
 import { useAuth } from "@auth/useAuth";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -14,9 +14,11 @@ const Navbar = () => {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
     setLang(lng);
-    localStorage.setItem('userLanguage', lng);
-  }
-  useEffect(() => { document.title = t('title') }, [lang]);
+    localStorage.setItem("userLanguage", lng);
+  };
+  useEffect(() => {
+    document.title = t("title");
+  }, [lang, t]);
 
   const isActive = (path: string) => location.pathname === path;
 
