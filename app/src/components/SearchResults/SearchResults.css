@@ -35,7 +35,6 @@
     height: 340px;
     padding: 0 20px 20px 20px;
     width: 100vw;
-    animation: pulse 1.5s infinite;
 }
 
 .skeleton-list {
@@ -54,6 +53,7 @@
     margin: 20px 0;
     padding: 10px 20px;
     width: 100%;
+    animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
