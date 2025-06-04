@@ -1,5 +1,5 @@
 import { useAuth } from "@auth/useAuth.ts";
-import PageWrapper from "../PageWrapper";
+import PageWrapper from "@components/PageWrapper";
 import "./Info.css";
 import ActionButton from "@components/ActionButton";
 import { useTranslation } from "react-i18next";
@@ -7,10 +7,10 @@ import { useTranslation } from "react-i18next";
 const InfoPage = () => {
   const { isAuthenticated } = useAuth();
   const loggedIn = isAuthenticated();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
-    <PageWrapper pageTitle={"Info - "+t("info-title")}>
+    <PageWrapper pageTitle={"Info - " + t("info-title")}>
       {!loggedIn && (
         <p>
           {t("info-access-text")}
@@ -19,13 +19,9 @@ const InfoPage = () => {
         </p>
       )}
 
-      <p>
-        {t("info-text1")}
-      </p>
+      <p>{t("info-text1")}</p>
 
-      <p>
-        {t("info-text2")}
-      </p>
+      <p>{t("info-text2")}</p>
     </PageWrapper>
   );
 };
