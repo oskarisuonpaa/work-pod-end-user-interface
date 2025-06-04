@@ -15,7 +15,6 @@ const SearchResults = () => {
   const { date } = location.state || {};
   const [workPods, setWorkPods] = useState<WorkpodWithEvents[]>([]);
   const [loading, setLoading] = useState(true);
-  const [, setDateString] = useState<string>("");
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [hasFetched, setHasFetched] = useState<boolean>(false);
@@ -27,7 +26,6 @@ const SearchResults = () => {
     if (!date || isFetching || calendars.length === 0) return;
 
     const fetchWorkpods = async () => {
-      setDateString(date.toISOString());
       setIsFetching(true);
 
       const pods = Object.values(calendars).map((calendar) => ({
@@ -47,7 +45,7 @@ const SearchResults = () => {
     };
 
     fetchWorkpods();
-  }, [date, isFetching, calendars]);
+  }, [calendars]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
@@ -91,13 +89,13 @@ const SearchResults = () => {
   const workPodsAvailable = workPods
     .filter((workpod) => !workpod.isReserved)
     .sort((a, b) => b.freeFor - a.freeFor)
-    .map((workpod, idx) => {
+    .map((workpod) => {
       const freeUntil = workpod.freeUntil
         ? format(workpod.freeUntil, "HH:mm")
         : "N/A";
       return (
         <ListWorkPod
-          key={idx}
+          key={workpod.workpodId}
           workpodId={workpod.workpodId}
           date={date}
           text={t("searchresults-freeuntil", { time: freeUntil })}
@@ -108,13 +106,13 @@ const SearchResults = () => {
   const workPodsReserved = workPods
     .filter((workpod) => workpod.isReserved)
     .sort((a, b) => b.reservedFor - a.reservedFor)
-    .map((workpod, idx) => {
+    .map((workpod) => {
       const reservedUntil = workpod.reservedUntil
         ? format(workpod.reservedUntil, "HH:mm")
         : "N/A";
       return (
         <ListWorkPod
-          key={idx}
+          key={workpod.workpodId}
           workpodId={workpod.workpodId}
           date={date}
           text={t("searchresults-reserveduntil", { time: reservedUntil })}
@@ -132,7 +130,16 @@ const SearchResults = () => {
     );
   }
   if (!date) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
-  if (loading) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("loading")}...</div></PageWrapper>);
+  if (loading) return (
+    <PageWrapper pageTitle={t("searchresults-title")}>
+      <div className="loading"><p>{t("loading")}...</p>
+        <ul className="skeleton-list">
+          {[...Array(5)].map((_, i) => (
+            <li key={i} className="skeleton-item"><p>{t("loading")}</p></li>
+          ))}
+        </ul>
+      </div>
+    </PageWrapper>);
 
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
