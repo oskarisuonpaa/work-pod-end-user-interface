@@ -58,6 +58,10 @@
   "searchresults-no-date": "Päivämäärää ei ole valittu",
   "searchresults-error": "Workpodien hakemisessa tapahtui virhe. Yritä uudelleen.",
   "searchresults-retry": "Yritä uudelleen",
+  "searchresults-available": "Vapaat workpodit",
+  "searchresults-reserved": "Varatut workpodit",
+  "searchresults-no-available": "Kaikki workpodit ovat varattuja valittuna aikana",
+  "searchresults-no-reserved": "Kaikki workpodit ovat vapaita valittuna aikana",
 
   "free": "Vapaa"
 }

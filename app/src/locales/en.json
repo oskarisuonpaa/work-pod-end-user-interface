@@ -57,6 +57,10 @@
   "searchresults-no-date": "No date selected",
   "searchresults-error": "An error occurred while searching for workpods. Please try again.",
   "searchresults-retry": "Try again",
+  "searchresults-available": "Available Workpods",
+  "searchresults-reserved": "Reserved Workpods",
+  "searchresults-no-available": "All workpods are reserved at the selected time",
+  "searchresults-no-reserved": "All workpods are available at the selected time",
 
   "free": "Free"
 }

@@ -9,11 +9,11 @@ type CommonProps = {
 type LinkVariant = {
   to: string;
   onClick?: never;
+  type?: never;
 };
 
-type ButtonVariant = {
+type ButtonVariant = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   to?: never;
-  onClick: () => void;
 };
 
 type ActionButtonProps = CommonProps & (LinkVariant | ButtonVariant);
@@ -34,7 +34,7 @@ const ActionButton = ({
   }
 
   return (
-    <button onClick={rest.onClick} className={baseClass}>
+    <button className={baseClass} {...rest}>
       {label}
     </button>
   );
