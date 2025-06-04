@@ -2,11 +2,12 @@ import type { EventClickArg, EventInput } from "@fullcalendar/core/index.js";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import type { SelectedSlot, SlotStatus } from "@types";
+import i18next from "i18next";
 
 type CalendarProps = {
   events: EventInput[];
   date: string | undefined;
-  onSlotSelect: (slot: SelectedSlot) => void;
+  onSlotSelect: (slot: SelectedSlot | null) => void;
 };
 
 const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
@@ -14,6 +15,11 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
     const { start, end, extendedProps, id, title } = info.event;
 
     if (start && end) {
+      if (end <= new Date()) {
+        onSlotSelect(null);
+        return;
+      }
+
       const slot: SelectedSlot = {
         start: start.toISOString(),
         end: end.toISOString(),
@@ -29,7 +35,7 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
   return (
     <FullCalendar
       plugins={[timeGridPlugin]}
-      locale="fi"
+      locale={i18next.language}
       initialView="timeGridDay"
       allDaySlot={false}
       nowIndicator={true}

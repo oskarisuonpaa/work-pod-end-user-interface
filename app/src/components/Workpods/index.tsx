@@ -9,8 +9,6 @@ const Workpods = () => {
   const { data: workPods = [] } = useWorkpods();
   const { t } = useTranslation();
 
-  console.log("Workpods data:", workPods);
-
   const grouped = workPods.reduce(
     (acc: Record<string, Workpod[]>, pod: Workpod) => {
       const room = pod.alias.split("-")[0];
