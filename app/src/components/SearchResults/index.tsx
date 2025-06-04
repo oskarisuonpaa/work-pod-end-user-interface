@@ -54,27 +54,27 @@ const SearchResults = () => {
 
     const fetchAllCalendars = async () => {
       try {
-      const timeMin = date.toISOString();
-      const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
-      const timeMax = endOfDayLocal.toISOString();
+        const timeMin = date.toISOString();
+        const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
+        const timeMax = endOfDayLocal.toISOString();
 
-      const promises = workPods.map((workpod, idx) =>
-        getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
-          .then((data) => ({ data, idx }))
-          .catch((error) => {
-            console.error("Error fetching calendar:", workpod.workpodId, error);
-            return null;
-          })
-      );
+        const promises = workPods.map((workpod, idx) =>
+          getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
+            .then((data) => ({ data, idx }))
+            .catch((error) => {
+              console.error("Error fetching calendar:", workpod.workpodId, error);
+              return null;
+            })
+        );
 
-      const results = await Promise.all(promises);
+        const results = await Promise.all(promises);
 
-      setWorkPods(prevPods => updateAllWorkPods(prevPods, results, date));
-      setLoadedCount(results.filter(Boolean).length);
-    } catch (error) {
-      console.error("Error fetching all calendars:", error);
-    }
-  };
+        setWorkPods(prevPods => updateAllWorkPods(prevPods, results, date));
+        setLoadedCount(results.filter(Boolean).length);
+      } catch (error) {
+        console.error("Error fetching all calendars:", error);
+      }
+    };
 
     fetchAllCalendars();
   }, [hasFetched, date]);
@@ -129,17 +129,17 @@ const SearchResults = () => {
       );
     });
 
-    if (isError) {
-  return (
-    <PageWrapper pageTitle={t("searchresults-title")}>
-      <div className="error-message">
-        {t("searchresults-error")}
-      </div>
-    </PageWrapper>
-  );
-}
-  if (!date) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
-  if (loading) return(<PageWrapper pageTitle={t("searchresults-title")}><div>{t("loading")}...</div></PageWrapper>);
+  if (isError) {
+    return (
+      <PageWrapper pageTitle={t("searchresults-title")}>
+        <div className="error-message">
+          {t("searchresults-error")}
+        </div>
+      </PageWrapper>
+    );
+  }
+  if (!date) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
+  if (loading) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("loading")}...</div></PageWrapper>);
 
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
