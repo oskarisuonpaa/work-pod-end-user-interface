@@ -2,10 +2,12 @@ import { render, screen } from "@testing-library/react";
 import UpcomingReservations from "./UpcomingReservations";
 import { vi } from "vitest";
 
+// Mock i18next translation function
 vi.mock("i18next", () => ({
   t: (key: string) => key,
 }));
 
+// Mock ReservationLink component
 vi.mock("../ReservationLink", () => ({
   __esModule: true,
   default: ({ id, podName }: { id: string; podName: string }) => (

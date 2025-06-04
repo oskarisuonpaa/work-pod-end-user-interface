@@ -1,33 +1,29 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { vi } from "vitest";
 import App from "./App";
 
 // --- Mocks ---
-
 vi.mock("@components/Navbar", () => ({
   default: () => <div>MockNavbar</div>,
 }));
-
 vi.mock("@components/NavMenu", () => ({
   default: () => <div>MockNavMenu</div>,
 }));
-
 vi.mock("@components/PageWrapper", () => ({
   default: ({ pageTitle }: { pageTitle: string }) => <div>{pageTitle}</div>,
 }));
-
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
 }));
-
 vi.mock("@components/ProtectedRoute", () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-// Mock all pages
+// Page mocks
 vi.mock("@components/DashboardPage", () => ({
   default: () => <div>DashboardPage</div>,
 }));

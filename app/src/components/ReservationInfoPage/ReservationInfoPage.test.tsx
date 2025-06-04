@@ -1,6 +1,6 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
-import { vi } from "vitest";
+import { vi, afterEach, afterAll, describe, it, expect } from "vitest";
 import ReservationInfoPage from "@components/ReservationInfoPage";
 
 // --- Mocks ---
@@ -20,6 +20,7 @@ vi.mock("react-router", async () => {
       calendarId: "calendar123",
       reservationId: "res123",
     }),
+    MemoryRouter: actual.MemoryRouter,
   };
 });
 
@@ -56,7 +57,6 @@ vi.mock("@components/ActionButton", () => ({
   ),
 }));
 
-// --- Shared test data ---
 const mockReservation = {
   id: "res123",
   calendarId: "calendar123",
@@ -67,8 +67,12 @@ const mockReservation = {
 };
 
 describe("ReservationInfoPage", () => {
-  beforeEach(() => {
+  afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
   it("renders loading state initially", async () => {
@@ -129,7 +133,6 @@ describe("ReservationInfoPage", () => {
     mockGetSingleReservation.mockResolvedValue(mockReservation);
     mockDeleteReservation.mockResolvedValue(undefined);
 
-    // Simulate user confirming the cancel prompt
     vi.stubGlobal("confirm", () => true);
     vi.stubGlobal("alert", vi.fn());
 
@@ -139,9 +142,9 @@ describe("ReservationInfoPage", () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByText("cancel-button"));
+    await waitFor(() => screen.getByRole("button", { name: "cancel-button" }));
 
-    fireEvent.click(screen.getByText("cancel-button"));
+    fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
 
     await waitFor(() =>
       expect(mockDeleteReservation).toHaveBeenCalledWith(
@@ -154,7 +157,7 @@ describe("ReservationInfoPage", () => {
 
   it("does not call deleteReservation if user cancels", async () => {
     mockGetSingleReservation.mockResolvedValue(mockReservation);
-    vi.stubGlobal("confirm", () => false); // User cancels
+    vi.stubGlobal("confirm", () => false);
 
     render(
       <MemoryRouter>
@@ -162,9 +165,9 @@ describe("ReservationInfoPage", () => {
       </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByText("cancel-button"));
+    await waitFor(() => screen.getByRole("button", { name: "cancel-button" }));
 
-    fireEvent.click(screen.getByText("cancel-button"));
+    fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
 
     expect(mockDeleteReservation).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();

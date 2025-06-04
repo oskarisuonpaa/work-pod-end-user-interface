@@ -14,6 +14,7 @@ vi.mock("react-router", async () => {
   return {
     ...actual,
     useNavigate: () => mockNavigate,
+    MemoryRouter: actual.MemoryRouter,
   };
 });
 
