@@ -21,7 +21,6 @@
 }
 
 .available-results {
-
     background-color: var(--light-green);
 }
 
@@ -38,6 +37,7 @@
     width: 100vw;
     animation: pulse 1.5s infinite;
 }
+
 .skeleton-list {
     list-style: none;
     margin-bottom: 20px;
@@ -61,4 +61,3 @@
     50% { opacity: 0.5; }
     100% { opacity: 1; }
 }
-
