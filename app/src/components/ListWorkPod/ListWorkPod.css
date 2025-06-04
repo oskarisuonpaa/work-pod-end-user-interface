@@ -6,7 +6,6 @@ li.lab-arrow{
 }
 
 .lab-arrow {
-    
     padding: .625rem 1.25rem;
     display: block;
     color: #000;
@@ -40,6 +39,7 @@ li.lab-arrow{
     color: #000;
     display: block;
 }
+
 .workpod-title {
     font-size: 1rem;
     font-weight: 700;
@@ -47,6 +47,7 @@ li.lab-arrow{
     color: var(--black);
     text-transform: uppercase;
 }
+
 .workpod-time {
     margin-top: 0.5rem;
     color: var(--black);
