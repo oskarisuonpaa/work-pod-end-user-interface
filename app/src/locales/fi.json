@@ -57,6 +57,7 @@
   "searchresults-reserveduntil": "Varattu klo {{time}} asti",
   "searchresults-no-date": "Päivämäärää ei ole valittu",
   "searchresults-error": "Workpodien hakemisessa tapahtui virhe. Yritä uudelleen.",
+  "searchresults-retry": "Yritä uudelleen",
 
   "free": "Vapaa"
 }

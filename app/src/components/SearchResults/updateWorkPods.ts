@@ -31,7 +31,6 @@ const updateWorkPods = (
   let freeUntil = null;
   const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
 
-  console.log(data);
   if (data.length === 0) {
     newPods[idx].isReserved = false;
     // calculate freefor the rest of the work day
