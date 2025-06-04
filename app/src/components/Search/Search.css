@@ -1,13 +1,18 @@
 
-#searchForm table{
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+.search-form {
+    display: grid;
+    gap: 0.5rem;
+    max-width: 400px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    
+    grid-template-columns: max-content 1fr;
 }
 
-#searchForm table td {
-    line-height: 1.5;
+.last-row {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
-
 /* calendar */
 #searchContainer .react-datepicker-popper {
     width: auto;
