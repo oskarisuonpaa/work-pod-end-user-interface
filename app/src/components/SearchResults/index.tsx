@@ -9,6 +9,9 @@ import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
 import type { WorkpodWithEvents } from "@types";
 import { useWorkpods } from "@hooks/useWorkpods.ts";
 import ListWorkPod from "../ListWorkPod";
+import ActionButton from "../ActionButton";
+
+const TIMEOUT_MS = 30000; // 30 seconds
 
 const SearchResults = () => {
   const location = useLocation();
@@ -18,8 +21,20 @@ const SearchResults = () => {
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [timedOut, setTimedOut] = useState<boolean>(false);
+  const [retryCount, setRetryCount] = useState(0);
   const { t } = useTranslation();
   const { data: calendars = [], isError } = useWorkpods();
+
+  // Timeout effect
+  useEffect(() => {
+    if (!loading) return;
+    setTimedOut(false);
+    const timer = setTimeout(() => {
+      setTimedOut(true);
+    }, TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [loading, retryCount]);
 
   // Step 1: Fetch initial workpod list
   useEffect(() => {
@@ -40,8 +55,6 @@ const SearchResults = () => {
 
       setWorkPods(pods);
       setHasFetched(true);
-      console.log(calendars);
-
     };
 
     fetchWorkpods();
@@ -120,16 +133,29 @@ const SearchResults = () => {
       );
     });
 
-  if (isError) {
+  const retrySearch = () => {
+    setLoading(true);
+    setHasFetched(false);
+    setIsFetching(false);
+    setTimedOut(false);
+    setWorkPods([]);
+    setRetryCount((prev) => prev + 1);
+  }
+  // Display error
+  if (isError || timedOut) {
+    console.error("Error fetching workpods or timed out");
     return (
       <PageWrapper pageTitle={t("searchresults-title")}>
         <div className="error-message">
-          {t("searchresults-error")}
+          <p>{t("searchresults-error")}</p>
+          <ActionButton label={t("searchresults-retry")} onClick={retrySearch} />
         </div>
       </PageWrapper>
     );
   }
+  // No date provided
   if (!date) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
+  // Still loading
   if (loading) return (
     <PageWrapper pageTitle={t("searchresults-title")}>
       <div className="loading"><p>{t("loading")}...</p>
@@ -140,7 +166,7 @@ const SearchResults = () => {
         </ul>
       </div>
     </PageWrapper>);
-
+  // Display results
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
       <p className="search-results">
