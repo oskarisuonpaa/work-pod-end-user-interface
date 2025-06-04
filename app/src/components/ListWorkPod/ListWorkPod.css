@@ -1,0 +1,53 @@
+li.lab-arrow{
+    border: 1px solid black;
+    display: block;
+    margin: 20px;
+    padding: 10px 20px;
+}
+
+.lab-arrow {
+    
+    padding: .625rem 1.25rem;
+    display: block;
+    color: #000;
+    border: 2px solid #000;
+    width: 50%;
+    position: relative;
+    text-decoration: none;
+    background-color: transparent;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+}
+
+.lab-arrow a {
+    text-decoration: none;
+    display: block;
+    color: black;
+}
+
+.lab-arrow a::before {
+    font-size: 1.875rem;
+    position: absolute;
+    right: .625rem;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "\e901";
+    font-family: lamk-icons !important;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    color: #000;
+    display: block;
+}
+.workpod-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--black);
+    text-transform: uppercase;
+}
+.workpod-time {
+    margin-top: 0.5rem;
+    color: var(--black);
+}

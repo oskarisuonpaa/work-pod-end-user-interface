@@ -1,13 +1,14 @@
 import { format, setSeconds, setMinutes, setHours } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, Link } from "react-router";
+import { useLocation } from "react-router";
 import updateAllWorkPods from "./updateWorkPods.ts";
 import PageWrapper from "../PageWrapper";
 import "./SearchResults.css";
 import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
 import type { WorkpodWithEvents } from "@types";
 import { useWorkpods } from "@hooks/useWorkpods.ts";
+import ListWorkPod from "../ListWorkPod";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -95,16 +96,12 @@ const SearchResults = () => {
         ? format(workpod.freeUntil, "HH:mm")
         : "N/A";
       return (
-        <li key={idx} className="lab-arrow">
-          <Link
-            to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}
-          >
-            <p className="workpod-title">{workpod.workpodId}</p>
-            <p className="workpod-time">
-              {t("searchresults-freeuntil", { time: freeUntil })}.
-            </p>
-          </Link>
-        </li>
+        <ListWorkPod
+          key={idx}
+          workpodId={workpod.workpodId}
+          date={date}
+          text={t("searchresults-freeuntil", { time: freeUntil })}
+        />
       );
     });
 
@@ -116,16 +113,12 @@ const SearchResults = () => {
         ? format(workpod.reservedUntil, "HH:mm")
         : "N/A";
       return (
-        <li key={idx} className="lab-arrow">
-          <Link
-            to={`/workpods/${workpod.workpodId}/${format(date, "yyyy-MM-dd")}`}
-          >
-            <p className="workpod-title">{workpod.workpodId}</p>
-            <p className="workpod-time">
-              {t("searchresults-reserveduntil", { time: reservedUntil })}.
-            </p>
-          </Link>
-        </li>
+        <ListWorkPod
+          key={idx}
+          workpodId={workpod.workpodId}
+          date={date}
+          text={t("searchresults-reserveduntil", { time: reservedUntil })}
+        />
       );
     });
 
