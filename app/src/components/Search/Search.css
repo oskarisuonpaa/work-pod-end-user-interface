@@ -1,22 +1,10 @@
-/*#searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-}*/
 
-#searchButton {
-    background-color: var(--blue);
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+#searchForm table{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+#searchForm table td {
+    line-height: 1.5;
 }
 
 /* calendar */
@@ -40,6 +28,7 @@
     .react-datepicker__day--selected {
         background-color: var(--turquoise);
     }
+
     .react-datepicker__day:not([aria-disabled=true]):hover {
         background-color: var(--light-blue);
     }
@@ -95,9 +84,6 @@
         background-color: var(--blue);
     }
 
-    .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled {
-        display: none;
-    }
 
     .react-datepicker-time__header {
         color: white;
