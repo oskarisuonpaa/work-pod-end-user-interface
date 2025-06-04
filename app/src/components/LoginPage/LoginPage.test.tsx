@@ -1,4 +1,6 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import LoginPage from ".";
 
@@ -18,7 +20,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("@react-oauth/google", async () => {
+vi.mock("@react-oauth/google", () => {
   type GoogleLoginProps = {
     onSuccess?: (response: { credential: string }) => void;
   };
@@ -39,7 +41,7 @@ vi.mock("@components/PageWrapper", () => ({
 
 describe("LoginPage", () => {
   beforeEach(() => {
-    onLoginMock.mockClear(); // Reset mock before each test
+    onLoginMock.mockClear();
   });
 
   it("renders the Google Login button", () => {
@@ -49,10 +51,10 @@ describe("LoginPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("calls onLogin with credential on click", () => {
+  it("calls onLogin with credential on click", async () => {
     render(<LoginPage />);
     const loginButton = screen.getByRole("button", { name: /google login/i });
-    loginButton.click();
+    await userEvent.click(loginButton);
 
     expect(onLoginMock).toHaveBeenCalledWith("mock-token");
   });
