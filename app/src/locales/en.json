@@ -26,6 +26,9 @@
   "navbar-search": "Search",
   "navbar-login": "Login",
   "navbar-logout": "Logout",
+  "navbar-navigation": "Navigation",
+  "language-english": "English",
+  "language-finnish": "Finnish",
 
   "reservations-no-reservations": "No Reservations Found",
   "reservations-your": "Your Reservations",

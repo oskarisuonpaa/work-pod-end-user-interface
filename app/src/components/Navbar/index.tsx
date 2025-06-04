@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar" role="navigation" aria-label={t("navbar-navigation")}>
         {loggedIn && (
           <>
             <NavLink to="/dashboard" label={t("navbar-dashboard")} />
@@ -59,12 +59,16 @@ const Navbar = () => {
           <button
             className={i18n.language === "en" ? "lng-active" : "lng"}
             onClick={() => changeLanguage("en")}
+            aria-current={i18n.language === "en" ? "true" : undefined}
+            aria-label={t("language-english")}
           >
             EN
           </button>
           <button
             className={i18n.language === "fi" ? "lng-active" : "lng"}
             onClick={() => changeLanguage("fi")}
+            aria-current={i18n.language === "fi" ? "true" : undefined}
+            aria-label={t("language-finnish")}
           >
             FI
           </button>
