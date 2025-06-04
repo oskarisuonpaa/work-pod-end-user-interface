@@ -59,7 +59,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies
         working-directory: app
@@ -82,4 +82,4 @@ jobs:
 
       - name: Test
         working-directory: app
-        run: echo "Testing... (replace with actual test command)"
+        run: npm test
