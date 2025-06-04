@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 interface BookedEvent {
   start: string | Date;
   end: string | Date;
@@ -36,7 +38,7 @@ export function generateFreeSlots(bookedEvents: BookedEvent[]) {
 
       if (!overlaps) {
         freeSlots.push({
-          title: "Free",
+          title: i18next.t("free"),
           start,
           end,
           backgroundColor: "var(--green)",

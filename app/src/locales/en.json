@@ -55,5 +55,7 @@
   "searchresults-freeuntil": "Free until {{time}}",
   "searchresults-reserveduntil": "Reserved until {{time}}",
   "searchresults-no-date": "No date selected",
-  "searchresults-error": "An error occurred while searching for workpods. Please try again."
+  "searchresults-error": "An error occurred while searching for workpods. Please try again.",
+
+  "free": "Free"
 }
