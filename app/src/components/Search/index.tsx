@@ -78,7 +78,7 @@ const Search = () => {
             </tr>
           </tbody>
         </table>
-        <ActionButton label={t("search-button")} onClick={() => { }} />
+        <ActionButton label={t("search-button")} type="submit" />
       </form>
     </PageWrapper>
   );
