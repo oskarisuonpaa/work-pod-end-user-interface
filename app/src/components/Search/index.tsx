@@ -12,7 +12,6 @@ import ActionButton from "@components/ActionButton";
 
 registerLocale("fi", fi);
 setDefaultLocale("fi");
-// TODO: custom css for datepicker
 
 const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -79,7 +78,6 @@ const Search = () => {
             </tr>
           </tbody>
         </table>
-        <br />
         <ActionButton label={t("search-button")} onClick={() => { }} />
       </form>
     </PageWrapper>
