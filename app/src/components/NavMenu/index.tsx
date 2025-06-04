@@ -39,15 +39,16 @@ const NavMenu = () => {
       </div>
 
       {open && (
-        <div className="mobile-nav-overlay">
-          <div
+        <nav className="mobile-nav-overlay" aria-label={t("navbar-navigation")}>
+          <button
             className="mobile-nav-close"
             onClick={() => setOpen(false)}
             aria-label="Close menu"
+            type="button"
           >
             <span className="close-bar top" />
             <span className="close-bar bottom" />
-          </div>
+          </button>
 
           <ul className="mobile-nav-list">
             {loggedIn && (
@@ -83,17 +84,21 @@ const NavMenu = () => {
             <button
               className={`lang ${lang === "fi" ? "active" : ""}`}
               onClick={() => changeLanguage("fi")}
+              aria-current={i18n.language === "fi" ? "true" : undefined}
+              aria-label={t("language-finnish")}
             >
               FI
             </button>
             <button
               className={`lang ${lang === "en" ? "active" : ""}`}
               onClick={() => changeLanguage("en")}
+              aria-current={i18n.language === "en" ? "true" : undefined}
+              aria-label={t("language-english")}
             >
               EN
             </button>
           </div>
-        </div>
+        </nav>
       )}
     </>
   );

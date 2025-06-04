@@ -27,6 +27,9 @@
   "navbar-search": "Haku",
   "navbar-login": "Kirjaudu sisään",
   "navbar-logout": "Kirjaudu ulos",
+  "navbar-navigation": "Navigointi",
+  "language-english": "Englanti",
+  "language-finnish": "Suomi",
 
   "reservations-no-reservations": "Varauksia ei löytynyt",
   "reservations-your": "Omat varaukset",
