@@ -18,6 +18,7 @@ const Navbar = () => {
   };
   useEffect(() => {
     document.title = t("title");
+    document.documentElement.lang = lang; // Update the document language attribute for accessibility
   }, [lang, t]);
 
   const isActive = (path: string) => location.pathname === path;
