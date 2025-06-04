@@ -27,7 +27,6 @@ const LoginPage = () => {
         theme="filled_blue"
         size="large"
         text="signin_with"
-        width="100%"
       />
     </PageWrapper>
   );
