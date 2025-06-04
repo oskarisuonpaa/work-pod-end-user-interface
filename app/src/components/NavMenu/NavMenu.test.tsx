@@ -9,27 +9,22 @@ const mockChangeLanguage = vi.fn();
 const mockSetItem = vi.spyOn(Storage.prototype, "setItem");
 
 // Mock router
-vi.mock("react-router", async () => {
-  const actual = await vi.importActual<typeof import("react-router")>(
-    "react-router"
-  );
-  return {
-    ...actual,
-    useLocation: () => ({ pathname: "/dashboard" }),
-    Link: ({
-      to,
-      children,
-      onClick,
-    }: React.PropsWithChildren<{
-      to: string;
-      onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-    }>) => (
-      <a href={to} onClick={onClick}>
-        {children}
-      </a>
-    ),
-  };
-});
+vi.mock("react-router", () => ({
+  ...vi.importActual("react-router"),
+  useLocation: () => ({ pathname: "/dashboard" }),
+  Link: ({
+    to,
+    children,
+    onClick,
+  }: React.PropsWithChildren<{
+    to: string;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  }>) => (
+    <a href={to} onClick={onClick}>
+      {children}
+    </a>
+  ),
+}));
 
 // Mock i18n
 vi.mock("react-i18next", () => ({
@@ -92,7 +87,7 @@ describe("NavMenu", () => {
 
     fireEvent.click(screen.getByText("navbar-logout"));
     expect(mockOnLogout).toHaveBeenCalled();
-    expect(screen.queryByText("navbar-dashboard")).not.toBeInTheDocument(); // menu closed
+    expect(screen.queryByText("navbar-dashboard")).not.toBeInTheDocument();
   });
 
   it("changes language and sets localStorage", () => {

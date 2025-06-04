@@ -1,9 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { vi } from "vitest";
+import { vi, afterEach, describe, it, expect } from "vitest";
 import Navbar from "@components/Navbar";
 
 // --- Mocks ---
-
 const mockOnLogout = vi.fn();
 const mockChangeLanguage = vi.fn();
 const mockSetItem = vi.spyOn(Storage.prototype, "setItem");
@@ -40,14 +39,13 @@ vi.mock("react-router", () => ({
   ),
 }));
 
-describe("Navbar", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
+describe("Navbar", () => {
   it("renders dashboard links when logged in", () => {
     render(<Navbar />);
-
     expect(screen.getByText("navbar-dashboard")).toBeInTheDocument();
     expect(screen.getByText("navbar-workpods")).toBeInTheDocument();
     expect(screen.getByText("navbar-reservations")).toBeInTheDocument();
@@ -57,30 +55,26 @@ describe("Navbar", () => {
 
   it("calls onLogout when logout link is clicked", () => {
     render(<Navbar />);
-    const logoutLink = screen.getByText("navbar-logout");
-    fireEvent.click(logoutLink);
+    fireEvent.click(screen.getByText("navbar-logout"));
     expect(mockOnLogout).toHaveBeenCalled();
   });
 
   it("calls i18n.changeLanguage and sets localStorage on EN click", () => {
     render(<Navbar />);
-    const enButton = screen.getByText("EN");
-    fireEvent.click(enButton);
+    fireEvent.click(screen.getByText("EN"));
     expect(mockChangeLanguage).toHaveBeenCalledWith("en");
     expect(mockSetItem).toHaveBeenCalledWith("userLanguage", "en");
   });
 
   it("calls i18n.changeLanguage and sets localStorage on FI click", () => {
     render(<Navbar />);
-    const fiButton = screen.getByText("FI");
-    fireEvent.click(fiButton);
+    fireEvent.click(screen.getByText("FI"));
     expect(mockChangeLanguage).toHaveBeenCalledWith("fi");
     expect(mockSetItem).toHaveBeenCalledWith("userLanguage", "fi");
   });
 
   it("applies active-link class to current path", () => {
     render(<Navbar />);
-    const dashboardLink = screen.getByText("navbar-dashboard");
-    expect(dashboardLink).toHaveClass("active-link");
+    expect(screen.getByText("navbar-dashboard")).toHaveClass("active-link");
   });
 });

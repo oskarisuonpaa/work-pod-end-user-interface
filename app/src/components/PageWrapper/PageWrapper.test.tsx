@@ -15,10 +15,9 @@ describe("PageWrapper", () => {
         <p>Child content</p>
       </PageWrapper>
     );
-    expect(screen.getByText("Child content")).toBeInTheDocument();
-    expect(screen.getByText("Child content").parentElement).toHaveClass(
-      "page-content"
-    );
+    const child = screen.getByText("Child content");
+    expect(child).toBeInTheDocument();
+    expect(child.parentElement).toHaveClass("page-content");
   });
 
   it("does not render page-content div if no children are provided", () => {

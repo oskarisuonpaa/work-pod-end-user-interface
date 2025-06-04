@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import ActionButton from "@components/ActionButton";
 import { vi } from "vitest";
 
-// ✅ Mock the `Link` component from react-router
+// Mock the `Link` component from react-router
 vi.mock("react-router", () => ({
   Link: ({
     to,

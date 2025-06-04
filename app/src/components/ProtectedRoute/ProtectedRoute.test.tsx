@@ -49,7 +49,6 @@ describe("ProtectedRoute", () => {
       </MemoryRouter>
     );
 
-    // Since <Navigate> doesn't render visible content, we verify by absence
     expect(screen.queryByText("Should Not Render")).not.toBeInTheDocument();
   });
 });
