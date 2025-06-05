@@ -48,9 +48,12 @@ const Search = () => {
             includeDateIntervals={[
               { start: new Date(), end: addDays(new Date(), 30) },
             ]}
+            showPopperArrow={false}
             filterDate={isWeekday}
             dateFormat="dd/MM/yyyy"
             selectsDisabledDaysInRange
+            popperPlacement={"right-start"}
+            autoFocus
             calendarClassName="custom-calendar"
             minDate={new Date()}
             maxDate={addDays(new Date(), 30)}
@@ -60,9 +63,11 @@ const Search = () => {
           <DatePicker
             id="time"
             showTimeSelect
+            showPopperArrow={false}
             selected={startDate}
             onChange={(time) => setStartDate(time)}
             showTimeSelectOnly
+            popperPlacement={"right-start"}
             dateFormat="HH:mm"
             calendarClassName="custom-time"
           />
