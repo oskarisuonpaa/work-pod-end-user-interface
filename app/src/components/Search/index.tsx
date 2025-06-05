@@ -15,7 +15,6 @@ setDefaultLocale("fi");
 
 const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -34,6 +33,7 @@ const Search = () => {
       },
     });
   };
+
 
   return (
     <PageWrapper pageTitle={t("search-title")}>
