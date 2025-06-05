@@ -15,7 +15,6 @@ setDefaultLocale("fi");
 
 const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -35,6 +34,7 @@ const Search = () => {
     });
   };
 
+
   return (
     <PageWrapper pageTitle={t("search-title")}>
       <p>{t("search-reservation-info")}</p>
@@ -51,6 +51,7 @@ const Search = () => {
             filterDate={isWeekday}
             dateFormat="dd/MM/yyyy"
             selectsDisabledDaysInRange
+            autoFocus
             calendarClassName="custom-calendar"
             minDate={new Date()}
             maxDate={addDays(new Date(), 30)}
