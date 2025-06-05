@@ -6,10 +6,11 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content max-content;
 }
 
 .last-row {
+    grid-row: 4;
     grid-column-start: 1;
     grid-column-end: 3;
 }
@@ -20,6 +21,7 @@
     margin: 0;
     position: absolute !important;
     z-index: 9999;
+    grid-column-start: 2;
 }
 
 .react-datepicker__tab-loop {
