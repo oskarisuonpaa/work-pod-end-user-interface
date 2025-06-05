@@ -34,6 +34,7 @@
   "reservations-your": "Your Reservations",
   "reserve-button": "Reserve Slot",
   "cancel-button": "Cancel Reservation",
+  "cancel-button-to-from": "Cancel Reservation from {{start}} to {{end}}",
   "reservation-canceled": "Reservation {{reservationId}} cancelled",
 
   "reservation-info": "Reservation Info",
