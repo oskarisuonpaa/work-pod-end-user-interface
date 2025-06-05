@@ -1,15 +1,17 @@
-
+#search-info {
+    padding-left: 1rem;
+}
 .search-form {
     display: grid;
     gap: 0.5rem;
     max-width: 400px;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem;
     
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content max-content;
 }
 
 .last-row {
+    grid-row: 4;
     grid-column-start: 1;
     grid-column-end: 3;
 }
