@@ -37,7 +37,7 @@ const Search = () => {
 
   return (
     <PageWrapper pageTitle={t("search-title")}>
-      <p>{t("search-reservation-info")}</p>
+      <p id="search-info">{t("search-reservation-info")}</p>
       <form id="searchForm" onSubmit={handleSubmit} className="search-form">
           <label htmlFor="date">{t("date")}:</label>
 
