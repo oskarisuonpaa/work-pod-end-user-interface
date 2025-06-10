@@ -83,3 +83,37 @@ jobs:
       - name: Test
         working-directory: app
         run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Build
+        working-directory: app
+        run: npm run build
+
+      - name: Copy build files via SSH key
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "app/dist/*"
+          target: "~/workpod-enduser-interface"
+
+      # optional: restart nginx only
+      - name: Restart Nginx (if needed)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo systemctl restart nginx
