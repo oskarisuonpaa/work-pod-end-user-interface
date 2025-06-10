@@ -15,7 +15,6 @@ setDefaultLocale("fi");
 
 const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -35,50 +34,44 @@ const Search = () => {
     });
   };
 
+
   return (
     <PageWrapper pageTitle={t("search-title")}>
-      <p>{t("search-reservation-info")}</p>
-      <form id="searchForm" onSubmit={handleSubmit}>
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <label htmlFor="date">{t("date")}:</label>
-              </td>
-              <td>
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  includeDateIntervals={[
-                    { start: new Date(), end: addDays(new Date(), 30) },
-                  ]}
-                  filterDate={isWeekday}
-                  dateFormat="dd/MM/yyyy"
-                  selectsDisabledDaysInRange
-                  calendarClassName="custom-calendar"
-                  minDate={new Date()}
-                  maxDate={addDays(new Date(), 30)}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="time">{t("search-label-time")}:</label>
-              </td>
-              <td>
-                <DatePicker
-                  showTimeSelect
-                  selected={startDate}
-                  onChange={(time) => setStartDate(time)}
-                  showTimeSelectOnly
-                  dateFormat="HH:mm"
-                  calendarClassName="custom-time"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <ActionButton label={t("search-button")} onClick={() => { }} />
+      <p id="search-info">{t("search-reservation-info")}</p>
+      <form id="searchForm" onSubmit={handleSubmit} className="search-form">
+          <label htmlFor="date">{t("date")}:</label>
+
+          <DatePicker
+          id="date"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            includeDateIntervals={[
+              { start: new Date(), end: addDays(new Date(), 30) },
+            ]}
+            showPopperArrow={false}
+            filterDate={isWeekday}
+            dateFormat="dd/MM/yyyy"
+            selectsDisabledDaysInRange
+            popperPlacement={"right-start"}
+            autoFocus
+            calendarClassName="custom-calendar"
+            minDate={new Date()}
+            maxDate={addDays(new Date(), 30)}
+          />
+          <label htmlFor="time">{t("search-label-time")}:</label>
+
+          <DatePicker
+            id="time"
+            showTimeSelect
+            showPopperArrow={false}
+            selected={startDate}
+            onChange={(time) => setStartDate(time)}
+            showTimeSelectOnly
+            popperPlacement={"right-start"}
+            dateFormat="HH:mm"
+            calendarClassName="custom-time"
+          />
+          <ActionButton label={t("search-button")} type="submit" className="last-row" />
       </form>
     </PageWrapper>
   );

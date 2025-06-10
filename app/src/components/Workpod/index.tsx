@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useParams } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
@@ -22,6 +22,8 @@ const Workpod = () => {
     date?: string;
   }>();
   const { t } = useTranslation();
+  const reserveButtonRef = useRef<HTMLButtonElement>(null);
+  const cancelButtonRef = useRef<HTMLButtonElement>(null);
 
   const date = isValidDate(paramDate)
     ? paramDate!
@@ -60,6 +62,18 @@ const Workpod = () => {
     [workpodId, cancel, t]
   );
 
+    useEffect(() => {
+    if (selectedSlot?.status === "free" && reserveButtonRef.current) {
+      reserveButtonRef.current.focus();
+    } else if (
+      selectedSlot &&
+      selectedSlot.title === user?.name &&
+      cancelButtonRef.current
+    ) {
+      cancelButtonRef.current.focus();
+    }
+  }, [selectedSlot, user?.name]);
+
   if (!workpodId) return <div>{t("reserve-id-missing")}</div>;
 
   return (
@@ -70,10 +84,10 @@ const Workpod = () => {
         date={date}
       />
       {selectedSlot?.status === "free" && (
-        <ReserveButton slot={selectedSlot} onReserve={handleReservation} />
+        <ReserveButton slot={selectedSlot} onReserve={handleReservation} buttonRef={reserveButtonRef} />
       )}
       {selectedSlot?.title === user?.name && (
-        <CancelButton slot={selectedSlot!} onCancel={handleCancelReservation} />
+        <CancelButton slot={selectedSlot!} onCancel={handleCancelReservation} buttonRef={cancelButtonRef} />
       )}
     </PageWrapper>
   );

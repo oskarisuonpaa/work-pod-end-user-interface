@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { forwardRef } from "react";
 import "./ActionButton.css";
 
 type CommonProps = {
@@ -9,21 +10,18 @@ type CommonProps = {
 type LinkVariant = {
   to: string;
   onClick?: never;
+  type?: never;
 };
 
-type ButtonVariant = {
+type ButtonVariant = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   to?: never;
-  onClick: () => void;
 };
 
 type ActionButtonProps = CommonProps & (LinkVariant | ButtonVariant);
 
-const ActionButton = ({
-  label,
-  className = "",
-  ...rest
-}: ActionButtonProps) => {
-  const baseClass = `button ${className}`.trim();
+const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
+  ({ label, className = "", ...rest }, ref) => {
+    const baseClass = `button ${className}`.trim();
 
   if ("to" in rest && rest.to) {
     return (
@@ -34,10 +32,10 @@ const ActionButton = ({
   }
 
   return (
-    <button onClick={rest.onClick} className={baseClass}>
+    <button className={baseClass} {...rest} ref={ref}>
       {label}
     </button>
   );
-};
+});
 
 export default ActionButton;

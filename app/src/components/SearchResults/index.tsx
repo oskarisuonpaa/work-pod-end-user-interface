@@ -146,7 +146,7 @@ const SearchResults = () => {
     console.error("Error fetching workpods or timed out");
     return (
       <PageWrapper pageTitle={t("searchresults-title")}>
-        <div className="error-message">
+        <div className="error-message" role="alert">
           <p>{t("searchresults-error")}</p>
           <ActionButton label={t("searchresults-retry")} onClick={retrySearch} />
         </div>
@@ -157,7 +157,7 @@ const SearchResults = () => {
   if (!date) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
   // Still loading
   if (loading) return (
-    <PageWrapper pageTitle={t("searchresults-title")}>
+    <PageWrapper pageTitle={t("searchresults-title")} aria-busy="true">
       <div className="loading"><p>{t("loading")}...</p>
         <ul className="skeleton-list">
           {[...Array(5)].map((_, i) => (
@@ -169,12 +169,24 @@ const SearchResults = () => {
   // Display results
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
-      <p className="search-results">
-        {t("searchresults-text1")} {format(date, "dd/MM/yyyy HH:mm")}:
-      </p>
       <div className="results">
-        <ul className="available-results">{workPodsAvailable}</ul>
-        <ul className="reserved-results">{workPodsReserved}</ul>
+        <section aria-labelledby="available-heading">
+          <h2 id="available-heading">{t("searchresults-available")} {format(date, "dd/MM/yyyy HH:mm")}</h2>
+          {workPodsAvailable.length > 0 ? (<div className="resultsGroup">
+            <ul className="available-results">{workPodsAvailable}</ul>
+          </div>
+          ) : (
+            <p className="no-results">{t("searchresults-no-available")}</p>
+          )}
+        </section>
+        <section aria-labelledby="reserved-heading">
+          <h2 id="reserved-heading">{t("searchresults-reserved")} {format(date, "dd/MM/yyyy HH:mm")}</h2>
+          {workPodsReserved.length > 0 ? (<div className="resultsGroup">
+            <ul className="reserved-results">{workPodsReserved}</ul></div>
+          ) : (
+            <p className="no-results">{t("searchresults-no-reserved")}</p>
+          )}
+        </section>
       </div>
     </PageWrapper>
   );

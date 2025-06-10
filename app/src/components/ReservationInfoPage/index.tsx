@@ -77,7 +77,7 @@ const ReservationInfoPage = () => {
   if (error || !reservation) {
     return (
       <PageWrapper pageTitle={t("reservation-not-found")}>
-        <p>{error || t("reservation-not-yours")}</p>
+        <p role="status">{error || t("reservation-not-yours")}</p>
       </PageWrapper>
     );
   }

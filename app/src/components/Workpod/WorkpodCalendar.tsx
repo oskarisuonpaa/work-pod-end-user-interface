@@ -14,6 +14,7 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
   const handleEventClick = (info: EventClickArg) => {
     const { start, end, extendedProps, id, title } = info.event;
 
+    
     if (start && end) {
       if (end <= new Date()) {
         onSlotSelect(null);
@@ -31,6 +32,16 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
       onSlotSelect(slot);
     }
   };
+  //need to set the minutes to 0 to show current events as well
+  const now = new Date();
+  now.setMinutes(0);
+  now.setSeconds(0);
+  now.setMilliseconds(0);
+  const filteredEvents = events.filter(event => {
+    // Assuming event.start is a Date or ISO string
+    if (!event.start) return false;
+    return new Date(event.start as string | number | Date) >= now;
+  });
 
   return (
     <FullCalendar
@@ -39,13 +50,14 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
       initialView="timeGridDay"
       allDaySlot={false}
       nowIndicator={true}
-      events={events}
+      events={filteredEvents}
       initialDate={date}
       eventClick={handleEventClick}
+      scrollTime={now.toTimeString().slice(0, 8)}
       eventMinHeight={40}
       slotMinTime="00:00:00"
       slotMaxTime="24:00:00"
-      height="1242px"
+      height="clamp(400px, 500px, 600px)"
     />
   );
 };

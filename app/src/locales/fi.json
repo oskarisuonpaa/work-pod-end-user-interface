@@ -27,11 +27,15 @@
   "navbar-search": "Haku",
   "navbar-login": "Kirjaudu sisään",
   "navbar-logout": "Kirjaudu ulos",
+  "navbar-navigation": "Navigointi",
+  "language-english": "Englanti",
+  "language-finnish": "Suomi",
 
   "reservations-no-reservations": "Varauksia ei löytynyt",
   "reservations-your": "Omat varaukset",
   "reserve-button": "Varaa aika",
   "cancel-button": "Peru varaus",
+  "cancel-button-to-from": "Peru varaus klo {{start}}-{{end}}",
   "reservation-canceled": "Varaus {{reservationId}} peruttu",
 
   "reservation-info": "Varauksen tiedot",
@@ -58,6 +62,10 @@
   "searchresults-no-date": "Päivämäärää ei ole valittu",
   "searchresults-error": "Workpodien hakemisessa tapahtui virhe. Yritä uudelleen.",
   "searchresults-retry": "Yritä uudelleen",
+  "searchresults-available": "Vapaat workpodit",
+  "searchresults-reserved": "Varatut workpodit",
+  "searchresults-no-available": "Kaikki workpodit ovat varattuja valittuna aikana",
+  "searchresults-no-reserved": "Kaikki workpodit ovat vapaita valittuna aikana",
 
   "free": "Vapaa"
 }
