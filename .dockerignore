@@ -1,0 +1,23 @@
+# Node dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+.pnpm-store
+
+# Git
+.git
+.gitignore
+
+# Logs and system files
+.DS_Store
+*.log
+
+# Build output (will be recreated in Docker)
+dist
+build
+
+# Environment files (already handled separately via COPY or env_file)
+.env
+.env.local
+.env.development
+.env.production
