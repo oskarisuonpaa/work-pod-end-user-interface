@@ -6,7 +6,8 @@ export const useReservations = () => {
   return useQuery<ReservationType[], Error>({
     queryKey: ["userReservations"],
     queryFn: getUserReservations,
-    staleTime: 60 * 1000,
+    staleTime: 60000,
     retry: 1,
+    refetchInterval: 60000,
   });
 };
