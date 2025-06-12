@@ -15,8 +15,9 @@ const useWorkpodCalendar = (workpodId?: string) => {
       return [...bookedEvents, ...freeSlots];
     },
     enabled: !!workpodId,
-    staleTime: 10000,
+    staleTime: 0,
     refetchOnWindowFocus: true,
+    refetchInterval: 10000,
   });
 };
 
