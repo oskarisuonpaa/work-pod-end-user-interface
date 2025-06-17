@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import { useAuth } from "@auth/useAuth";
 import useWorkpodCalendar from "@hooks/useWorkpodCalendar";
 import usePostReservation from "@hooks/usePostReservation";
@@ -13,7 +13,8 @@ import WorkpodCalendar from "./WorkpodCalendar";
 import { useTranslation } from "react-i18next";
 import type { SelectedSlot } from "@types";
 
-const isValidDate = (s?: string) => !!s && !isNaN(Date.parse(s));
+const isValidDate = (dateString?: string) =>
+  !!dateString && !isNaN(Date.parse(dateString));
 
 const Workpod = () => {
   const { user } = useAuth();
@@ -21,6 +22,9 @@ const Workpod = () => {
     workpodId: string;
     date?: string;
   }>();
+  const [searchParams] = useSearchParams();
+  const qrStart = searchParams.get("start");
+  const qrEnd = searchParams.get("end");
   const { t } = useTranslation();
   const reserveButtonRef = useRef<HTMLButtonElement>(null);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
@@ -62,17 +66,27 @@ const Workpod = () => {
     [workpodId, cancel, t]
   );
 
-    useEffect(() => {
+  useEffect(() => {
     if (selectedSlot?.status === "free" && reserveButtonRef.current) {
       reserveButtonRef.current.focus();
-    } else if (
-      selectedSlot &&
-      selectedSlot.title === user?.name &&
-      cancelButtonRef.current
-    ) {
+    } else if (selectedSlot?.title === user?.name && cancelButtonRef.current) {
       cancelButtonRef.current.focus();
     }
   }, [selectedSlot, user?.name]);
+
+  useEffect(() => {
+    if (
+      qrStart &&
+      qrEnd &&
+      isValidDate(qrStart) &&
+      isValidDate(qrEnd) &&
+      user?.name &&
+      workpodId
+    ) {
+      const autoSlot = { start: qrStart, end: qrEnd };
+      handleReservation(autoSlot);
+    }
+  }, [qrStart, qrEnd, user?.name, workpodId, handleReservation]);
 
   if (!workpodId) return <div>{t("reserve-id-missing")}</div>;
 
@@ -84,10 +98,18 @@ const Workpod = () => {
         date={date}
       />
       {selectedSlot?.status === "free" && (
-        <ReserveButton slot={selectedSlot} onReserve={handleReservation} buttonRef={reserveButtonRef} />
+        <ReserveButton
+          slot={selectedSlot}
+          onReserve={handleReservation}
+          buttonRef={reserveButtonRef}
+        />
       )}
-      {selectedSlot?.title === user?.name && (
-        <CancelButton slot={selectedSlot!} onCancel={handleCancelReservation} buttonRef={cancelButtonRef} />
+      {selectedSlot && selectedSlot.title === user?.name && (
+        <CancelButton
+          slot={selectedSlot}
+          onCancel={handleCancelReservation}
+          buttonRef={cancelButtonRef}
+        />
       )}
     </PageWrapper>
   );
