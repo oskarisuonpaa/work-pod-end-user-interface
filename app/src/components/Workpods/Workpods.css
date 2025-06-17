@@ -59,11 +59,11 @@ a.work-pod-link {
 }
 
 .busy {
-  background: var(--red);
+  background: var(--orange);
 }
 
 .unknown {
-  background: var(--orange);
+  background: var(--red);
 }
 
 .separator {
