@@ -33,7 +33,7 @@ const Workpod = () => {
     ? paramDate!
     : new Date().toISOString().slice(0, 10);
 
-  const { data: events = [] } = useWorkpodCalendar({ workpodId });
+  const { data: events = [] } = useWorkpodCalendar(workpodId);
   const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
 
   const { mutateAsync: reserve } = usePostReservation();
