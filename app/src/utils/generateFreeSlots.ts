@@ -1,11 +1,7 @@
+import type { BookedEvent } from "@types";
 import i18next from "i18next";
 
-interface BookedEvent {
-  start: string | Date;
-  end: string | Date;
-}
-
-export function generateFreeSlots(bookedEvents: BookedEvent[]) {
+const generateFreeSlots = (bookedEvents: BookedEvent[]) => {
   const startHour = 0;
   const endHour = 24;
   const today = new Date();
@@ -52,14 +48,6 @@ export function generateFreeSlots(bookedEvents: BookedEvent[]) {
   }
 
   return freeSlots;
-}
-
-export const isSameSlot = (
-  a: { start: string; end: string },
-  b: { start: string; end: string }
-): boolean => {
-  return (
-    new Date(a.start).getTime() === new Date(b.start).getTime() &&
-    new Date(a.end).getTime() === new Date(b.end).getTime()
-  );
 };
+
+export default generateFreeSlots;
