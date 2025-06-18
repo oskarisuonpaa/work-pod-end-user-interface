@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Reservations.css";
-import { getUserReservations } from "@utils/backendCommunication";
+import { reservationApi } from "api/reservations";
 import PageWrapper from "../PageWrapper/index";
 import ReservationLink from "../ReservationLink";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ const ReservationsPage = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const reservations = await getUserReservations();
+        const reservations = await reservationApi.getUserReservations();
         setReservations(reservations);
         setIsLoading(false);
       } catch (error) {

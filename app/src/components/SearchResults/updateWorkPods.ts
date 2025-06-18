@@ -13,7 +13,7 @@ const updateAllWorkPods = (
   date: Date
 ) => {
   let newPods = [...prevPods];
-  results?.forEach(result => {
+  results?.forEach((result) => {
     if (result) {
       newPods = updateWorkPods(newPods, result.data, date, result.idx);
     }

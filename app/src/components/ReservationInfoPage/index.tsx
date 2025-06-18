@@ -1,43 +1,35 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import "./Reservation.css";
-import {
-  deleteReservation,
-  getSingleReservation,
-} from "@utils/backendCommunication";
+import { reservationApi } from "api/reservations";
 import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 import ActionButton from "@components/ActionButton";
-
-type ReservationType = {
-  id: string;
-  start: string;
-  end: string;
-  calendarId: string;
-  date: string;
-  room: string;
-};
+import type { ReservationInfo } from "@types";
 
 const ReservationInfoPage = () => {
-  const { calendarId, reservationId } = useParams<{
+  const { calendarId, eventId } = useParams<{
     calendarId: string;
-    reservationId: string;
+    eventId: string;
   }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [reservation, setReservation] = useState<ReservationType | null>(null);
+  const [reservation, setReservation] = useState<ReservationInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!calendarId || !reservationId) {
+    if (!calendarId || !eventId) {
       navigate("/reservations");
       return;
     }
     const fetchReservation = async () => {
       try {
-        const data = await getSingleReservation(calendarId, reservationId);
+        const data = await reservationApi.getSingleReservation({
+          calendarId,
+          eventId,
+        });
         setReservation(data);
       } catch (err) {
         console.error("Error fetching reservation:", err);
@@ -48,18 +40,18 @@ const ReservationInfoPage = () => {
     };
 
     fetchReservation();
-  }, [calendarId, reservationId, navigate, t]);
+  }, [calendarId, reservation, navigate, t, eventId]);
 
   const handleCancel = async () => {
     const confirmed = confirm(t("reserve-confirm-cancel"));
     if (!confirmed) return;
 
     try {
-      if (!calendarId || !reservationId) {
+      if (!calendarId || !eventId) {
         throw new Error(t("error-missing-ids"));
       }
-      await deleteReservation(calendarId, reservationId);
-      alert(t("reservation-canceled", { reservationId: reservationId }));
+      await reservationApi.deleteReservation({ calendarId, eventId });
+      alert(t("reservation-canceled", { reservationId: eventId }));
       navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
@@ -67,7 +59,7 @@ const ReservationInfoPage = () => {
     }
   };
 
-  if (!calendarId || !reservationId) {
+  if (!calendarId || !eventId) {
     return null;
   }
 

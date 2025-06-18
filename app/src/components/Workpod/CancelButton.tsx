@@ -12,8 +12,8 @@ type CancelButtonProps = {
 
 const CancelButton = ({ slot, onCancel, buttonRef }: CancelButtonProps) => {
   const { t } = useTranslation();
-    const start = parseTime(slot.start);
-    const end = parseTime(slot.end);
+  const start = parseTime(slot.start);
+  const end = parseTime(slot.end);
   return (
     <div className="button-container">
       <ActionButton

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import Workpods from "@components/Workpods";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { useWorkpods } from "@hooks/useWorkpods";
+import useWorkpods from "@hooks/useWorkpods";
 vi.mock("@hooks/useWorkpods");
 
 // Mock useTranslation to return keys

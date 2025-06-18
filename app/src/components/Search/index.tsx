@@ -34,44 +34,47 @@ const Search = () => {
     });
   };
 
-
   return (
     <PageWrapper pageTitle={t("search-title")}>
       <p id="search-info">{t("search-reservation-info")}</p>
       <form id="searchForm" onSubmit={handleSubmit} className="search-form">
-          <label htmlFor="date">{t("date")}:</label>
+        <label htmlFor="date">{t("date")}:</label>
 
-          <DatePicker
+        <DatePicker
           id="date"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            includeDateIntervals={[
-              { start: new Date(), end: addDays(new Date(), 30) },
-            ]}
-            showPopperArrow={false}
-            filterDate={isWeekday}
-            dateFormat="dd/MM/yyyy"
-            selectsDisabledDaysInRange
-            popperPlacement={"right-start"}
-            autoFocus
-            calendarClassName="custom-calendar"
-            minDate={new Date()}
-            maxDate={addDays(new Date(), 30)}
-          />
-          <label htmlFor="time">{t("search-label-time")}:</label>
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          includeDateIntervals={[
+            { start: new Date(), end: addDays(new Date(), 30) },
+          ]}
+          showPopperArrow={false}
+          filterDate={isWeekday}
+          dateFormat="dd/MM/yyyy"
+          selectsDisabledDaysInRange
+          popperPlacement={"right-start"}
+          autoFocus
+          calendarClassName="custom-calendar"
+          minDate={new Date()}
+          maxDate={addDays(new Date(), 30)}
+        />
+        <label htmlFor="time">{t("search-label-time")}:</label>
 
-          <DatePicker
-            id="time"
-            showTimeSelect
-            showPopperArrow={false}
-            selected={startDate}
-            onChange={(time) => setStartDate(time)}
-            showTimeSelectOnly
-            popperPlacement={"right-start"}
-            dateFormat="HH:mm"
-            calendarClassName="custom-time"
-          />
-          <ActionButton label={t("search-button")} type="submit" className="last-row" />
+        <DatePicker
+          id="time"
+          showTimeSelect
+          showPopperArrow={false}
+          selected={startDate}
+          onChange={(time) => setStartDate(time)}
+          showTimeSelectOnly
+          popperPlacement={"right-start"}
+          dateFormat="HH:mm"
+          calendarClassName="custom-time"
+        />
+        <ActionButton
+          label={t("search-button")}
+          type="submit"
+          className="last-row"
+        />
       </form>
     </PageWrapper>
   );

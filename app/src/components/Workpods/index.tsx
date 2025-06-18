@@ -2,8 +2,8 @@ import "./Workpods.css";
 import PageWrapper from "../PageWrapper";
 import WorkpodLink from "./WorkpodLink";
 import { useTranslation } from "react-i18next";
-import { useWorkpods } from "@hooks/useWorkpods";
 import type { Workpod } from "@types";
+import useWorkpods from "@hooks/useWorkpods";
 
 const Workpods = () => {
   const { data: workPods = [] } = useWorkpods();
@@ -29,8 +29,8 @@ const Workpods = () => {
               {pods.map((pod) => (
                 <WorkpodLink
                   key={pod.alias}
-                  podID={pod.alias}
-                  availability={pod.status}
+                  alias={pod.alias}
+                  status={pod.status}
                 />
               ))}
             </div>
