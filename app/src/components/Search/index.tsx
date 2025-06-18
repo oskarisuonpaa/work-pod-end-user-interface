@@ -9,6 +9,7 @@ import PageWrapper from "../PageWrapper";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Search.css";
 import ActionButton from "@components/ActionButton";
+import useIsSmallScreen from "@hooks/useIsSmallScreen.ts";
 
 registerLocale("fi", fi);
 setDefaultLocale("fi");
@@ -17,11 +18,13 @@ const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const isSmallScreen = useIsSmallScreen();
 
   const isWeekday = (date: Date) => {
     const day = getDay(date);
     return day !== 0 && day !== 6;
   };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const now = new Date();
@@ -39,39 +42,40 @@ const Search = () => {
     <PageWrapper pageTitle={t("search-title")}>
       <p id="search-info">{t("search-reservation-info")}</p>
       <form id="searchForm" onSubmit={handleSubmit} className="search-form">
-          <label htmlFor="date">{t("date")}:</label>
-
-          <DatePicker
+        <label htmlFor="date">{t("date")}:</label>
+        <DatePicker
           id="date"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            includeDateIntervals={[
-              { start: new Date(), end: addDays(new Date(), 30) },
-            ]}
-            showPopperArrow={false}
-            filterDate={isWeekday}
-            dateFormat="dd/MM/yyyy"
-            selectsDisabledDaysInRange
-            popperPlacement={"right-start"}
-            autoFocus
-            calendarClassName="custom-calendar"
-            minDate={new Date()}
-            maxDate={addDays(new Date(), 30)}
-          />
-          <label htmlFor="time">{t("search-label-time")}:</label>
-
-          <DatePicker
-            id="time"
-            showTimeSelect
-            showPopperArrow={false}
-            selected={startDate}
-            onChange={(time) => setStartDate(time)}
-            showTimeSelectOnly
-            popperPlacement={"right-start"}
-            dateFormat="HH:mm"
-            calendarClassName="custom-time"
-          />
-          <ActionButton label={t("search-button")} type="submit" className="last-row" />
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          includeDateIntervals={[
+            { start: new Date(new Date().setHours(0, 0, 0, 0)), end: addDays(new Date(new Date().setHours(0, 0, 0, 0)), 30) },
+          ]}
+          showPopperArrow={false}
+          filterDate={isWeekday}
+          dateFormat="dd/MM/yyyy"
+          selectsDisabledDaysInRange
+          inline={isSmallScreen}
+          popperPlacement={"right-start"}
+          autoFocus
+          calendarClassName="custom-calendar"
+          minDate={new Date()}
+          maxDate={addDays(new Date(), 30)}
+        />
+        <label htmlFor="time">{t("search-label-time")}:</label>
+        <DatePicker
+          id="time"
+          showTimeSelect
+          showPopperArrow={false}
+          selected={startDate}
+          onChange={(time) => setStartDate(time)}
+          showTimeSelectOnly
+          inline={isSmallScreen}
+          popperPlacement={"right-start"}
+          dateFormat="HH:mm"
+          timeIntervals={60}
+          calendarClassName="custom-time"
+        />
+        <ActionButton label={t("search-button")} type="submit" className="last-row" />
       </form>
     </PageWrapper>
   );
