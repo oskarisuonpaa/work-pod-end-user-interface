@@ -1,24 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postReservation } from "@utils/backendCommunication";
+import { reservationApi } from "api/reservations";
+import type { PostReservationPayload } from "types/reservations";
 
 const usePostReservation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      workpodId,
-      start,
-      end,
-    }: {
-      workpodId: string;
-      start: string;
-      end: string;
-    }) => postReservation(workpodId, start, end),
+    mutationFn: (payload: PostReservationPayload) =>
+      reservationApi.postReservation(payload),
+
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["workpodCalendar", variables.workpodId],
+        queryKey: ["workpodCalendar", variables.calendarId],
       });
-      queryClient.invalidateQueries({ queryKey: ["userReservations"] });
+      queryClient.invalidateQueries({ queryKey: ["reservations", "user"] });
+    },
+
+    onError: (error) => {
+      console.error("Failed to post reservation:", error);
     },
   });
 };
