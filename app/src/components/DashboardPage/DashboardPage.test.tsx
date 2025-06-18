@@ -1,11 +1,14 @@
 import { render, screen } from "@testing-library/react";
-import { vi } from "vitest";
+import { vi, describe, it, beforeEach, expect } from "vitest";
 import DashboardPage from "./index";
 import { MemoryRouter } from "react-router";
 
-// --- Shared mocks and spies ---
+// --- Shared mocks ---
 const mockNavigate = vi.fn();
-let mockAuth = { isAuthenticated: () => true, user: { name: "Test User" } };
+let mockAuth = {
+  isAuthenticated: () => true,
+  user: { name: "Test User" },
+};
 
 vi.mock("react-router", async () => {
   const actual = await vi.importActual<typeof import("react-router")>(
@@ -23,7 +26,7 @@ vi.mock("@auth/useAuth", () => ({
 }));
 
 vi.mock("@hooks/useReservations", () => ({
-  useReservations: () => ({
+  default: () => ({
     data: [
       {
         id: "1",
@@ -83,7 +86,9 @@ describe("DashboardPage", () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText("Test User")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Test User" })
+    ).toBeInTheDocument();
     expect(screen.getByText("dashboard-upcoming")).toBeInTheDocument();
     expect(screen.getByText("MockedReservations")).toBeInTheDocument();
   });
