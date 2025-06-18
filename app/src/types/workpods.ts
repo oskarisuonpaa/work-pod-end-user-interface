@@ -1,21 +1,16 @@
-export type BookedEvent = {
-  id: string;
-  start: Date;
-  end: Date;
-  [key: string]: unknown;
-};
-
-const Availability = {
-  Free: "free",
-  Busy: "busy",
-  Unknown: "unknown",
-} as const;
-
-export type Availability = (typeof Availability)[keyof typeof Availability];
-
 export type Workpod = {
   alias: string;
-  status: Availability;
+  status: "free" | "busy" | "unknown";
 };
 
-export { Availability };
+export type WorkpodsResponse = {
+  calendars: Workpod[];
+};
+
+export type CalendarEvent = {
+  id: string;
+  title: string;
+  start: string; // ISO string
+  end: string; // ISO string
+  description: string;
+};
