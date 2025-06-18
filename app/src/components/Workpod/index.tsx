@@ -43,7 +43,11 @@ const Workpod = () => {
     async (slot: { start: string; end: string }) => {
       if (!workpodId || !user?.name) return;
       if (confirm(t("reserve-confirm-reserve"))) {
-        await reserve({ workpodId, start: slot.start, end: slot.end });
+        await reserve({
+          calendarId: workpodId,
+          start: slot.start,
+          end: slot.end,
+        });
         setSelectedSlot({
           start: slot.start,
           end: slot.end,

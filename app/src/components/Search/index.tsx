@@ -37,7 +37,6 @@ const Search = () => {
     });
   };
 
-
   return (
     <PageWrapper pageTitle={t("search-title")}>
       <p id="search-info">{t("search-reservation-info")}</p>

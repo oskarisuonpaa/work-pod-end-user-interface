@@ -1,14 +1,17 @@
-import {useQuery} from '@tanstack/react-query';
-import type { Workpod } from '@types';
-import {getWorkpods} from '@utils/backendCommunication';
+import { useQuery } from "@tanstack/react-query";
+import { getWorkpods } from "api/workpods";
 
-export const useWorkpods = () =>
-  useQuery<Workpod[]>({
-    queryKey: ['workpods'],
+const useWorkpods = () => {
+  return useQuery({
+    queryKey: ["workpods"],
     queryFn: async () => {
       const data = await getWorkpods();
-      return data.calendars as Workpod[];
+      return data.calendars;
     },
-    staleTime: 6000,
-    refetchInterval: 6000,
+    staleTime: 0,
+    refetchInterval: 5000,
+    refetchOnWindowFocus: true,
   });
+};
+
+export default useWorkpods;

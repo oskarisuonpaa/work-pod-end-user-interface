@@ -5,11 +5,13 @@ type GoogleJwtPayload = {
   [key: string]: unknown;
 };
 
-export function getUserNameFromToken(token: string): string {
+const getUserNameFromToken = (token: string): string => {
   try {
     const decoded = jwtDecode<GoogleJwtPayload>(token);
     return decoded.name || "User";
   } catch {
     return "User";
   }
-}
+};
+
+export default getUserNameFromToken;

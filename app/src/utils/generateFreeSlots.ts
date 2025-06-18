@@ -1,11 +1,7 @@
+import type { CalendarEvent } from "@types";
 import i18next from "i18next";
 
-interface BookedEvent {
-  start: string | Date;
-  end: string | Date;
-}
-
-export function generateFreeSlots(bookedEvents: BookedEvent[]) {
+const generateFreeSlots = (bookedEvents: CalendarEvent[]) => {
   const startHour = 0;
   const endHour = 24;
   const today = new Date();
@@ -23,7 +19,7 @@ export function generateFreeSlots(bookedEvents: BookedEvent[]) {
       const end = new Date(day);
       end.setHours(hour + 1, 0, 0, 0);
 
-      const overlaps = bookedEvents.some((event: BookedEvent) => {
+      const overlaps = bookedEvents.some((event: CalendarEvent) => {
         const bookedStart = new Date(event.start).getTime();
         const bookedEnd = new Date(event.end).getTime();
         const slotStart = start.getTime();
@@ -52,14 +48,6 @@ export function generateFreeSlots(bookedEvents: BookedEvent[]) {
   }
 
   return freeSlots;
-}
-
-export const isSameSlot = (
-  a: { start: string; end: string },
-  b: { start: string; end: string }
-): boolean => {
-  return (
-    new Date(a.start).getTime() === new Date(b.start).getTime() &&
-    new Date(a.end).getTime() === new Date(b.end).getTime()
-  );
 };
+
+export default generateFreeSlots;
