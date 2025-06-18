@@ -10,7 +10,7 @@ describe("WorkpodLink", () => {
 
     render(
       <MemoryRouter>
-        <WorkpodLink podID={podID} availability={availability} />
+        <WorkpodLink alias={podID} status={availability} />
       </MemoryRouter>
     );
 

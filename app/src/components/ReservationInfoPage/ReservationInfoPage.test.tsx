@@ -18,16 +18,18 @@ vi.mock("react-router", async () => {
     useNavigate: () => mockNavigate,
     useParams: () => ({
       calendarId: "calendar123",
-      reservationId: "res123",
+      eventId: "res123",
     }),
     MemoryRouter: actual.MemoryRouter,
   };
 });
 
-vi.mock("@utils/backendCommunication", () => ({
-  getSingleReservation: (...args: unknown[]) =>
-    mockGetSingleReservation(...args),
-  deleteReservation: (...args: unknown[]) => mockDeleteReservation(...args),
+vi.mock("api/reservations", () => ({
+  reservationApi: {
+    getSingleReservation: (...args: unknown[]) =>
+      mockGetSingleReservation(...args),
+    deleteReservation: (...args: unknown[]) => mockDeleteReservation(...args),
+  },
 }));
 
 vi.mock("react-i18next", () => ({
@@ -147,10 +149,10 @@ describe("ReservationInfoPage", () => {
     fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
 
     await waitFor(() =>
-      expect(mockDeleteReservation).toHaveBeenCalledWith(
-        "calendar123",
-        "res123"
-      )
+      expect(mockDeleteReservation).toHaveBeenCalledWith({
+        calendarId: "calendar123",
+        eventId: "res123",
+      })
     );
     expect(mockNavigate).toHaveBeenCalledWith("/reservations");
   });

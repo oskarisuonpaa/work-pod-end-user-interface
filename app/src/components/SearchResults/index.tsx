@@ -5,11 +5,11 @@ import { useLocation } from "react-router";
 import updateAllWorkPods from "./updateWorkPods.ts";
 import PageWrapper from "../PageWrapper";
 import "./SearchResults.css";
-import { getWorkpodCalendar } from "@utils/backendCommunication.ts";
 import type { WorkpodWithEvents } from "@types";
-import { useWorkpods } from "@hooks/useWorkpods.ts";
 import ListWorkPod from "../ListWorkPod";
 import ActionButton from "../ActionButton";
+import useWorkpods from "@hooks/useWorkpods.ts";
+import { getWorkpodCalendar } from "api/workpods.ts";
 
 const TIMEOUT_MS = 30000; // 30 seconds
 
@@ -58,7 +58,7 @@ const SearchResults = () => {
     };
 
     fetchWorkpods();
-  }, [calendars]);
+  }, [calendars, date, isFetching]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
@@ -67,21 +67,28 @@ const SearchResults = () => {
     const fetchAllCalendars = async () => {
       try {
         const timeMin = date.toISOString();
-        const endOfDayLocal = setSeconds(setMinutes(setHours(date, 23), 59), 59);
+        const endOfDayLocal = setSeconds(
+          setMinutes(setHours(date, 23), 59),
+          59
+        );
         const timeMax = endOfDayLocal.toISOString();
 
         const promises = workPods.map((workpod, idx) =>
           getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
             .then((data) => ({ data, idx }))
             .catch((error) => {
-              console.error("Error fetching calendar:", workpod.workpodId, error);
+              console.error(
+                "Error fetching calendar:",
+                workpod.workpodId,
+                error
+              );
               return null;
             })
         );
 
         const results = await Promise.all(promises);
 
-        setWorkPods(prevPods => updateAllWorkPods(prevPods, results, date));
+        setWorkPods((prevPods) => updateAllWorkPods(prevPods, results, date));
         setLoadedCount(results.filter(Boolean).length);
       } catch (error) {
         console.error("Error fetching all calendars:", error);
@@ -89,7 +96,7 @@ const SearchResults = () => {
     };
 
     fetchAllCalendars();
-  }, [hasFetched, date]);
+  }, [hasFetched, date, loading, workPods]);
 
   // Step 3: Mark loading complete
   useEffect(() => {
@@ -140,7 +147,7 @@ const SearchResults = () => {
     setTimedOut(false);
     setWorkPods([]);
     setRetryCount((prev) => prev + 1);
-  }
+  };
   // Display error
   if (isError || timedOut) {
     console.error("Error fetching workpods or timed out");
@@ -148,41 +155,61 @@ const SearchResults = () => {
       <PageWrapper pageTitle={t("searchresults-title")}>
         <div className="error-message" role="alert">
           <p>{t("searchresults-error")}</p>
-          <ActionButton label={t("searchresults-retry")} onClick={retrySearch} />
+          <ActionButton
+            label={t("searchresults-retry")}
+            onClick={retrySearch}
+          />
         </div>
       </PageWrapper>
     );
   }
   // No date provided
-  if (!date) return (<PageWrapper pageTitle={t("searchresults-title")}><div>{t("searchresults-no-date")}.</div></PageWrapper>);
+  if (!date)
+    return (
+      <PageWrapper pageTitle={t("searchresults-title")}>
+        <div>{t("searchresults-no-date")}.</div>
+      </PageWrapper>
+    );
   // Still loading
-  if (loading) return (
-    <PageWrapper pageTitle={t("searchresults-title")} aria-busy="true">
-      <div className="loading"><p>{t("loading")}...</p>
-        <ul className="skeleton-list">
-          {[...Array(5)].map((_, i) => (
-            <li key={i} className="skeleton-item"><p>{t("loading")}</p></li>
-          ))}
-        </ul>
-      </div>
-    </PageWrapper>);
+  if (loading)
+    return (
+      <PageWrapper pageTitle={t("searchresults-title")} aria-busy="true">
+        <div className="loading">
+          <p>{t("loading")}...</p>
+          <ul className="skeleton-list">
+            {[...Array(5)].map((_, i) => (
+              <li key={i} className="skeleton-item">
+                <p>{t("loading")}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </PageWrapper>
+    );
   // Display results
   return (
     <PageWrapper pageTitle={t("searchresults-title")}>
       <div className="results">
         <section aria-labelledby="available-heading">
-          <h2 id="available-heading">{t("searchresults-available")} {format(date, "dd/MM/yyyy HH:mm")}</h2>
-          {workPodsAvailable.length > 0 ? (<div className="resultsGroup">
-            <ul className="available-results">{workPodsAvailable}</ul>
-          </div>
+          <h2 id="available-heading">
+            {t("searchresults-available")} {format(date, "dd/MM/yyyy HH:mm")}
+          </h2>
+          {workPodsAvailable.length > 0 ? (
+            <div className="resultsGroup">
+              <ul className="available-results">{workPodsAvailable}</ul>
+            </div>
           ) : (
             <p className="no-results">{t("searchresults-no-available")}</p>
           )}
         </section>
         <section aria-labelledby="reserved-heading">
-          <h2 id="reserved-heading">{t("searchresults-reserved")} {format(date, "dd/MM/yyyy HH:mm")}</h2>
-          {workPodsReserved.length > 0 ? (<div className="resultsGroup">
-            <ul className="reserved-results">{workPodsReserved}</ul></div>
+          <h2 id="reserved-heading">
+            {t("searchresults-reserved")} {format(date, "dd/MM/yyyy HH:mm")}
+          </h2>
+          {workPodsReserved.length > 0 ? (
+            <div className="resultsGroup">
+              <ul className="reserved-results">{workPodsReserved}</ul>
+            </div>
           ) : (
             <p className="no-results">{t("searchresults-no-reserved")}</p>
           )}

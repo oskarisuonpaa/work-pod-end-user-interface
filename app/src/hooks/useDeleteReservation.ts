@@ -1,22 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteReservation } from "@utils/backendCommunication";
+import { reservationApi } from "api/reservations";
+import type { DeleteReservationPayload } from "types/reservations";
 
 const useDeleteReservation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      calendarId,
-      eventId,
-    }: {
-      calendarId: string;
-      eventId: string;
-    }) => deleteReservation(calendarId, eventId),
+    mutationFn: (payload: DeleteReservationPayload) =>
+      reservationApi.deleteReservation(payload),
+
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: ["workpodCalendar", variables.calendarId],
       });
-      queryClient.invalidateQueries({ queryKey: ["userReservations"] });
+      queryClient.invalidateQueries({ queryKey: ["reservations", "user"] });
+    },
+
+    onError: (error) => {
+      console.error("Failed to delete reservation:", error);
     },
   });
 };

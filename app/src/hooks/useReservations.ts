@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import type { ReservationType } from "@types";
-import { getUserReservations } from "@utils/backendCommunication";
+import { reservationApi } from "api/reservations";
+import type { UserReservation } from "types/reservations";
 
-export const useReservations = () => {
-  return useQuery<ReservationType[], Error>({
-    queryKey: ["userReservations"],
-    queryFn: getUserReservations,
-    staleTime: 60000,
-    retry: 1,
-    refetchInterval: 60000,
+const useReservations = () => {
+  return useQuery<UserReservation[]>({
+    queryKey: ["reservations", "user"],
+    queryFn: reservationApi.getUserReservations,
   });
 };
+
+export default useReservations;

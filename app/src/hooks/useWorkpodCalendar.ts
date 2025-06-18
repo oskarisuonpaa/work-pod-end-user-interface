@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getWorkpodCalendar } from "@utils/backendCommunication";
-import { generateFreeSlots } from "@utils/helpers";
-import type { BookedEvent } from "@types";
+import type { CalendarEvent } from "@types";
+import generateFreeSlots from "@utils/generateFreeSlots";
+import { getWorkpodCalendar } from "api/workpods";
 import { useTranslation } from "react-i18next";
 
 const useWorkpodCalendar = (workpodId?: string) => {
@@ -10,14 +10,16 @@ const useWorkpodCalendar = (workpodId?: string) => {
   return useQuery({
     queryKey: ["workpodCalendar", workpodId, i18n.language],
     queryFn: async () => {
-      const bookedEvents: BookedEvent[] = await getWorkpodCalendar(workpodId!);
+      const bookedEvents: CalendarEvent[] = await getWorkpodCalendar(
+        workpodId!
+      );
       const freeSlots = generateFreeSlots(bookedEvents);
       return [...bookedEvents, ...freeSlots];
     },
     enabled: !!workpodId,
     staleTime: 0,
+    refetchInterval: 5000,
     refetchOnWindowFocus: true,
-    refetchInterval: 10000,
   });
 };
 

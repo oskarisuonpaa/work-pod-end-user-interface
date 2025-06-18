@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@auth/useAuth";
-import { useReservations } from "@hooks/useReservations";
+import useReservations from "@hooks/useReservations";
 import "./Dashboard.css";
 import PageWrapper from "../PageWrapper";
 import UpcomingReservations from "./UpcomingReservations";

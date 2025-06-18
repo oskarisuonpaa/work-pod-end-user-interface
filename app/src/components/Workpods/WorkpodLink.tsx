@@ -1,18 +1,13 @@
 import { Link } from "react-router";
 import peepo from "../../assets/placeholder-pepe.jpg";
-import type { Availability } from "@types";
+import type { Workpod } from "@types";
 
-type WorkpodLinkProps = {
-  podID: string;
-  availability: Availability;
-};
-
-const WorkpodLink = ({ podID, availability }: WorkpodLinkProps) => {
+const WorkpodLink = ({ alias, status }: Workpod) => {
   return (
-    <Link to={"/workpods/" + podID} className="work-pod-link">
-      <div className={`hexagon ${availability}`}>
+    <Link to={"/workpods/" + alias} className="work-pod-link">
+      <div className={`hexagon ${status}`}>
         <img src={peepo} alt="Peepo" />
-        <p className="work-pod-name">{podID}</p>
+        <p className="work-pod-name">{alias}</p>
       </div>
     </Link>
   );
