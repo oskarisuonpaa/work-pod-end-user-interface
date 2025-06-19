@@ -18,7 +18,7 @@ const useWorkpodCalendar = (workpodId?: string) => {
     },
     enabled: !!workpodId,
     staleTime: 0,
-    refetchInterval: WORKPOD_CALENDAR_REFETCH_INTERVAL_MS,
+    refetchInterval: 10000,
     refetchOnWindowFocus: true,
   });
 };

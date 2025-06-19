@@ -9,7 +9,7 @@ const useWorkpods = () => {
       return data.calendars;
     },
     staleTime: 0,
-    refetchInterval: WORKPODS_REFETCH_INTERVAL_MS,
+    refetchInterval: 10000,
     refetchOnWindowFocus: true,
   });
 };
