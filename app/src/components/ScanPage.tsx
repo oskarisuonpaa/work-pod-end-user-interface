@@ -12,8 +12,11 @@ const ScanPage = () => {
   const handleScan = (data: ScanData[] | null) => {
     if (!data) return;
 
-    const scannedURL = data[0].rawValue;
-    navigate(scannedURL, { replace: true });
+    if (data?.[0]?.rawValue) {
+      const url = new URL(data[0].rawValue);
+      const relativePath = url.pathname + url.search;
+      navigate(relativePath, { replace: true });
+    }
   };
 
   return (
