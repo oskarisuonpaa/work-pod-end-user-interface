@@ -42,9 +42,8 @@ const DashboardPage = () => {
             <li>
               <ActionButton label={t("navbar-workpods")} to="/workpods" />
             </li>
-            <li>
-              <ActionButton label={t("dashboard-readQR")} to="#" />
-              {/* Consider disabling or hiding if not implemented */}
+            <li className="mobile-only">
+              <ActionButton label={t("dashboard-readQR")} to="/scan" />
             </li>
             <li>
               <ActionButton

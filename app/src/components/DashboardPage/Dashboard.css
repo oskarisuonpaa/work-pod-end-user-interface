@@ -39,6 +39,10 @@
   transform: translateY(50%);
 }
 
+.mobile-only {
+  display: none;
+}
+
 @media screen and (max-width: 30em) {
   .container {
     flex-direction: column;
@@ -52,5 +56,9 @@
   .link-container {
     transform: none;
     height: auto;
+  }
+
+  .mobile-only {
+    display: list-item;
   }
 }

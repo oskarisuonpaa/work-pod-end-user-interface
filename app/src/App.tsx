@@ -13,6 +13,7 @@ import Workpod from "@components/Workpod";
 import Workpods from "@components/Workpods";
 import NavMenu from "@components/NavMenu";
 import PageWrapper from "@components/PageWrapper";
+import ScanPage from "@components/ScanPage";
 
 const App = () => {
   return (
@@ -81,6 +82,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="scan" element={<ScanPage />} />
 
         <Route
           path="*"
