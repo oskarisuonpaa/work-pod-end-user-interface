@@ -8,10 +8,11 @@ import ActionButton from "@components/ActionButton";
 import type { ReservationInfo } from "@types";
 
 const ReservationInfoPage = () => {
-  const { calendarId, eventId } = useParams<{
+  const { calendarId, reservationId } = useParams<{
     calendarId: string;
-    eventId: string;
+    reservationId: string;
   }>();
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -20,7 +21,7 @@ const ReservationInfoPage = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!calendarId || !eventId) {
+    if (!calendarId || !reservationId) {
       navigate("/reservations");
       return;
     }
@@ -28,7 +29,7 @@ const ReservationInfoPage = () => {
       try {
         const data = await reservationApi.getSingleReservation({
           calendarId,
-          eventId,
+          reservationId,
         });
         setReservation(data);
       } catch (err) {
@@ -40,18 +41,18 @@ const ReservationInfoPage = () => {
     };
 
     fetchReservation();
-  }, [calendarId, reservation, navigate, t, eventId]);
+  }, [calendarId, reservation, navigate, t, reservationId]);
 
   const handleCancel = async () => {
     const confirmed = confirm(t("reserve-confirm-cancel"));
     if (!confirmed) return;
 
     try {
-      if (!calendarId || !eventId) {
+      if (!calendarId || !reservationId) {
         throw new Error(t("error-missing-ids"));
       }
-      await reservationApi.deleteReservation({ calendarId, eventId });
-      alert(t("reservation-canceled", { reservationId: eventId }));
+      await reservationApi.deleteReservation({ calendarId, reservationId });
+      alert(t("reservation-canceled", { reservationId: reservationId }));
       navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
@@ -59,7 +60,7 @@ const ReservationInfoPage = () => {
     }
   };
 
-  if (!calendarId || !eventId) {
+  if (!calendarId || !reservationId) {
     return null;
   }
 

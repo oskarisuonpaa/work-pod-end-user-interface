@@ -44,16 +44,16 @@ const postReservation = async ({
  * Deletes a reservation from the calendar.
  * @param {Object} payload - The payload containing identifiers for the reservation.
  * @param {string} payload.calendarId - The ID of the calendar containing the reservation.
- * @param {string} payload.eventId - The ID of the event to be deleted.
+ * @param {string} payload.reservationId - The ID of the event to be deleted.
  * @returns {Promise<void>} A promise that resolves when the reservation is successfully deleted.
  * @throws {Error} Throws an error if the deletion request fails.
  */
 const deleteReservation = async ({
   calendarId,
-  eventId,
+  reservationId,
 }: DeleteReservationPayload): Promise<void> => {
   const response = await apiClient.delete(
-    API_ROUTES.cancel(calendarId, eventId)
+    API_ROUTES.cancel(calendarId, reservationId)
   );
   return response.data;
 };
@@ -71,14 +71,16 @@ const getUserReservations = async (): Promise<UserReservation[]> => {
  * Fetches a single reservation by its calendar and event ID.
  * @param {Object} param0 - The parameters for fetching the reservation.
  * @param {string} param0.calendarId - The ID of the calendar containing the reservation.
- * @param {string} param0.eventId - The ID of the event to be fetched.
+ * @param {string} param0.reservationId - The ID of the event to be fetched.
  * @returns {Promise<ReservationInfo>} A promise that resolves to the reservation information.
  */
 const getSingleReservation = async ({
   calendarId,
-  eventId,
+  reservationId,
 }: GetSingleReservationPayload): Promise<ReservationInfo> => {
-  const response = await apiClient.get(API_ROUTES.booking(calendarId, eventId));
+  const response = await apiClient.get(
+    API_ROUTES.booking(calendarId, reservationId)
+  );
   return response.data;
 };
 
