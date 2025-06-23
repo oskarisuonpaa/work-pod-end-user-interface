@@ -63,7 +63,7 @@ const Workpod = () => {
     async (slot: { start: string; end: string; eventId?: string }) => {
       if (!workpodId || !slot.eventId) return;
       if (confirm(t("reserve-confirm-cancel"))) {
-        await cancel({ calendarId: workpodId, eventId: slot.eventId });
+        await cancel({ calendarId: workpodId, reservationId: slot.eventId });
         setSelectedSlot(null);
       }
     },
