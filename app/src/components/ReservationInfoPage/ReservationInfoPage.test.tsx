@@ -18,7 +18,7 @@ vi.mock("react-router", async () => {
     useNavigate: () => mockNavigate,
     useParams: () => ({
       calendarId: "calendar123",
-      eventId: "res123",
+      reservationId: "res123",
     }),
     MemoryRouter: actual.MemoryRouter,
   };
@@ -151,7 +151,7 @@ describe("ReservationInfoPage", () => {
     await waitFor(() =>
       expect(mockDeleteReservation).toHaveBeenCalledWith({
         calendarId: "calendar123",
-        eventId: "res123",
+        reservationId: "res123",
       })
     );
     expect(mockNavigate).toHaveBeenCalledWith("/reservations");

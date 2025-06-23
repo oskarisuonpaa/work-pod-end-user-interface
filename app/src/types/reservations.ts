@@ -12,7 +12,7 @@ export type ReservationSlot = {
 
 export type DeleteReservationPayload = {
   calendarId: string;
-  eventId: string;
+  reservationId: string;
 };
 
 export type UserReservation = {
@@ -26,7 +26,7 @@ export type UserReservation = {
 
 export type GetSingleReservationPayload = {
   calendarId: string;
-  eventId: string;
+  reservationId: string;
 };
 
 export type ReservationInfo = {
