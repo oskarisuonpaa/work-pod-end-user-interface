@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function useIsSmallScreen(breakpoint: number = 600) {
+function useIsSmallScreen(breakpoint: number = 540) {
   const [isSmall, setIsSmall] = useState<boolean>(window.innerWidth <= breakpoint);
 
   useEffect(() => {
