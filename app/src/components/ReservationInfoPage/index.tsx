@@ -23,11 +23,15 @@ const ReservationInfoPage = () => {
   useEffect(() => {
     if (!calendarId || !reservationId) {
       navigate("/reservations");
-      return;
     }
+  }, [calendarId, reservationId, navigate]);
+
+  useEffect(() => {
+    if (!calendarId || !reservationId) return;
 
     const fetchReservation = async () => {
       try {
+        setIsLoading(true);
         const data = await reservationApi.getSingleReservation({
           calendarId,
           reservationId,
@@ -42,7 +46,11 @@ const ReservationInfoPage = () => {
     };
 
     fetchReservation();
-  }, [calendarId, reservationId, navigate, t]);
+  }, [calendarId, reservationId, t]);
+
+  if (!calendarId || !reservationId) {
+    return null;
+  }
 
   const handleCancel = async () => {
     const confirmed = confirm(t("reserve-confirm-cancel"));
