@@ -1,4 +1,4 @@
-import { format, setSeconds, setMinutes, setHours } from "date-fns";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -67,10 +67,8 @@ const SearchResults = () => {
     const fetchAllCalendars = async () => {
       try {
         const timeMin = date.toISOString();
-        const endOfDayLocal = setSeconds(
-          setMinutes(setHours(date, 23), 59),
-          59
-        );
+        const endOfDayLocal = new Date(date);
+        endOfDayLocal.setHours(23, 59, 59);
         const timeMax = endOfDayLocal.toISOString();
 
         const promises = workPods.map((workpod, idx) =>
@@ -176,6 +174,7 @@ const SearchResults = () => {
       <PageWrapper pageTitle={t("searchresults-title")} aria-busy="true">
         <div className="loading">
           <p>{t("loading")}...</p>
+          <div className="results">
           <ul className="skeleton-list">
             {[...Array(5)].map((_, i) => (
               <li key={i} className="skeleton-item">
@@ -183,6 +182,14 @@ const SearchResults = () => {
               </li>
             ))}
           </ul>
+          <ul className="skeleton-list">
+            {[...Array(5)].map((_, i) => (
+              <li key={i} className="skeleton-item">
+                <p>{t("loading")}</p>
+              </li>
+            ))}
+          </ul>
+          </div>
         </div>
       </PageWrapper>
     );
