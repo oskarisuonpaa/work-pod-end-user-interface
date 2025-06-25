@@ -60,7 +60,7 @@ const Search = () => {
           minDate={new Date()}
           maxDate={addDays(new Date(), 30)}
         />
-        <label htmlFor="time">{t("search-label-time")}:</label>
+        <label htmlFor="time">{t("time")}:</label>
         <DatePicker
           id="time"
           showTimeSelect
@@ -70,6 +70,7 @@ const Search = () => {
           showTimeSelectOnly
           inline={isSmallScreen}
           popperPlacement={"right-start"}
+          timeFormat="HH:mm"
           dateFormat="HH:mm"
           timeIntervals={60}
           calendarClassName="custom-time"
