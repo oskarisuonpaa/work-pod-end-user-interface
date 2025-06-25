@@ -1,28 +1,26 @@
 import { Link } from "react-router";
-import "./ReservationLink.css";
 import { parseDate, parseTime } from "@utils/dateTime";
+import type { UserReservation } from "@types";
+import "./ReservationLink.css";
 
-type ReservationLinkProps = {
-  id: string;
-  podName: string;
-  date: string;
-  startTime: string;
-  endTime: string;
+type Props = {
+  reservation: UserReservation;
 };
 
-const ReservationLink = ({
-  id,
-  podName,
-  date,
-  startTime,
-  endTime,
-}: ReservationLinkProps) => {
+const ReservationLink = ({ reservation }: Props) => {
+  const { id, calendarId, start, end } = reservation;
+
   return (
-    <Link className="slot" to={`/reservations/${podName}/${id}`}>
+    <Link
+      className="slot"
+      to={{
+        pathname: `/reservations/${calendarId}/${id}`,
+      }}
+    >
       <div className="slot-info">
-        <h3 className="slot-name">{podName}</h3>
+        <h3 className="slot-name">{calendarId}</h3>
         <p className="slot-time">
-          {parseDate(date)} {parseTime(startTime)} - {parseTime(endTime)}
+          {parseDate(start)} {parseTime(start)} - {parseTime(end)}
         </p>
       </div>
     </Link>

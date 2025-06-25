@@ -1,53 +1,43 @@
 import { useEffect, useState } from "react";
-import "./Reservations.css";
 import { reservationApi } from "api/reservations";
-import PageWrapper from "../PageWrapper/index";
-import ReservationLink from "../ReservationLink";
 import { useTranslation } from "react-i18next";
-import type { ReservationType } from "@types";
+import PageWrapper from "../PageWrapper";
+import ReservationLink from "../ReservationLink";
+import type { UserReservation } from "@types";
 
 const ReservationsPage = () => {
-  const [reservations, setReservations] = useState<ReservationType[]>([]);
+  const [reservations, setReservations] = useState<UserReservation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const reservations = await reservationApi.getUserReservations();
-        setReservations(reservations);
-        setIsLoading(false);
+        const list = await reservationApi.getUserReservations();
+        setReservations(list);
       } catch (error) {
         console.error("Error fetching reservations:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-
     fetchReservations();
   }, []);
 
   if (isLoading) {
-    return <PageWrapper pageTitle={t("loading") + "..."}></PageWrapper>;
+    return <PageWrapper pageTitle={t("loading") + "..."} />;
   }
-
   if (reservations.length === 0) {
-    return (
-      <PageWrapper pageTitle={t("reservations-no-reservations")}></PageWrapper>
-    );
+    return <PageWrapper pageTitle={t("reservations-no-reservations")} />;
   }
 
   return (
     <PageWrapper pageTitle={t("reservations-your")}>
       <div className="reservations-container">
         <ul>
-          {reservations.map((reservation) => (
-            <li key={reservation.id}>
-              <ReservationLink
-                id={reservation.id}
-                podName={reservation.calendarId}
-                date={reservation.start}
-                startTime={reservation.start}
-                endTime={reservation.end}
-              />
+          {reservations.map((res) => (
+            <li key={res.id}>
+              <ReservationLink reservation={res} />
             </li>
           ))}
         </ul>

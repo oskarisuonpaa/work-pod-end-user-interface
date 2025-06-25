@@ -1,54 +1,38 @@
-import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate, Navigate } from "react-router";
-import "./Reservation.css";
-import { reservationApi } from "api/reservations";
+import { useLocation, Navigate, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 import ActionButton from "@components/ActionButton";
-import type { ReservationInfo } from "@types";
+import { parseDate, parseTime } from "@utils/dateTime";
+import type { UserReservation } from "@types";
+import "./Reservation.css";
+import { reservationApi } from "api/reservations";
+
+type LocState = {
+  reservation?: UserReservation;
+};
 
 const ReservationInfoPage = () => {
-  const { calendarId, reservationId } = useParams<{
-    calendarId: string;
-    reservationId: string;
-  }>();
+  const location = useLocation() as { state: LocState };
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [reservation, setReservation] = useState<ReservationInfo | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const didFetch = useRef(false);
 
-  useEffect(() => {
-    if (!calendarId || !reservationId || didFetch.current) return;
-    didFetch.current = true;
+  const reservation = location.state?.reservation;
 
-    (async () => {
-      setIsLoading(true);
-      try {
-        const data = await reservationApi.getSingleReservation({
-          calendarId,
-          reservationId,
-        });
-        setReservation(data);
-      } catch (err) {
-        console.error("Error fetching reservation:", err);
-        setError(t("reservation-failed-load"));
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [calendarId, reservationId, t]);
-
-  if (!calendarId || !reservationId) {
+  if (!reservation) {
     return <Navigate to="/reservations" replace />;
   }
 
+  const { id, calendarId, start, end } = reservation;
+
   const handleCancel = async () => {
     if (!confirm(t("reserve-confirm-cancel"))) return;
+
     try {
-      await reservationApi.deleteReservation({ calendarId, reservationId });
-      alert(t("reservation-canceled", { reservationId }));
+      await reservationApi.deleteReservation({
+        calendarId,
+        reservationId: id,
+      });
+      alert(t("reservation-canceled", { reservationId: id }));
       navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
@@ -56,45 +40,17 @@ const ReservationInfoPage = () => {
     }
   };
 
-  if (isLoading) {
-    return <PageWrapper pageTitle={t("loading") + "..."} />;
-  }
-  if (error || !reservation) {
-    return (
-      <PageWrapper pageTitle={t("reservation-not-found")}>
-        <p role="status">{error || t("reservation-not-yours")}</p>
-      </PageWrapper>
-    );
-  }
-
-  const formatTime = (s: string) => {
-    if (/^\d{2}:\d{2}$/.test(s)) return s;
-    let iso = s;
-    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(s)) iso = s + "Z";
-    const d = new Date(iso);
-    return isNaN(d.getTime())
-      ? s
-      : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  };
-
-  const formatDate = (s: string) => {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-    const d = new Date(s);
-    return isNaN(d.getTime()) ? s : d.toLocaleDateString();
-  };
-
   return (
     <PageWrapper pageTitle={t("reservation-info")}>
       <div className="reservation-info">
         <h2>
-          {t("workpod")}: {reservation.room}
+          {t("workpod")}: {calendarId}
         </h2>
         <p className="date-info">
-          {t("date")}: {formatDate(reservation.date)}
+          {t("date")}: {parseDate(start)}
         </p>
         <p className="time-info">
-          {t("time")}: {formatTime(reservation.start)} -{" "}
-          {formatTime(reservation.end)}
+          {t("time")}: {parseTime(start)} - {parseTime(end)}
         </p>
       </div>
       <ActionButton
