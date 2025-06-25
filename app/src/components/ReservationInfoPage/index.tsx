@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, Navigate } from "react-router";
+import { useParams, useNavigate, Navigate } from "react-router";
 import "./Reservation.css";
 import { reservationApi } from "api/reservations";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ const ReservationInfoPage = () => {
     calendarId: string;
     reservationId: string;
   }>();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [reservation, setReservation] = useState<ReservationInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,7 @@ const ReservationInfoPage = () => {
     if (!calendarId || !reservationId || fetchedRef.current) return;
     fetchedRef.current = true;
 
-    const fetchReservation = async () => {
+    (async () => {
       try {
         setIsLoading(true);
         const data = await reservationApi.getSingleReservation({
@@ -36,9 +37,7 @@ const ReservationInfoPage = () => {
       } finally {
         setIsLoading(false);
       }
-    };
-
-    fetchReservation();
+    })();
   }, [calendarId, reservationId, t]);
 
   if (!calendarId || !reservationId) {
@@ -51,7 +50,7 @@ const ReservationInfoPage = () => {
     try {
       await reservationApi.deleteReservation({ calendarId, reservationId });
       alert(t("reservation-canceled", { reservationId }));
-      window.location.href = "/reservations";
+      navigate("/reservations");
     } catch (err) {
       console.error("Error cancelling reservation:", err);
       alert(t("error-failed-cancel"));
@@ -61,7 +60,6 @@ const ReservationInfoPage = () => {
   if (isLoading) {
     return <PageWrapper pageTitle={t("loading") + "..."} />;
   }
-
   if (error || !reservation) {
     return (
       <PageWrapper pageTitle={t("reservation-not-found")}>
@@ -70,11 +68,15 @@ const ReservationInfoPage = () => {
     );
   }
 
-  const formatTime = (iso: string) =>
-    new Date(iso).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const formatTime = (s: string) =>
+    /^\d{2}:\d{2}$/.test(s)
+      ? s
+      : new Date(s).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+  const formatDate = (s: string) =>
+    /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : new Date(s).toLocaleDateString();
 
   return (
     <PageWrapper pageTitle={t("reservation-info")}>
@@ -83,10 +85,10 @@ const ReservationInfoPage = () => {
           {t("workpod")}: {reservation.room}
         </h2>
         <p className="date-info">
-          {t("date")}: {new Date(reservation.date).toLocaleDateString()}
+          {t("date")}: {formatDate(reservation.date)}
         </p>
         <p className="time-info">
-          {t("time")}: {formatTime(reservation.start)} –{" "}
+          {t("time")}: {formatTime(reservation.start)} -{" "}
           {formatTime(reservation.end)}
         </p>
       </div>
