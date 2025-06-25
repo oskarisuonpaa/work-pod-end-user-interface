@@ -17,15 +17,15 @@ const ReservationInfoPage = () => {
   const [reservation, setReservation] = useState<ReservationInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const fetchedRef = useRef(false);
+  const didFetch = useRef(false);
 
   useEffect(() => {
-    if (!calendarId || !reservationId || fetchedRef.current) return;
-    fetchedRef.current = true;
+    if (!calendarId || !reservationId || didFetch.current) return;
+    didFetch.current = true;
 
     (async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const data = await reservationApi.getSingleReservation({
           calendarId,
           reservationId,
@@ -46,7 +46,6 @@ const ReservationInfoPage = () => {
 
   const handleCancel = async () => {
     if (!confirm(t("reserve-confirm-cancel"))) return;
-
     try {
       await reservationApi.deleteReservation({ calendarId, reservationId });
       alert(t("reservation-canceled", { reservationId }));
@@ -68,15 +67,21 @@ const ReservationInfoPage = () => {
     );
   }
 
-  const formatTime = (s: string) =>
-    /^\d{2}:\d{2}$/.test(s)
+  const formatTime = (s: string) => {
+    if (/^\d{2}:\d{2}$/.test(s)) return s;
+    let iso = s;
+    if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(s)) iso = s + "Z";
+    const d = new Date(iso);
+    return isNaN(d.getTime())
       ? s
-      : new Date(s).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-  const formatDate = (s: string) =>
-    /^\d{4}-\d{2}-\d{2}$/.test(s) ? s : new Date(s).toLocaleDateString();
+      : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  const formatDate = (s: string) => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? s : d.toLocaleDateString();
+  };
 
   return (
     <PageWrapper pageTitle={t("reservation-info")}>
