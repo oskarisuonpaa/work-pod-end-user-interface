@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useState, useEffect, useRef } from "react";
+import { useParams, Navigate } from "react-router";
 import "./Reservation.css";
 import { reservationApi } from "api/reservations";
 import { useTranslation } from "react-i18next";
@@ -12,22 +12,15 @@ const ReservationInfoPage = () => {
     calendarId: string;
     reservationId: string;
   }>();
-
-  const navigate = useNavigate();
   const { t } = useTranslation();
-
   const [reservation, setReservation] = useState<ReservationInfo | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
-    if (!calendarId || !reservationId) {
-      navigate("/reservations");
-    }
-  }, [calendarId, reservationId, navigate]);
-
-  useEffect(() => {
-    if (!calendarId || !reservationId) return;
+    if (!calendarId || !reservationId || fetchedRef.current) return;
+    fetchedRef.current = true;
 
     const fetchReservation = async () => {
       try {
@@ -49,33 +42,26 @@ const ReservationInfoPage = () => {
   }, [calendarId, reservationId, t]);
 
   if (!calendarId || !reservationId) {
-    return null;
+    return <Navigate to="/reservations" replace />;
   }
 
   const handleCancel = async () => {
-    const confirmed = confirm(t("reserve-confirm-cancel"));
-    if (!confirmed) return;
+    if (!confirm(t("reserve-confirm-cancel"))) return;
 
     try {
-      if (!calendarId || !reservationId) {
-        throw new Error(t("error-missing-ids"));
-      }
       await reservationApi.deleteReservation({ calendarId, reservationId });
-      alert(t("reservation-canceled", { reservationId: reservationId }));
-      navigate("/reservations");
+      alert(t("reservation-canceled", { reservationId }));
+      window.location.href = "/reservations";
     } catch (err) {
       console.error("Error cancelling reservation:", err);
       alert(t("error-failed-cancel"));
     }
   };
 
-  if (!calendarId || !reservationId) {
-    return null;
-  }
-
   if (isLoading) {
     return <PageWrapper pageTitle={t("loading") + "..."} />;
   }
+
   if (error || !reservation) {
     return (
       <PageWrapper pageTitle={t("reservation-not-found")}>
@@ -84,6 +70,12 @@ const ReservationInfoPage = () => {
     );
   }
 
+  const formatTime = (iso: string) =>
+    new Date(iso).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
   return (
     <PageWrapper pageTitle={t("reservation-info")}>
       <div className="reservation-info">
@@ -91,10 +83,11 @@ const ReservationInfoPage = () => {
           {t("workpod")}: {reservation.room}
         </h2>
         <p className="date-info">
-          {t("date")}: {reservation.date}
+          {t("date")}: {new Date(reservation.date).toLocaleDateString()}
         </p>
         <p className="time-info">
-          {t("time")}: {reservation.start} - {reservation.end}
+          {t("time")}: {formatTime(reservation.start)} –{" "}
+          {formatTime(reservation.end)}
         </p>
       </div>
       <ActionButton
