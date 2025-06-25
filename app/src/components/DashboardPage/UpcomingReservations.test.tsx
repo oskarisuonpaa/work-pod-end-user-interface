@@ -28,24 +28,32 @@ describe("UpcomingReservations", () => {
         calendarId: "Pod B",
         start: "2025-06-05T10:00:00Z",
         end: "2025-06-05T11:00:00Z",
+        title: "Reservation 2",
+        description: "Description 2",
       },
       {
         id: "1",
         calendarId: "Pod A",
         start: "2025-06-04T09:00:00Z",
         end: "2025-06-04T10:00:00Z",
+        title: "Reservation 1",
+        description: "Description 1",
       },
       {
         id: "3",
         calendarId: "Pod C",
         start: "2025-06-06T12:00:00Z",
         end: "2025-06-06T13:00:00Z",
+        title: "Reservation 3",
+        description: "Description 3",
       },
       {
         id: "4",
         calendarId: "Pod D",
         start: "2025-06-07T14:00:00Z",
         end: "2025-06-07T15:00:00Z",
+        title: "Reservation 4",
+        description: "Description 4",
       },
     ];
 

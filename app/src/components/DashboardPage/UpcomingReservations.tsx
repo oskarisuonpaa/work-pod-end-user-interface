@@ -1,9 +1,9 @@
-import type { ReservationType } from "@types";
+import type { UserReservation } from "@types";
 import ReservationLink from "../ReservationLink";
 import { t } from "i18next";
 
 type Props = {
-  reservations: ReservationType[];
+  reservations: UserReservation[];
 };
 
 const UpcomingReservations = ({ reservations }: Props) => {
@@ -17,13 +17,7 @@ const UpcomingReservations = ({ reservations }: Props) => {
     <ul>
       {sorted.map((reservation) => (
         <li key={reservation.id}>
-          <ReservationLink
-            id={reservation.id}
-            podName={reservation.calendarId}
-            date={reservation.start}
-            startTime={reservation.start}
-            endTime={reservation.end}
-          />
+          <ReservationLink reservation={reservation} />
         </li>
       ))}
     </ul>
