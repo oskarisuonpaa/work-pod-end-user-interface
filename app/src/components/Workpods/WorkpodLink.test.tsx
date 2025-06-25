@@ -25,8 +25,8 @@ describe("WorkpodLink", () => {
     expect(screen.getByText(podID)).toBeInTheDocument();
 
     // Image
-    const img = screen.getByAltText("Peepo") as HTMLImageElement;
+    const img = screen.getByAltText("Workpod") as HTMLImageElement;
     expect(img).toBeInTheDocument();
-    expect(img.src).toContain("placeholder-pepe.jpg");
+    expect(img.src).toContain("koppero.png");
   });
 });
