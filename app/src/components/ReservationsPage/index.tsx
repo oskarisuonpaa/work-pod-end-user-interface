@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { reservationApi } from "api/reservations";
 import { useTranslation } from "react-i18next";
-import PageWrapper from "../PageWrapper";
-import ReservationLink from "../ReservationLink";
+import PageWrapper from "@components/PageWrapper";
+import ReservationLink from "@components/ReservationLink";
 import type { UserReservation } from "@types";
 
 const ReservationsPage = () => {
@@ -11,17 +11,11 @@ const ReservationsPage = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const list = await reservationApi.getUserReservations();
-        setReservations(list);
-      } catch (error) {
-        console.error("Error fetching reservations:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchReservations();
+    reservationApi
+      .getUserReservations()
+      .then((list) => setReservations(list))
+      .catch((err) => console.error("Error fetching reservations:", err))
+      .finally(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
@@ -33,15 +27,13 @@ const ReservationsPage = () => {
 
   return (
     <PageWrapper pageTitle={t("reservations-your")}>
-      <div className="reservations-container">
-        <ul>
-          {reservations.map((res) => (
-            <li key={res.id}>
-              <ReservationLink reservation={res} />
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul>
+        {reservations.map((res) => (
+          <li key={res.id}>
+            <ReservationLink reservation={res} />
+          </li>
+        ))}
+      </ul>
     </PageWrapper>
   );
 };

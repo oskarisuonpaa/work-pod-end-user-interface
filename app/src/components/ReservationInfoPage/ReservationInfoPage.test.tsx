@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { vi, afterEach, afterAll, describe, it, expect } from "vitest";
 import ReservationInfoPage from "@components/ReservationInfoPage";
@@ -6,28 +6,18 @@ import ReservationInfoPage from "@components/ReservationInfoPage";
 // --- Mocks ---
 
 const mockNavigate = vi.fn();
-const mockGetSingleReservation = vi.fn();
 const mockDeleteReservation = vi.fn();
 
 vi.mock("react-router", async () => {
-  const actual = await vi.importActual<typeof import("react-router")>(
-    "react-router"
-  );
+  const actual = await vi.importActual("react-router");
   return {
     ...actual,
     useNavigate: () => mockNavigate,
-    useParams: () => ({
-      calendarId: "calendar123",
-      reservationId: "res123",
-    }),
-    MemoryRouter: actual.MemoryRouter,
   };
 });
 
 vi.mock("api/reservations", () => ({
   reservationApi: {
-    getSingleReservation: (...args: unknown[]) =>
-      mockGetSingleReservation(...args),
     deleteReservation: (...args: unknown[]) => mockDeleteReservation(...args),
   },
 }));
@@ -61,11 +51,11 @@ vi.mock("@components/ActionButton", () => ({
 
 const mockReservation = {
   id: "res123",
-  calendarId: "calendar123",
+  calendarId: "calendar123", // not used directly in InfoPage
   start: "10:00",
   end: "11:00",
   date: "2025-06-04",
-  room: "Room A",
+  room: "Room A", // becomes the displayed/used calendarId
 };
 
 describe("ReservationInfoPage", () => {
@@ -77,100 +67,90 @@ describe("ReservationInfoPage", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders loading state initially", async () => {
-    mockGetSingleReservation.mockResolvedValue(mockReservation);
-
+  it("redirects if no reservation is passed via location.state", () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={["/reservations/calendar123/res123"]}>
+        <ReservationInfoPage />
+      </MemoryRouter>
+    );
+    expect(
+      screen.queryByRole("heading", { name: "reservation-info" })
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders reservation info from location.state", () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: "/reservations/calendar123/res123",
+            state: { reservation: mockReservation },
+          },
+        ]}
+      >
         <ReservationInfoPage />
       </MemoryRouter>
     );
 
+    // title
     expect(
-      screen.getByRole("heading", { name: /loading/i })
+      screen.getByRole("heading", { name: "reservation-info" })
     ).toBeInTheDocument();
 
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "reservation-info" })
-      ).toBeInTheDocument()
-    );
+    // now shows Room A (room is aliased to calendarId)
+    expect(screen.getByText(/workpod.*Room A/i)).toBeInTheDocument();
+
+    // time and date
+    expect(screen.getByText(/10:00\s*-\s*11:00/)).toBeInTheDocument();
+    expect(screen.getByText(/2025-06-04/)).toBeInTheDocument();
   });
 
-  it("renders reservation info when fetch succeeds", async () => {
-    mockGetSingleReservation.mockResolvedValue(mockReservation);
-
-    render(
-      <MemoryRouter>
-        <ReservationInfoPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(/workpod.*room a/i)).toBeInTheDocument();
-      expect(screen.getByText(/10:00\s*-\s*11:00/)).toBeInTheDocument();
-      expect(screen.getByText(/2025-06-04/)).toBeInTheDocument();
-    });
-  });
-
-  it("shows error page when fetch fails", async () => {
-    mockGetSingleReservation.mockRejectedValue(new Error("Fetch failed"));
-
-    render(
-      <MemoryRouter>
-        <ReservationInfoPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "reservation-not-found" })
-      ).toBeInTheDocument()
-    );
-
-    expect(screen.getByText("reservation-failed-load")).toBeInTheDocument();
-  });
-
-  it("calls deleteReservation and redirects when cancel is confirmed", async () => {
-    mockGetSingleReservation.mockResolvedValue(mockReservation);
+  it("calls deleteReservation and redirects when cancel is confirmed", () => {
+    vi.stubGlobal("confirm", () => true);
+    vi.stubGlobal("alert", () => {});
     mockDeleteReservation.mockResolvedValue(undefined);
 
-    vi.stubGlobal("confirm", () => true);
-    vi.stubGlobal("alert", vi.fn());
-
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: "/reservations/calendar123/res123",
+            state: { reservation: mockReservation },
+          },
+        ]}
+      >
         <ReservationInfoPage />
       </MemoryRouter>
     );
-
-    await waitFor(() => screen.getByRole("button", { name: "cancel-button" }));
 
     fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
 
-    await waitFor(() =>
-      expect(mockDeleteReservation).toHaveBeenCalledWith({
-        calendarId: "calendar123",
-        reservationId: "res123",
-      })
-    );
+    // now we expect the delete to be called with room ("Room A") as calendarId
+    expect(mockDeleteReservation).toHaveBeenCalledWith({
+      calendarId: "Room A",
+      reservationId: "res123",
+    });
+
     expect(mockNavigate).toHaveBeenCalledWith("/reservations");
   });
 
-  it("does not call deleteReservation if user cancels", async () => {
-    mockGetSingleReservation.mockResolvedValue(mockReservation);
+  it("does not call deleteReservation if user cancels", () => {
     vi.stubGlobal("confirm", () => false);
 
     render(
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: "/reservations/calendar123/res123",
+            state: { reservation: mockReservation },
+          },
+        ]}
+      >
         <ReservationInfoPage />
       </MemoryRouter>
     );
 
-    await waitFor(() => screen.getByRole("button", { name: "cancel-button" }));
-
     fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
-
     expect(mockDeleteReservation).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
   });

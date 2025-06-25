@@ -13,9 +13,8 @@ const ReservationLink = ({ reservation }: Props) => {
   return (
     <Link
       className="slot"
-      to={{
-        pathname: `/reservations/${calendarId}/${id}`,
-      }}
+      to={`/reservations/${calendarId}/${id}`}
+      state={{ reservation }}
     >
       <div className="slot-info">
         <h3 className="slot-name">{calendarId}</h3>
