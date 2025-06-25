@@ -25,6 +25,7 @@ const ReservationInfoPage = () => {
       navigate("/reservations");
       return;
     }
+
     const fetchReservation = async () => {
       try {
         const data = await reservationApi.getSingleReservation({
@@ -41,7 +42,7 @@ const ReservationInfoPage = () => {
     };
 
     fetchReservation();
-  }, [calendarId, reservation, navigate, t, reservationId]);
+  }, [calendarId, reservationId, navigate, t]);
 
   const handleCancel = async () => {
     const confirmed = confirm(t("reserve-confirm-cancel"));
