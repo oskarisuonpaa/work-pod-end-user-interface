@@ -76,7 +76,7 @@ describe("Search page date picker restrictions", () => {
             </MemoryRouter>
         );
         // Find yesterday's date
-        const yesterday = addDays(new Date(), -1).getDate();
+        const yesterday = addDays(new Date(now), -1).getDate();
         const className = `react-datepicker__day--${String(yesterday).padStart(3, "0")}`;
         const pastDay = screen.getAllByRole("option").find(
             (el) => el.className.includes(className)
@@ -92,8 +92,8 @@ describe("Search page date picker restrictions", () => {
             </MemoryRouter>
         );
         // Find the next Saturday
-        const today = new Date();
-        let nextSaturday = new Date(today);
+        const today = new Date(now);
+        const nextSaturday = new Date(today);
         nextSaturday.setDate(today.getDate() + ((6 - today.getDay()) % 7));
         const saturdayDate = nextSaturday.getDate();
         const className = `react-datepicker__day--${String(saturdayDate).padStart(3, "0")}`;
@@ -111,8 +111,8 @@ describe("Search page date picker restrictions", () => {
             </MemoryRouter>
         );
         // Find the next weekday (Mon-Fri)
-        const today = new Date();
-        let nextWeekday = new Date(today);
+        const today = new Date(now);
+        const nextWeekday = new Date(today);
         do {
             nextWeekday.setDate(nextWeekday.getDate() + 1);
         } while (nextWeekday.getDay() === 0 || nextWeekday.getDay() === 6);

@@ -94,7 +94,7 @@ describe("Search page date picker restrictions", () => {
         );
         // Find the next Saturday
         const today = new Date(now);
-        let nextSaturday = new Date(today);
+        const nextSaturday = new Date(today);
         nextSaturday.setDate(today.getDate() + ((6 - today.getDay()) % 7));
         const saturdayDate = nextSaturday.getDate();
         const className = `react-datepicker__day--${String(saturdayDate).padStart(3, "0")}`;
@@ -113,7 +113,7 @@ describe("Search page date picker restrictions", () => {
         );
         // Find the next weekday (Mon-Fri)
         const today = new Date(now);
-        let nextWeekday = new Date(today);
+        const nextWeekday = new Date(today);
         do {
             nextWeekday.setDate(nextWeekday.getDate() + 1);
         } while (nextWeekday.getDay() === 0 || nextWeekday.getDay() === 6);
