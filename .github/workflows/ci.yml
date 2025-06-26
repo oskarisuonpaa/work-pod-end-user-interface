@@ -82,4 +82,4 @@ jobs:
 
       - name: Test
         working-directory: app
-        run: npm test
+        run: NODE_OPTIONS="--max-old-space-size=4096" npm test
