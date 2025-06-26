@@ -6,8 +6,9 @@ const WorkpodLink = ({ alias, status }: Workpod) => {
   return (
     <Link to={"/workpods/" + alias} className="work-pod-link">
       <div className={`hexagon ${status}`}>
-        <img src={koppero} alt="Workpod" />
         <p className="work-pod-name">{alias}</p>
+        <img src={koppero} alt="Workpod" />
+        <p className="availability-timeframe"> 24H</p>
       </div>
     </Link>
   );
