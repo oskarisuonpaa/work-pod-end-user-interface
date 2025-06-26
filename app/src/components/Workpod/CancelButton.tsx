@@ -4,21 +4,31 @@ import { parseTime } from "@utils/dateTime";
 import type { ReservationSlot } from "@types";
 import type { Ref } from "react";
 
-type CancelButtonProps = {
-  slot: ReservationSlot;
-  onCancel: (slot: ReservationSlot) => void;
+type Props = {
+  slots: ReservationSlot[];
+  onCancel: () => void;
   buttonRef?: Ref<HTMLButtonElement>;
 };
 
-const CancelButton = ({ slot, onCancel, buttonRef }: CancelButtonProps) => {
+const CancelButton = ({ slots, onCancel, buttonRef }: Props) => {
   const { t } = useTranslation();
-  const start = parseTime(slot.start);
-  const end = parseTime(slot.end);
+
+  const label =
+    slots.length === 1
+      ? (() => {
+          const { start, end } = slots[0];
+          return t("cancel-button-to-from", {
+            start: parseTime(start),
+            end: parseTime(end),
+          });
+        })()
+      : t("cancel-multiple-slots", { count: slots.length });
+
   return (
     <div className="button-container">
       <ActionButton
-        label={t("cancel-button-to-from", { start: start, end: end })}
-        onClick={() => onCancel(slot)}
+        label={label}
+        onClick={onCancel}
         className="cancel"
         ref={buttonRef}
       />

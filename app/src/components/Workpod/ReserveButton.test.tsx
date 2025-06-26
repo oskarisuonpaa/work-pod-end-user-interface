@@ -7,13 +7,13 @@ vi.mock("@utils/dateTime", () => ({
 }));
 
 describe("ReserveButton", () => {
-  it("calls onReserve with slot when clicked", () => {
+  it("calls onReserve when clicked", () => {
     const slot = { start: "2024-01-01T10:00", end: "2024-01-01T11:00" };
     const onReserve = vi.fn();
 
-    render(<ReserveButton slot={slot} onReserve={onReserve} />);
+    render(<ReserveButton slots={[slot]} onReserve={onReserve} />);
     fireEvent.click(screen.getByRole("button"));
 
-    expect(onReserve).toHaveBeenCalledWith(slot);
+    expect(onReserve).toHaveBeenCalledTimes(1);
   });
 });

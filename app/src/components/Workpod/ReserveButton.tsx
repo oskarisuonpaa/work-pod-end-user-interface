@@ -1,3 +1,4 @@
+// ReserveButton.tsx
 import { useTranslation } from "react-i18next";
 import ActionButton from "@components/ActionButton";
 import { parseTime } from "@utils/dateTime";
@@ -5,22 +6,28 @@ import type { ReservationSlot } from "@types";
 import type { Ref } from "react";
 
 type Props = {
-  slot: ReservationSlot;
-  onReserve: (slot: ReservationSlot) => void;
+  slots: ReservationSlot[];
+  onReserve: () => void;
   buttonRef?: Ref<HTMLButtonElement>;
 };
 
-const ReserveButton = ({ slot, onReserve, buttonRef }: Props) => {
+const ReserveButton = ({ slots, onReserve, buttonRef }: Props) => {
   const { t } = useTranslation();
-  const start = parseTime(slot.start);
-  const end = parseTime(slot.end);
+
+  const label =
+    slots.length === 1
+      ? (() => {
+          const { start, end } = slots[0];
+          return t("reserve-to-from", {
+            start: parseTime(start),
+            end: parseTime(end),
+          });
+        })()
+      : t("reserve-multiple-slots", { count: slots.length });
+
   return (
     <div className="button-container">
-      <ActionButton
-        label={t("reserve-to-from", { start: start, end: end })}
-        onClick={() => onReserve(slot)}
-        ref={buttonRef}
-      />
+      <ActionButton label={label} onClick={onReserve} ref={buttonRef} />
     </div>
   );
 };

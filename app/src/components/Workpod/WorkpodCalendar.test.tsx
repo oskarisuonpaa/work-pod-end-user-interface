@@ -5,7 +5,7 @@ import { describe, it } from "vitest";
 describe("WorkpodCalendar", () => {
   it("renders without crashing", () => {
     render(
-      <WorkpodCalendar events={[]} date="2025-06-04" onSlotSelect={() => {}} />
+      <WorkpodCalendar events={[]} date="2025-06-04" onSlotsChange={() => {}} />
     );
   });
 });
