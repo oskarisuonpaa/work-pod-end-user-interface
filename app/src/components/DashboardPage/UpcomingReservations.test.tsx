@@ -1,18 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import UpcomingReservations from "./UpcomingReservations";
 import { vi } from "vitest";
+import type { UserReservation } from "@types";
 
 // Mock i18next translation function
 vi.mock("i18next", () => ({
   t: (key: string) => key,
 }));
 
-// Mock ReservationLink component
+// Mock ReservationLink to match new signature
 vi.mock("../ReservationLink", () => ({
   __esModule: true,
-  default: ({ id, podName }: { id: string; podName: string }) => (
-    <div>{`${podName} - ${id}`}</div>
-  ),
+  default: ({
+    reservation,
+  }: {
+    reservation: { id: string; calendarId: string };
+  }) => <div>{`${reservation.calendarId} - ${reservation.id}`}</div>,
 }));
 
 describe("UpcomingReservations", () => {
@@ -22,28 +25,36 @@ describe("UpcomingReservations", () => {
   });
 
   it("renders sorted top 3 reservations", () => {
-    const reservations = [
+    const reservations: UserReservation[] = [
       {
         id: "2",
         calendarId: "Pod B",
+        title: "Some title B", // added
+        description: "desc B", // added
         start: "2025-06-05T10:00:00Z",
         end: "2025-06-05T11:00:00Z",
       },
       {
         id: "1",
         calendarId: "Pod A",
+        title: "Some title A",
+        description: "desc A",
         start: "2025-06-04T09:00:00Z",
         end: "2025-06-04T10:00:00Z",
       },
       {
         id: "3",
         calendarId: "Pod C",
+        title: "Some title C",
+        description: "desc C",
         start: "2025-06-06T12:00:00Z",
         end: "2025-06-06T13:00:00Z",
       },
       {
         id: "4",
         calendarId: "Pod D",
+        title: "Some title D",
+        description: "desc D",
         start: "2025-06-07T14:00:00Z",
         end: "2025-06-07T15:00:00Z",
       },
@@ -51,7 +62,6 @@ describe("UpcomingReservations", () => {
 
     render(<UpcomingReservations reservations={reservations} />);
 
-    // Should only show 3 sorted items
     expect(screen.getByText("Pod A - 1")).toBeInTheDocument();
     expect(screen.getByText("Pod B - 2")).toBeInTheDocument();
     expect(screen.getByText("Pod C - 3")).toBeInTheDocument();
