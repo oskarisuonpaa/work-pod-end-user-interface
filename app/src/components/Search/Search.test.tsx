@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import Search from "./index";
 import { MemoryRouter } from "react-router";
@@ -47,13 +47,13 @@ describe("Search page", () => {
         expect(screen.getByRole("button", { name: "search-button" })).toBeInTheDocument();
     });
 
-    it("submits the form and navigates", () => {
+    it("submits the form and navigates", async () => {
         render(
             <MemoryRouter>
                 <Search />
             </MemoryRouter>
         );
-        fireEvent.click(screen.getByRole("button", { name: "search-button" }));
+        await userEvent.click(screen.getByRole("button", { name: "search-button" }));
         expect(mockNavigate).toHaveBeenCalledWith("/searchresults", expect.any(Object));
     });
 
@@ -125,7 +125,7 @@ describe("Search page date picker restrictions", () => {
         );
         expect(weekdayButton).toBeDefined();
         expect(weekdayButton).not.toHaveAttribute("aria-disabled", "true");
-        await fireEvent.click(weekdayButton!);
+        await userEvent.click(weekdayButton!);
         // Optionally, assert that the input or state has changed
         await userEvent.click(screen.getByRole("button", { name: "search-button" }));
         const navArg = mockNavigate.mock.calls[0][1].state.date;
@@ -148,7 +148,7 @@ describe("Search page date picker restrictions", () => {
 
         await userEvent.click(timeOption);
 
-        await fireEvent.click(screen.getByRole("button", { name: "search-button" }));
+        await userEvent.click(screen.getByRole("button", { name: "search-button" }));
 
         // Check that navigate was called with the selected future time
         const navArg = mockNavigate.mock.calls[0][1].state.date;
@@ -172,7 +172,7 @@ describe("Search page date picker restrictions", () => {
         const timeOption = screen.getByText(`${pastDate.getHours().toString().padStart(2, "0")}:00`);
         await userEvent.click(timeOption);
 
-        await fireEvent.click(screen.getByRole("button", { name: "search-button" }));
+        await userEvent.click(screen.getByRole("button", { name: "search-button" }));
 
         // Check that navigate was called with now, not the past time
         const navArg = mockNavigate.mock.calls[0][1].state.date;
