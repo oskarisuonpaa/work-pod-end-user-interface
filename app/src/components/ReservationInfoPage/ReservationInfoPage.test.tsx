@@ -52,9 +52,8 @@ vi.mock("@components/ActionButton", () => ({
 const mockReservation = {
   id: "res123",
   calendarId: "calendar123", // not used directly in InfoPage
-  start: "10:00",
-  end: "11:00",
-  date: "2025-06-04",
+  start: "2025-05-25T09:00:00+03:00",
+  end: "2025-05-25T10:00:00+03:00",
   room: "Room A", // becomes the displayed/used calendarId
 };
 
@@ -101,8 +100,8 @@ describe("ReservationInfoPage", () => {
     expect(screen.getByText(/workpod.*Room A/i)).toBeInTheDocument();
 
     // time and date
-    expect(screen.getByText(/10:00\s*-\s*11:00/)).toBeInTheDocument();
-    expect(screen.getByText(/2025-06-04/)).toBeInTheDocument();
+    expect(screen.getByText(/09.00\s*-\s*10.00/)).toBeInTheDocument();
+    expect(screen.getByText(/25.05.2025/)).toBeInTheDocument();
   });
 
   it("calls deleteReservation and redirects when cancel is confirmed", () => {
