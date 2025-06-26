@@ -120,7 +120,7 @@ const SearchResults = () => {
 
   const workPodsReserved = workPods
     .filter((workpod) => workpod.isReserved)
-    .sort((a, b) => b.reservedFor - a.reservedFor)
+    .sort((a, b) => a.reservedFor - b.reservedFor)
     .map((workpod) => {
       const reservedUntil = workpod.reservedUntil
         ? format(workpod.reservedUntil, "HH:mm")
