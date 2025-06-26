@@ -18,9 +18,9 @@ const SearchResults = () => {
   const { date } = location.state || {};
   const [workPods, setWorkPods] = useState<WorkpodWithEvents[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [loadedCount, setLoadedCount] = useState(0); // # of loaded workpods
   const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [timedOut, setTimedOut] = useState<boolean>(false);
   const [retryCount, setRetryCount] = useState(0);
   const { t } = useTranslation();
@@ -59,7 +59,9 @@ const SearchResults = () => {
     };
 
     fetchWorkpods();
-  }, [calendars, date, isFetching]);
+    // please don't include extra dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendars]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
@@ -98,7 +100,10 @@ const SearchResults = () => {
     };
 
     fetchAllCalendars();
-  }, [hasFetched, date, loading, workPods]);
+    // please don't include extra dependencies
+    // including workPods will cause infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFetched, date]);
 
   // Step 3: Mark loading complete
   useEffect(() => {
@@ -127,7 +132,7 @@ const SearchResults = () => {
 
   const workPodsReserved = workPods
     .filter((workpod) => workpod.isReserved)
-    .sort((a, b) => b.reservedFor - a.reservedFor)
+    .sort((a, b) => a.reservedFor - b.reservedFor)
     .map((workpod) => {
       const reservedUntil = workpod.reservedUntil
         ? format(workpod.reservedUntil, "HH:mm")

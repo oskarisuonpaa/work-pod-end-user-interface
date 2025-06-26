@@ -32,6 +32,7 @@ describe("SearchResults page", () => {
     });
 
     it("renders loading state initially", () => {
+        // should show loading state while fetching data
         render(
             <MemoryRouter initialEntries={[{ state: { date: new Date(now) } }]}>
                 <SearchResults />
@@ -41,6 +42,7 @@ describe("SearchResults page", () => {
     });
 
     it("renders error message on fetch failure", async () => {
+        // simulate getting an error when fetching workpod events
         vi.spyOn(api, "getWorkpodCalendar").mockImplementation(() => Promise.resolve([]));
         vi.spyOn(api, "getWorkpodCalendar").mockRejectedValueOnce(new Error("Fetch failed"));
 
@@ -49,11 +51,11 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
-
         await waitFor(() => expect(screen.getByText("searchresults-error")).toBeInTheDocument());
     });
 
     it("renders current time in the header", async () => {
+        // should show current time in the header
         vi.spyOn(api, "getWorkpodCalendar").mockImplementation(() => Promise.resolve([]));
         render(
             <MemoryRouter initialEntries={[{ state: { date: new Date(now) } }]}>
@@ -65,6 +67,7 @@ describe("SearchResults page", () => {
     });
 
     it("renders an available workpod", async () => {
+        // should render an available workpod
         const mockStart = new Date(now);
         mockStart.setHours(mockStart.getHours() - 1);
         const mockEnd = new Date(now);
@@ -72,8 +75,8 @@ describe("SearchResults page", () => {
 
         const { data } = useWorkpods();
         vi.spyOn(api, "getWorkpodCalendar").mockImplementation((workpodId) => {
-            if (workpodId === "Room1-A") {
-                return Promise.resolve([]); // Available
+            if (workpodId === (data![0].alias || "Room1-A")) { // ensure Room1-A is available
+                return Promise.resolve([]); 
             }
             if (workpodId === "Room1-B" || workpodId === "Room2-A") {
                 return Promise.resolve([
@@ -94,12 +97,14 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
+        // look for an ul with class "available-results"
         const availableList = await waitFor(() => {
             const el = document.querySelector("ul.available-results");
             if (!el) throw new Error("Not found yet");
             return el;
         });
         expect(availableList).toBeInTheDocument();
+        // look for Room1-A in the available list
         expect(availableList).toHaveTextContent(data![0].alias || "Room1-A");
     });
 
@@ -110,7 +115,7 @@ describe("SearchResults page", () => {
         mockEnd.setHours(mockEnd.getHours() + 1);
 
         vi.spyOn(api, "getWorkpodCalendar").mockImplementation((workpodId) => {
-            if (workpodId === "Room1-A") {
+            if (workpodId === (data![0].alias || "Room1-A")) { // ensure Room1-A is reserved
                 return Promise.resolve([{
                     "id": "2g0b6trhf202uq87pj4r567a80",
                     "title": "lab",
@@ -119,7 +124,7 @@ describe("SearchResults page", () => {
                     "description": "user_email: user@lab.fi"
                 }]);
             }
-            return Promise.resolve([]);
+            return Promise.resolve([]); // other workpods are not reserved
         });
 
         const { data } = useWorkpods();
@@ -128,16 +133,20 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
+        // look for an ul with class "reserved-results"
         const reservedList = await waitFor(() => {
             const el = document.querySelector("ul.reserved-results");
             if (!el) throw new Error("Not found yet");
             return el;
         });
         expect(reservedList).toBeInTheDocument();
+        // look for Room1-A in the reserved list
         expect(reservedList).toHaveTextContent(data![0].alias || "Room1-A");
     });
 
     it("renders no reserved workpods", async () => {
+        // if no workpods are reserved, there should be a message stating that
+        // mock a situation with no reserved workpods
         vi.spyOn(api, "getWorkpodCalendar").mockImplementation(() => Promise.resolve([]));
 
         render(
@@ -148,8 +157,12 @@ describe("SearchResults page", () => {
         const text = await screen.findByText("searchresults-no-reserved");
         expect(text).toBeInTheDocument();
     });
-    
+
     it("renders no available workpods", async () => {
+        // if no workpods are available, there should be a message stating that
+        // mock a situation with all workpods reserved
+        vi.spyOn(api, "getWorkpodCalendar").mockImplementation(() => Promise.resolve([]));
+
         const mockStart = new Date(now);
         mockStart.setHours(mockStart.getHours() - 1);
         const mockEnd = new Date(now);
