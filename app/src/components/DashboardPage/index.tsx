@@ -40,10 +40,10 @@ const DashboardPage = () => {
         <div className="link-container">
           <ul>
             <li>
-              <ActionButton label={t("navbar-workpods")} to="/workpods" />
+              <ActionButton label={t("navbar-search")} to="/search" />
             </li>
-            <li className="mobile-only">
-              <ActionButton label={t("dashboard-readQR")} to="/scan" />
+            <li>
+              <ActionButton label={t("navbar-workpods")} to="/workpods" />
             </li>
             <li>
               <ActionButton

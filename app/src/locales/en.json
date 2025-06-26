@@ -11,7 +11,6 @@
 
   "dashboard-upcoming": "Upcoming Slots",
   "dashboard-no-upcoming": "No upcoming reservations",
-  "dashboard-readQR": "Read QR",
 
   "error-missing-ids": "Missing calendarId or reservationId.",
   "error-failed-cancel": "Failed to cancel reservation. Please try again.",
