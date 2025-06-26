@@ -31,7 +31,11 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar" role="navigation" aria-label={t("navbar-navigation")}>
+      <nav
+        className="navbar"
+        role="navigation"
+        aria-label={t("navbar-navigation")}
+      >
         {loggedIn && (
           <>
             <NavLink to="/dashboard" label={t("navbar-dashboard")} />
