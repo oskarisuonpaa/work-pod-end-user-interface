@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter } from "react-router";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter, Routes, Route } from "react-router";
 import { vi, afterEach, afterAll, describe, it, expect } from "vitest";
 import ReservationInfoPage from "@components/ReservationInfoPage";
 import { parseDate, parseTime } from "@utils/dateTime";
@@ -52,10 +52,8 @@ vi.mock("@components/ActionButton", () => ({
 
 const mockReservation = {
   id: "res123",
-  calendarId: "calendar123", // not used directly in InfoPage
   start: "2025-05-25T09:00:00+03:00",
   end: "2025-05-25T10:00:00+03:00",
-  room: "Room A", // becomes the displayed/used calendarId
 };
 
 describe("ReservationInfoPage", () => {
@@ -70,7 +68,12 @@ describe("ReservationInfoPage", () => {
   it("redirects if no reservation is passed via location.state", () => {
     render(
       <MemoryRouter initialEntries={["/reservations/calendar123/res123"]}>
-        <ReservationInfoPage />
+        <Routes>
+          <Route
+            path="/reservations/:calendarId/:reservationId"
+            element={<ReservationInfoPage />}
+          />
+        </Routes>
       </MemoryRouter>
     );
     expect(
@@ -88,19 +91,21 @@ describe("ReservationInfoPage", () => {
           },
         ]}
       >
-        <ReservationInfoPage />
+        <Routes>
+          <Route
+            path="/reservations/:calendarId/:reservationId"
+            element={<ReservationInfoPage />}
+          />
+        </Routes>
       </MemoryRouter>
     );
 
-    // title
     expect(
       screen.getByRole("heading", { name: "reservation-info" })
     ).toBeInTheDocument();
 
-    // now shows Room A (room is aliased to calendarId)
-    expect(screen.getByText(/workpod.*Room A/i)).toBeInTheDocument();
+    expect(screen.getByText(/workpod.*calendar123/i)).toBeInTheDocument();
 
-    // time and date
     expect(
       screen.getByText(
         new RegExp(
@@ -115,7 +120,7 @@ describe("ReservationInfoPage", () => {
     ).toBeInTheDocument();
   });
 
-  it("calls deleteReservation and redirects when cancel is confirmed", () => {
+  it("calls deleteReservation and redirects when cancel is confirmed", async () => {
     vi.stubGlobal("confirm", () => true);
     vi.stubGlobal("alert", () => {});
     mockDeleteReservation.mockResolvedValue(undefined);
@@ -129,19 +134,27 @@ describe("ReservationInfoPage", () => {
           },
         ]}
       >
-        <ReservationInfoPage />
+        <Routes>
+          <Route
+            path="/reservations/:calendarId/:reservationId"
+            element={<ReservationInfoPage />}
+          />
+        </Routes>
       </MemoryRouter>
     );
 
     fireEvent.click(screen.getByRole("button", { name: "cancel-button" }));
 
-    // now we expect the delete to be called with room ("Room A") as calendarId
-    expect(mockDeleteReservation).toHaveBeenCalledWith({
-      calendarId: "Room A",
-      reservationId: "res123",
+    await waitFor(() => {
+      expect(mockDeleteReservation).toHaveBeenCalledWith({
+        calendarId: "calendar123",
+        reservationId: "res123",
+      });
     });
 
-    expect(mockNavigate).toHaveBeenCalledWith("/reservations");
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith("/reservations");
+    });
   });
 
   it("does not call deleteReservation if user cancels", () => {
@@ -156,7 +169,12 @@ describe("ReservationInfoPage", () => {
           },
         ]}
       >
-        <ReservationInfoPage />
+        <Routes>
+          <Route
+            path="/reservations/:calendarId/:reservationId"
+            element={<ReservationInfoPage />}
+          />
+        </Routes>
       </MemoryRouter>
     );
 
