@@ -18,8 +18,7 @@ const SearchResults = () => {
   const { date } = location.state || {};
   const [workPods, setWorkPods] = useState<WorkpodWithEvents[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [loadedCount, setLoadedCount] = useState(0); // # of loaded workpods
   const [hasFetched, setHasFetched] = useState<boolean>(false);
   const [timedOut, setTimedOut] = useState<boolean>(false);
   const [retryCount, setRetryCount] = useState(0);
@@ -39,10 +38,7 @@ const SearchResults = () => {
 
   // Step 1: Fetch initial workpod list
   useEffect(() => {
-    if (!date || isFetching || calendars.length === 0) return;
-
-    const fetchWorkpods = async () => {
-      setIsFetching(true);
+    if (!date || calendars.length === 0) return;
 
       const pods = Object.values(calendars).map((calendar) => ({
         workpodId: calendar.alias,
@@ -56,10 +52,7 @@ const SearchResults = () => {
 
       setWorkPods(pods);
       setHasFetched(true);
-    };
-
-    fetchWorkpods();
-  }, [calendars, date, isFetching]);
+  }, [calendars, date]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
@@ -145,7 +138,6 @@ const SearchResults = () => {
   const retrySearch = () => {
     setLoading(true);
     setHasFetched(false);
-    setIsFetching(false);
     setTimedOut(false);
     setWorkPods([]);
     setRetryCount((prev) => prev + 1);

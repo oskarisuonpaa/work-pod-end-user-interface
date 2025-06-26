@@ -29,17 +29,20 @@ const updateWorkPods = (
 ) => {
   const newPods = [...prevPods];
   let freeUntil = null;
+  let freeFor = 0;
+  let reservedUntil = null;
+  let reservedFor = 0;
   const dateMinute = add(date, { minutes: 1 }); // interval check returns true if reservation ends at 15:00 and date is 15:00
 
   if (data.length === 0) {
-    newPods[idx].isReserved = false;
+    // no data means the pod is free for the rest of the day
     // calculate freefor the rest of the work day
     let dateEnd = date;
     dateEnd = setHours(dateEnd, 23);
     dateEnd = setMinutes(dateEnd, 59);
-    newPods[idx].freeFor = differenceInMinutes(dateEnd, date);
+    freeFor = differenceInMinutes(dateEnd, date);
     freeUntil = dateEnd;
-    newPods[idx] = { ...newPods[idx], freeUntil, events: data };
+    newPods[idx] = { ...newPods[idx], isReserved: false, freeUntil, freeFor, events: data, reservedUntil: null, reservedFor: 0 };
 
     return newPods;
   }
@@ -52,7 +55,6 @@ const updateWorkPods = (
       end: endDate,
     });
   });
-  let freeFor = 0;
   // sort the events by start time
   const sortedEvents = [...data].sort(
     (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
@@ -66,6 +68,7 @@ const updateWorkPods = (
     });
 
     if (nextReservation) {
+      // there is an event, free until the start of the event
       const startDate = new Date(nextReservation.start);
       freeFor = differenceInMinutes(startDate, date);
       freeUntil = startDate;
@@ -84,9 +87,10 @@ const updateWorkPods = (
     // if yes, then need to check when that event ends... etc
     const firstEvent = sortedEvents[0];
     let endDate = new Date(firstEvent.end);
-    let reservedUntil = new Date(firstEvent.end);
+    reservedUntil = new Date(firstEvent.end);
     if (endDate > date) {
       if (sortedEvents.length > 1) {
+        // is there more than one event?
         for (let i = 1; i < sortedEvents.length; i++) {
           const nextEvent = sortedEvents[i];
           const nextStartDate = new Date(nextEvent.start);
@@ -101,8 +105,7 @@ const updateWorkPods = (
         reservedUntil = endDate;
       }
     }
-    newPods[idx].reservedUntil = reservedUntil;
-    newPods[idx].reservedFor = differenceInMinutes(date, reservedUntil);
+    reservedFor = differenceInMinutes(reservedUntil, date);
   }
 
   newPods[idx] = {
@@ -110,6 +113,8 @@ const updateWorkPods = (
     isReserved,
     freeFor,
     freeUntil,
+    reservedUntil,
+    reservedFor,
     events: data,
   };
   return newPods;
