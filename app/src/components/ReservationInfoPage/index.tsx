@@ -1,4 +1,4 @@
-import { useLocation, Navigate, useNavigate } from "react-router";
+import { useLocation, Navigate, useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 import ActionButton from "@components/ActionButton";
@@ -15,18 +15,23 @@ const ReservationInfoPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { calendarId } = useParams();
+
+  if (!calendarId) {
+    return <Navigate to="/reservations" replace />;
+  }
 
   const reservation = (location.state as LocState)?.reservation;
   if (!reservation) {
     return <Navigate to="/reservations" replace />;
   }
 
-  const { id, room: calendarId, start, end } = reservation;
+  const { id, start, end } = reservation;
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     if (!confirm(t("reserve-confirm-cancel"))) return;
 
-    reservationApi.deleteReservation({
+    await reservationApi.deleteReservation({
       calendarId,
       reservationId: id,
     });
