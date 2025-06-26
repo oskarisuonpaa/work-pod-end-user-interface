@@ -25,6 +25,7 @@ const SearchResults = () => {
   const [retryCount, setRetryCount] = useState(0);
   const { t } = useTranslation();
   const { data: calendars = [], isError } = useWorkpods();
+  const [workpodError, setWorkpodError] = useState<boolean>(false);
 
   // Timeout effect
   useEffect(() => {
@@ -70,11 +71,12 @@ const SearchResults = () => {
         const endOfDayLocal = new Date(date);
         endOfDayLocal.setHours(23, 59, 59);
         const timeMax = endOfDayLocal.toISOString();
-
+        let hadError = false
         const promises = workPods.map((workpod, idx) =>
           getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
             .then((data) => ({ data, idx }))
             .catch((error) => {
+              hadError = true;
               console.error(
                 "Error fetching calendar:",
                 workpod.workpodId,
@@ -88,7 +90,9 @@ const SearchResults = () => {
 
         setWorkPods((prevPods) => updateAllWorkPods(prevPods, results, date));
         setLoadedCount(results.filter(Boolean).length);
+        setWorkpodError(hadError);
       } catch (error) {
+        setWorkpodError(true);
         console.error("Error fetching all calendars:", error);
       }
     };
@@ -147,7 +151,7 @@ const SearchResults = () => {
     setRetryCount((prev) => prev + 1);
   };
   // Display error
-  if (isError || timedOut) {
+  if (isError || timedOut || workpodError) {
     console.error("Error fetching workpods or timed out");
     return (
       <PageWrapper pageTitle={t("searchresults-title")}>
@@ -175,13 +179,6 @@ const SearchResults = () => {
         <div className="loading">
           <p>{t("loading")}...</p>
           <div className="results">
-          <ul className="skeleton-list">
-            {[...Array(5)].map((_, i) => (
-              <li key={i} className="skeleton-item">
-                <p>{t("loading")}</p>
-              </li>
-            ))}
-          </ul>
           <ul className="skeleton-list">
             {[...Array(5)].map((_, i) => (
               <li key={i} className="skeleton-item">
