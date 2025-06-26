@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { vi, afterEach, afterAll, describe, it, expect } from "vitest";
 import ReservationInfoPage from "@components/ReservationInfoPage";
+import { parseDate, parseTime } from "@utils/dateTime";
 
 // --- Mocks ---
 
@@ -100,8 +101,18 @@ describe("ReservationInfoPage", () => {
     expect(screen.getByText(/workpod.*Room A/i)).toBeInTheDocument();
 
     // time and date
-    expect(screen.getByText(/09.00\s*-\s*10.00/)).toBeInTheDocument();
-    expect(screen.getByText(/25.05.2025/)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        new RegExp(
+          `${parseTime(mockReservation.start)}\\s*-\\s*${parseTime(
+            mockReservation.end
+          )}`
+        )
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(new RegExp(parseDate(mockReservation.start)))
+    ).toBeInTheDocument();
   });
 
   it("calls deleteReservation and redirects when cancel is confirmed", () => {
