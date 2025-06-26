@@ -23,27 +23,24 @@ vi.mock("react-router", () => ({
 
 describe("ReservationLink", () => {
   it("renders correct link and content", () => {
-    render(
-      <ReservationLink
-        id="abc123"
-        podName="PodA"
-        date="2025-06-04"
-        startTime="10:00"
-        endTime="11:00"
-      />
-    );
+    const reservation = {
+      title: "PodA",
+      id: "abc123",
+      calendarId: "PodA",
+      start: "2025-06-04",
+      end: "11:00",
+      description: "Test reservation",
+    };
 
-    // Link
+    render(<ReservationLink reservation={reservation} />);
+
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "/reservations/PodA/abc123");
     expect(link).toHaveClass("slot");
 
-    // Pod name
     expect(screen.getByText("PodA")).toBeInTheDocument();
-
-    // Formatted date & time
     expect(
-      screen.getByText("parsed(2025-06-04) t(10:00) - t(11:00)")
+      screen.getByText("parsed(2025-06-04) t(2025-06-04) - t(11:00)")
     ).toBeInTheDocument();
   });
 });

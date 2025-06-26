@@ -38,7 +38,7 @@
 
 .work-pod-link img {
   width: 50%;
-  transform: translateY(10%);
+  transform: translateY(5%);
 }
 
 a.work-pod-link {
@@ -51,7 +51,15 @@ a.work-pod-link {
   font-weight: bold;
   text-align: center;
   margin: 0;
-  transform: translateY(80%);
+  transform: translateY(5%);
+}
+
+.availability-timeframe {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  transform: translateY(50%);
 }
 
 .free {

@@ -36,7 +36,9 @@ vi.mock("@components/PageWrapper", () => ({
 }));
 
 vi.mock("@components/ReservationLink", () => ({
-  default: ({ id }: { id: string }) => <div>Reservation {id}</div>,
+  default: ({ reservation }: { reservation: { id: string } }) => (
+    <div>Reservation {reservation.id}</div>
+  ),
 }));
 
 describe("ReservationsPage", () => {

@@ -12,7 +12,6 @@ import InfoPage from "@components/InfoPage";
 import LoginPage from "@components/LoginPage";
 import DashboardPage from "@components/DashboardPage";
 import ReservationInfoPage from "@components/ReservationInfoPage";
-import ScanPage from "@components/ScanPage";
 import ReservationsPage from "@components/ReservationsPage";
 
 const App = () => {
@@ -83,7 +82,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="scan" element={<ScanPage />} />
 
         <Route
           path="*"

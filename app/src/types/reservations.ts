@@ -30,9 +30,9 @@ export type GetSingleReservationPayload = {
 };
 
 export type ReservationInfo = {
+  id: string;
   name: string;
   room: string;
-  date: string;
   start: string;
   end: string;
 };
