@@ -20,6 +20,7 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [loadedCount, setLoadedCount] = useState(0); // # of loaded workpods
   const [hasFetched, setHasFetched] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [timedOut, setTimedOut] = useState<boolean>(false);
   const [retryCount, setRetryCount] = useState(0);
   const { t } = useTranslation();
@@ -38,7 +39,10 @@ const SearchResults = () => {
 
   // Step 1: Fetch initial workpod list
   useEffect(() => {
-    if (!date || calendars.length === 0) return;
+    if (!date || isFetching || calendars.length === 0) return;
+
+    const fetchWorkpods = async () => {
+      setIsFetching(true);
 
       const pods = Object.values(calendars).map((calendar) => ({
         workpodId: calendar.alias,
@@ -52,7 +56,12 @@ const SearchResults = () => {
 
       setWorkPods(pods);
       setHasFetched(true);
-  }, [calendars, date]);
+    };
+
+    fetchWorkpods();
+    // please don't include extra dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calendars]);
 
   // Step 2: Fetch calendar events in parallel
   useEffect(() => {
@@ -91,7 +100,10 @@ const SearchResults = () => {
     };
 
     fetchAllCalendars();
-  }, [hasFetched, date, loading, workPods]);
+    // please don't include extra dependencies
+    // including workPods will cause infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasFetched, date]);
 
   // Step 3: Mark loading complete
   useEffect(() => {
@@ -138,6 +150,7 @@ const SearchResults = () => {
   const retrySearch = () => {
     setLoading(true);
     setHasFetched(false);
+    setIsFetching(false);
     setTimedOut(false);
     setWorkPods([]);
     setRetryCount((prev) => prev + 1);
