@@ -5,6 +5,7 @@ import ActionButton from "@components/ActionButton";
 import { reservationApi } from "api/reservations";
 import type { ReservationInfo } from "@types";
 import "./Reservation.css";
+import { parseDate, parseTime } from "@utils/dateTime";
 
 type LocState = {
   reservation?: ReservationInfo;
@@ -20,7 +21,7 @@ const ReservationInfoPage = () => {
     return <Navigate to="/reservations" replace />;
   }
 
-  const { id, room: calendarId, date, start, end } = reservation;
+  const { id, room: calendarId, start, end } = reservation;
 
   const handleCancel = () => {
     if (!confirm(t("reserve-confirm-cancel"))) return;
@@ -40,10 +41,10 @@ const ReservationInfoPage = () => {
           {t("workpod")}: {calendarId}
         </h2>
         <p className="date-info">
-          {t("date")}: {date}
+          {t("date")}: {parseDate(start)}
         </p>
         <p className="time-info">
-          {t("time")}: {start} - {end}
+          {t("time")}: {parseTime(start)} - {parseTime(end)}
         </p>
       </div>
       <ActionButton

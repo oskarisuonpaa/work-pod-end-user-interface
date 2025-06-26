@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 import ReservationLink from "@components/ReservationLink";
 import type { UserReservation } from "@types";
+import "./Reservations.css";
 
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState<UserReservation[]>([]);
@@ -27,13 +28,15 @@ const ReservationsPage = () => {
 
   return (
     <PageWrapper pageTitle={t("reservations-your")}>
-      <ul>
-        {reservations.map((res) => (
-          <li key={res.id}>
-            <ReservationLink reservation={res} />
-          </li>
-        ))}
-      </ul>
+      <div className="reservations-container">
+        <ul>
+          {reservations.map((res) => (
+            <li key={res.id}>
+              <ReservationLink reservation={res} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </PageWrapper>
   );
 };
