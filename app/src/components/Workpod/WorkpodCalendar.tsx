@@ -1,47 +1,63 @@
-import type { EventClickArg, EventInput } from "@fullcalendar/core/index.js";
+import { useState } from "react";
+import type { EventClickArg, EventInput } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import type { SelectedSlot, SlotStatus } from "@types";
 import i18next from "i18next";
+import { useAuth } from "@auth/useAuth";
 
 type CalendarProps = {
   events: EventInput[];
-  date: string | undefined;
-  onSlotSelect: (slot: SelectedSlot | null) => void;
+  date?: string;
+  onSlotsChange: (slots: SelectedSlot[]) => void;
 };
 
-const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
+const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
+  const { user } = useAuth();
+  const userName = user?.name;
+
+  const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
+
   const handleEventClick = (info: EventClickArg) => {
     const { start, end, extendedProps, id, title } = info.event;
+    if (!start || !end) return;
 
-    
-    if (start && end) {
-      if (end <= new Date()) {
-        onSlotSelect(null);
-        return;
-      }
+    // don't allow clicks on past slots
+    if (end <= new Date()) return;
 
-      const slot: SelectedSlot = {
-        start: start.toISOString(),
-        end: end.toISOString(),
-        status: extendedProps.status as SlotStatus,
-        title: title || "",
-        eventId: id && id !== "" ? id : undefined,
-      };
+    const slotTitle = title || "";
+    const slot: SelectedSlot = {
+      start: start.toISOString(),
+      end: end.toISOString(),
+      status: extendedProps.status as SlotStatus,
+      title: slotTitle,
+      eventId: id || undefined,
+    };
 
-      onSlotSelect(slot);
+    // only allow selecting free slots or slots owned by current user
+    if (slot.status !== "free" && slotTitle !== userName) {
+      return;
     }
+
+    // toggle in/out of array
+    const exists = selectedSlots.find(
+      (s) => s.start === slot.start && s.end === slot.end
+    );
+    const next: SelectedSlot[] = exists
+      ? selectedSlots.filter(
+          (s) => !(s.start === slot.start && s.end === slot.end)
+        )
+      : [...selectedSlots, slot];
+
+    setSelectedSlots(next);
+    onSlotsChange(next);
   };
-  //need to set the minutes to 0 to show current events as well
+
   const now = new Date();
-  now.setMinutes(0);
-  now.setSeconds(0);
-  now.setMilliseconds(0);
-  const filteredEvents = events.filter(event => {
-    // Assuming event.start is a Date or ISO string
-    if (!event.start) return false;
-    return new Date(event.start as string | number | Date) >= now;
-  });
+  now.setMinutes(0, 0, 0);
+  const filteredEvents = events.filter(
+    (e) => e.start && new Date(e.start as string) >= now
+  );
 
   return (
     <FullCalendar
@@ -49,10 +65,18 @@ const WorkpodCalendar = ({ events, onSlotSelect, date }: CalendarProps) => {
       locale={i18next.language}
       initialView="timeGridDay"
       allDaySlot={false}
-      nowIndicator={true}
+      nowIndicator
       events={filteredEvents}
       initialDate={date}
       eventClick={handleEventClick}
+      eventClassNames={(arg) => {
+        const startISO = arg.event.start?.toISOString();
+        const endISO = arg.event.end?.toISOString();
+        const isSel = selectedSlots.some(
+          (s) => s.start === startISO && s.end === endISO
+        );
+        return isSel ? ["fc-selected-slot"] : [];
+      }}
       scrollTime={now.toTimeString().slice(0, 8)}
       eventMinHeight={40}
       slotMinTime="00:00:00"

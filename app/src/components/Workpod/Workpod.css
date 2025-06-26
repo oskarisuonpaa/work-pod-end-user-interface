@@ -36,3 +36,7 @@ col {
   line-height: 1.2em !important;
   word-wrap: break-word !important;
 }
+
+.fc-selected-slot {
+  background-color: var(--orange) !important;
+}

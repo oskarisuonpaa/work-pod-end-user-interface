@@ -7,8 +7,8 @@ import useDeleteReservation from "@hooks/useDeleteReservation";
 
 import "./Workpod.css";
 import PageWrapper from "../PageWrapper";
-import CancelButton from "./CancelButton";
 import ReserveButton from "./ReserveButton";
+import CancelButton from "./CancelButton";
 import WorkpodCalendar from "./WorkpodCalendar";
 import { useTranslation } from "react-i18next";
 import type { SelectedSlot } from "@types";
@@ -33,51 +33,60 @@ const Workpod = () => {
     ? paramDate!
     : new Date().toISOString().slice(0, 10);
 
-  const { data: events = [] } = useWorkpodCalendar(workpodId);
-  const [selectedSlot, setSelectedSlot] = useState<SelectedSlot | null>(null);
+  const { data: events = [] } = useWorkpodCalendar(workpodId!);
+
+  // track multiple selected slots
+  const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
 
   const { mutateAsync: reserve } = usePostReservation();
   const { mutateAsync: cancel } = useDeleteReservation();
 
-  const handleReservation = useCallback(
-    async (slot: { start: string; end: string }) => {
-      if (!workpodId || !user?.name) return;
-      if (confirm(t("reserve-confirm-reserve"))) {
+  /** Bulk-reserve all free slots in our selection */
+  const handleBulkReserve = useCallback(async () => {
+    if (!workpodId || !user?.name) return;
+    const userName = user.name; // now definitely a string
+
+    const freeSlots = selectedSlots.filter((s) => s.status === "free");
+    if (freeSlots.length === 0) return;
+
+    if (confirm(t("reserve-confirm-reserve"))) {
+      for (const slot of freeSlots) {
         await reserve({
           calendarId: workpodId,
           start: slot.start,
           end: slot.end,
         });
-        setSelectedSlot({
-          start: slot.start,
-          end: slot.end,
-          status: "booked",
-          title: user.name,
+      }
+      setSelectedSlots((slots) =>
+        slots.map((s) =>
+          s.status === "free" ? { ...s, status: "booked", title: userName } : s
+        )
+      );
+    }
+  }, [workpodId, selectedSlots, user?.name, reserve, t]);
+
+  /** Bulk-cancel all slots the user owns */
+  const handleBulkCancel = useCallback(async () => {
+    if (!workpodId || !user?.name) return;
+    const userName = user.name;
+
+    const mySlots = selectedSlots.filter(
+      (s) => s.title === userName && s.eventId
+    );
+    if (mySlots.length === 0) return;
+
+    if (confirm(t("reserve-confirm-cancel"))) {
+      for (const slot of mySlots) {
+        await cancel({
+          calendarId: workpodId,
+          reservationId: slot.eventId!,
         });
       }
-    },
-    [workpodId, user?.name, t, reserve]
-  );
-
-  const handleCancelReservation = useCallback(
-    async (slot: { start: string; end: string; eventId?: string }) => {
-      if (!workpodId || !slot.eventId) return;
-      if (confirm(t("reserve-confirm-cancel"))) {
-        await cancel({ calendarId: workpodId, reservationId: slot.eventId });
-        setSelectedSlot(null);
-      }
-    },
-    [workpodId, cancel, t]
-  );
-
-  useEffect(() => {
-    if (selectedSlot?.status === "free" && reserveButtonRef.current) {
-      reserveButtonRef.current.focus();
-    } else if (selectedSlot?.title === user?.name && cancelButtonRef.current) {
-      cancelButtonRef.current.focus();
+      setSelectedSlots((slots) => slots.filter((s) => s.title !== userName));
     }
-  }, [selectedSlot, user?.name]);
+  }, [workpodId, selectedSlots, user?.name, cancel, t]);
 
+  // Auto-reserve via QR params
   useEffect(() => {
     if (
       qrStart &&
@@ -87,31 +96,34 @@ const Workpod = () => {
       user?.name &&
       workpodId
     ) {
-      const autoSlot = { start: qrStart, end: qrEnd };
-      handleReservation(autoSlot);
+      handleBulkReserve();
     }
-  }, [qrStart, qrEnd, user?.name, workpodId, handleReservation]);
+  }, [qrStart, qrEnd, user?.name, workpodId, handleBulkReserve]);
 
-  if (!workpodId) return <div>{t("reserve-id-missing")}</div>;
+  if (!workpodId) {
+    return <div>{t("reserve-id-missing")}</div>;
+  }
 
   return (
     <PageWrapper pageTitle={workpodId}>
       <WorkpodCalendar
         events={events}
-        onSlotSelect={setSelectedSlot}
         date={date}
+        onSlotsChange={setSelectedSlots}
       />
-      {selectedSlot?.status === "free" && (
+
+      {selectedSlots.some((s) => s.status === "free") && (
         <ReserveButton
-          slot={selectedSlot}
-          onReserve={handleReservation}
+          slots={selectedSlots.filter((s) => s.status === "free")}
+          onReserve={handleBulkReserve}
           buttonRef={reserveButtonRef}
         />
       )}
-      {selectedSlot && selectedSlot.title === user?.name && (
+
+      {selectedSlots.some((s) => s.title === user?.name) && (
         <CancelButton
-          slot={selectedSlot}
-          onCancel={handleCancelReservation}
+          slots={selectedSlots.filter((s) => s.title === user?.name)}
+          onCancel={handleBulkCancel}
           buttonRef={cancelButtonRef}
         />
       )}
