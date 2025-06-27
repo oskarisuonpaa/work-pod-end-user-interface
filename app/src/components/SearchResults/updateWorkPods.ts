@@ -1,4 +1,4 @@
-import type { DataItem, WorkpodWithEvents } from "@types";
+import type { CalendarEvent, WorkpodWithEvents } from "@types";
 import {
   differenceInMinutes,
   isWithinInterval,
@@ -9,7 +9,7 @@ import {
 
 const updateAllWorkPods = (
   prevPods: WorkpodWithEvents[],
-  results: ({ data: DataItem[]; idx: number } | null)[],
+  results: ({ data: CalendarEvent[]; idx: number } | null)[],
   date: Date
 ) => {
   let newPods = [...prevPods];
@@ -23,7 +23,7 @@ const updateAllWorkPods = (
 
 const updateWorkPods = (
   prevPods: WorkpodWithEvents[],
-  data: DataItem[],
+  data: CalendarEvent[],
   date: Date,
   idx: number
 ) => {
@@ -42,7 +42,15 @@ const updateWorkPods = (
     dateEnd = setMinutes(dateEnd, 59);
     freeFor = differenceInMinutes(dateEnd, date);
     freeUntil = dateEnd;
-    newPods[idx] = { ...newPods[idx], isReserved: false, freeUntil, freeFor, events: data, reservedUntil: null, reservedFor: 0 };
+    newPods[idx] = {
+      ...newPods[idx],
+      isReserved: false,
+      freeUntil,
+      freeFor,
+      events: data,
+      reservedUntil: null,
+      reservedFor: 0,
+    };
 
     return newPods;
   }

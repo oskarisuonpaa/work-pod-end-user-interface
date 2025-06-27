@@ -35,60 +35,64 @@ const SearchResults = () => {
   }, [loading, retryCount]);
 
   // Step 1: Fetch initial workpod list
- useEffect(() => {
-  if (!date || calendars.length === 0) return;
+  useEffect(() => {
+    if (!date || calendars.length === 0) return;
 
-  let cancelled = false;
-  const fetchAllCalendars = async () => {
-    try {
-      // Initialize pods
-      const pods = Object.values(calendars).map((calendar) => ({
-        workpodId: calendar.alias,
-        isReserved: false,
-        freeFor: 0,
-        freeUntil: null,
-        events: [],
-        reservedUntil: null,
-        reservedFor: 0,
-      }));
+    let cancelled = false;
+    const fetchAllCalendars = async () => {
+      try {
+        // Initialize pods
+        const pods = Object.values(calendars).map((calendar) => ({
+          workpodId: calendar.alias,
+          isReserved: false,
+          freeFor: 0,
+          freeUntil: null,
+          events: [],
+          reservedUntil: null,
+          reservedFor: 0,
+        }));
 
-      const timeMin = date.toISOString();
-      const endOfDayLocal = new Date(date);
-      endOfDayLocal.setHours(23, 59, 59);
-      const timeMax = endOfDayLocal.toISOString();
-      let hadError = false;
-      const promises = pods.map((workpod, idx) =>
-        getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
-          .then((data) => ({ data, idx }))
-          .catch((error) => {
-            hadError = true;
-            console.error("Error fetching calendar:", workpod.workpodId, error);
-            return null;
-          })
-      );
-      const results = await Promise.all(promises);
-      setWorkpodError(hadError);
-      if (!cancelled) {
-        setWorkPods(updateAllWorkPods(pods, results, date));
-        setLoading(false);
+        const timeMin = date.toISOString();
+        const endOfDayLocal = new Date(date);
+        endOfDayLocal.setHours(23, 59, 59);
+        const timeMax = endOfDayLocal.toISOString();
+        let hadError = false;
+        const promises = pods.map((workpod, idx) =>
+          getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
+            .then((data) => ({ data, idx }))
+            .catch((error) => {
+              hadError = true;
+              console.error(
+                "Error fetching calendar:",
+                workpod.workpodId,
+                error
+              );
+              return null;
+            })
+        );
+        const results = await Promise.all(promises);
+        setWorkpodError(hadError);
+        if (!cancelled) {
+          setWorkPods(updateAllWorkPods(pods, results, date));
+          setLoading(false);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setWorkpodError(true);
+          setWorkPods([]);
+          setLoading(false);
+        }
+        console.error("Error fetching all calendars:", error);
       }
-    } catch (error) {
-      if (!cancelled) {
-        setWorkpodError(true);
-        setWorkPods([]);
-        setLoading(false);
-      }
-      console.error("Error fetching all calendars:", error);
-    }
-  };
+    };
 
-  setLoading(true);
-  fetchAllCalendars();
+    setLoading(true);
+    fetchAllCalendars();
 
-  return () => {
-    cancelled = true;
-  };
-}, [calendars, date]);
+    return () => {
+      cancelled = true;
+    };
+  }, [calendars, date]);
 
   // Step 4: Render available and reserved pods
   const workPodsAvailable = workPods
@@ -160,13 +164,13 @@ const SearchResults = () => {
         <div className="loading">
           <p>{t("loading")}...</p>
           <div className="results">
-          <ul className="skeleton-list">
-            {[...Array(5)].map((_, i) => (
-              <li key={i} className="skeleton-item">
-                <p>{t("loading")}</p>
-              </li>
-            ))}
-          </ul>
+            <ul className="skeleton-list">
+              {[...Array(5)].map((_, i) => (
+                <li key={i} className="skeleton-item">
+                  <p>{t("loading")}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </PageWrapper>

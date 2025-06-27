@@ -55,8 +55,8 @@ export const getWorkpodCalendar = async (
     (event): CalendarEvent => ({
       id: event.id,
       title: event.title,
-      start: new Date(event.start),
-      end: new Date(event.end),
+      start: new Date(event.start).toISOString(),
+      end: new Date(event.end).toISOString(),
       backgroundColor: "var(--blue)",
       borderColor: "var(--blue)",
       extendedProps: {
