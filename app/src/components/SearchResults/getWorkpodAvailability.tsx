@@ -19,7 +19,7 @@ export function getWorkpodAvailability(events: DataItem[], date: Date): WorkpodA
     if (events.length === 0) {
         // no data means the pod is free for the rest of the day
         // calculate freeFor the rest of the work day
-        let dateEnd = setHours(setMinutes(new Date(date), 59), 23);
+        const dateEnd = setHours(setMinutes(new Date(date), 59), 23);
         freeFor = differenceInMinutes(dateEnd, date);
         freeUntil = dateEnd;
         return { isReserved: false, freeFor, freeUntil, reservedUntil: null, reservedFor: 0 };
@@ -47,7 +47,7 @@ export function getWorkpodAvailability(events: DataItem[], date: Date): WorkpodA
             freeUntil = startDate;
         } else {
             // no reservations after the selected date, free for the rest of the day
-            let dateEnd = setHours(setMinutes(new Date(date), 59), 23);
+            const dateEnd = setHours(setMinutes(new Date(date), 59), 23);
             freeFor = differenceInMinutes(dateEnd, date);
             freeUntil = dateEnd;
         }
