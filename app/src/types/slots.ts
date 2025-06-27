@@ -9,6 +9,5 @@ export type CalendarEvent = {
   borderColor?: string;
   extendedProps?: {
     status: SlotStatus;
-    eventId?: string;
   };
 };
