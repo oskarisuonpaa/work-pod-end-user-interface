@@ -5,7 +5,7 @@ import type {
   PostReservationPayload,
   ReservationInfo,
   UserReservation,
-} from "types/reservations";
+} from "types/reservation";
 import apiClient from "./client";
 
 const API_ROUTES = {

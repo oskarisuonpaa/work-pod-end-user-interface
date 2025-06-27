@@ -1,4 +1,5 @@
 export * from "./calendar";
-export * from "./reservations";
+export * from "./reservation";
 export * from "./slots";
 export * from "./workpods";
+export * from "./api";

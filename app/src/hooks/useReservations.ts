@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { reservationApi } from "api/reservations";
-import type { UserReservation } from "types/reservations";
+import type { UserReservation } from "types/reservation";
 
 const useReservations = () => {
   return useQuery<UserReservation[]>({

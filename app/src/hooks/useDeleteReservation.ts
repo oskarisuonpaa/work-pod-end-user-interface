@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reservationApi } from "api/reservations";
-import type { DeleteReservationPayload } from "types/reservations";
+import type { DeleteReservationPayload } from "types/reservation";
 
 const useDeleteReservation = () => {
   const queryClient = useQueryClient();
