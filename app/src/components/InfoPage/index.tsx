@@ -12,16 +12,16 @@ const InfoPage = () => {
   return (
     <PageWrapper pageTitle={"Info - " + t("info-title")}>
       {!loggedIn && (
-        <p>
+        <p className="info-text">
           {t("info-access-text")}
           <br />
           <ActionButton label={t("navbar-login")} to="/login" />
         </p>
       )}
 
-      <p>{t("info-text1")}</p>
+      <p className="info-text">{t("info-text1")}</p>
 
-      <p>{t("info-text2")}</p>
+      <p className="info-text">{t("info-text2")}</p>
     </PageWrapper>
   );
 };

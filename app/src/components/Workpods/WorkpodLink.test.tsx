@@ -2,6 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import WorkpodLink from "./WorkpodLink";
 import { describe, it, expect } from "vitest";
+import { vi } from "vitest";
+
+vi.mock("api/workpods", () => ({
+  getWorkpodCalendar: vi.fn().mockResolvedValue([]),
+}));
 
 describe("WorkpodLink", () => {
   it("renders with correct pod ID, link, image, and availability class", () => {
