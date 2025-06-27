@@ -1,5 +1,7 @@
 .button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   position: relative;
   background-color: var(--blue);
   color: var(--white);
@@ -14,6 +16,7 @@
   width: 100%;
   text-align: left;
   font-weight: bold;
+  height: 78px;
 }
 
 .button:hover,
