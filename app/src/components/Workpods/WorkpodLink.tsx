@@ -36,8 +36,8 @@ useEffect(() => {
         <p className="availability-timeframe">
           {availability
             ? availability.isReserved
-              ? `${Math.floor(availability.reservedFor / 60)}h ${availability.reservedFor % 60}min`
-              : `${Math.floor(availability.freeFor / 60)}h ${availability.freeFor % 60}min`
+              ? `${Math.floor(availability.reservedFor / 60)}h ${availability.reservedFor % 60}m`
+              : `${Math.floor(availability.freeFor / 60)}h ${availability.freeFor % 60}m`
             : ""}
         </p>
       </div>
