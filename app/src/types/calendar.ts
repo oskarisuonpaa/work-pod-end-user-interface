@@ -1,5 +1,6 @@
 import type { EventInput } from "@fullcalendar/core";
 
+// TEMP??
 export type WorkpodWithEvents = {
   workpodId: string;
   isReserved: boolean;
@@ -16,4 +17,11 @@ export type DataItem = {
   id: string;
   start: string; // ISO date string
   title: string;
+};
+
+// TEMP?? END
+
+export type Calendar = {
+  alias: string;
+  status: "free" | "busy" | "unknown";
 };

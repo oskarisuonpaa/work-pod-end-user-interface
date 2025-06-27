@@ -5,8 +5,8 @@ const useWorkpods = () => {
   return useQuery({
     queryKey: ["workpods"],
     queryFn: async () => {
-      const data = await getWorkpods();
-      return data.calendars;
+      const calendars = await getWorkpods();
+      return calendars;
     },
     staleTime: 0,
     refetchInterval: 10000,

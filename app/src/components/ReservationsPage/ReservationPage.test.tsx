@@ -77,7 +77,6 @@ describe("ReservationsPage", () => {
         title: "Test 1",
         start: "2025-06-04T10:00:00Z",
         end: "2025-06-04T11:00:00Z",
-        description: "test1@example.com",
       },
       {
         id: "res2",
@@ -85,7 +84,6 @@ describe("ReservationsPage", () => {
         title: "Test 2",
         start: "2025-06-05T12:00:00Z",
         end: "2025-06-05T13:00:00Z",
-        description: "test2@example.com",
       },
     ];
 

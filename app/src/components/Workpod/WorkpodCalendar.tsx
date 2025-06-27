@@ -2,21 +2,21 @@ import { useState } from "react";
 import type { EventClickArg, EventInput } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import type { SelectedSlot, SlotStatus } from "@types";
+import type { CalendarEvent, SlotStatus } from "@types";
 import i18next from "i18next";
 import { useAuth } from "@auth/useAuth";
 
 type CalendarProps = {
   events: EventInput[];
   date?: string;
-  onSlotsChange: (slots: SelectedSlot[]) => void;
+  onSlotsChange: (slots: CalendarEvent[]) => void;
 };
 
 const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
   const { user } = useAuth();
   const userName = user?.name;
 
-  const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
+  const [selectedSlots, setSelectedSlots] = useState<CalendarEvent[]>([]);
 
   const handleEventClick = (info: EventClickArg) => {
     const { start, end, extendedProps, id, title } = info.event;
@@ -26,16 +26,18 @@ const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
     if (end <= new Date()) return;
 
     const slotTitle = title || "";
-    const slot: SelectedSlot = {
+    const slot: CalendarEvent = {
       start: start.toISOString(),
       end: end.toISOString(),
-      status: extendedProps.status as SlotStatus,
+      extendedProps: {
+        status: extendedProps.status as SlotStatus,
+      },
       title: slotTitle,
-      eventId: id || undefined,
+      id: id || undefined,
     };
 
     // only allow selecting free slots or slots owned by current user
-    if (slot.status !== "free" && slotTitle !== userName) {
+    if (slot.extendedProps.status !== "free" && slotTitle !== userName) {
       return;
     }
 
@@ -43,7 +45,7 @@ const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
     const exists = selectedSlots.find(
       (s) => s.start === slot.start && s.end === slot.end
     );
-    const next: SelectedSlot[] = exists
+    const next: CalendarEvent[] = exists
       ? selectedSlots.filter(
           (s) => !(s.start === slot.start && s.end === slot.end)
         )

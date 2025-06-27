@@ -29,8 +29,7 @@ describe("UpcomingReservations", () => {
       {
         id: "2",
         calendarId: "Pod B",
-        title: "Some title B", // added
-        description: "desc B", // added
+        title: "Some title B",
         start: "2025-06-05T10:00:00Z",
         end: "2025-06-05T11:00:00Z",
       },
@@ -38,7 +37,6 @@ describe("UpcomingReservations", () => {
         id: "1",
         calendarId: "Pod A",
         title: "Some title A",
-        description: "desc A",
         start: "2025-06-04T09:00:00Z",
         end: "2025-06-04T10:00:00Z",
       },
@@ -46,7 +44,6 @@ describe("UpcomingReservations", () => {
         id: "3",
         calendarId: "Pod C",
         title: "Some title C",
-        description: "desc C",
         start: "2025-06-06T12:00:00Z",
         end: "2025-06-06T13:00:00Z",
       },
@@ -54,7 +51,6 @@ describe("UpcomingReservations", () => {
         id: "4",
         calendarId: "Pod D",
         title: "Some title D",
-        description: "desc D",
         start: "2025-06-07T14:00:00Z",
         end: "2025-06-07T15:00:00Z",
       },

@@ -1,6 +1,12 @@
+import type {
+  Calendar,
+  CalendarEvent,
+  GetCalendarsResponse,
+  GetEventsResponse,
+} from "@types";
 import client from "./client";
 import formatDate from "@utils/formatDate";
-import type { WorkpodsResponse, CalendarEvent } from "types/workpods";
+import { unwrapResponse } from "@utils/unwrapResponse";
 
 const API_ROUTES = {
   calendars: "/calendars",
@@ -10,18 +16,19 @@ const API_ROUTES = {
 
 /**
  * Fetches all workpods (calendars).
- * @returns {Promise<WorkpodsResponse>} A promise that resolves to the workpods response.
+ * @returns {Promise<Calendar[]>} A promise that resolves to the workpods response.
  */
-export const getWorkpods = async (): Promise<WorkpodsResponse> => {
-  const response = await client.get<WorkpodsResponse>(API_ROUTES.calendars);
-  return response.data;
+export const getWorkpods = async (): Promise<Calendar[]> => {
+  const response = await client.get<GetCalendarsResponse>(API_ROUTES.calendars);
+
+  return unwrapResponse(response.data);
 };
 
 /**
  * Fetches calendar events for a specific workpod.
  * @param {string} workpodId - The ID of the workpod (calendar).
- * @param {string} [timeMin] - The minimum time for the events (ISO string).
- * @param {string} [timeMax] - The maximum time for the events (ISO string).
+ * @param {string} [timeMin] - The minimum time for the events to be fetched.
+ * @param {string} [timeMax] - The maximum time for the events to be fetched.
  * @returns {Promise<CalendarEvent[]>} A promise that resolves to an array of calendar events.
  */
 export const getWorkpodCalendar = async (
@@ -29,10 +36,6 @@ export const getWorkpodCalendar = async (
   timeMin?: string,
   timeMax?: string
 ): Promise<CalendarEvent[]> => {
-  if (!workpodId) {
-    throw new Error("Missing required parameter: workpodId");
-  }
-
   const now = new Date();
   now.setMinutes(0, 0, 0);
   now.setHours(0, 0, 0);
@@ -42,9 +45,23 @@ export const getWorkpodCalendar = async (
   timeMax =
     timeMax ?? formatDate(new Date(base.getTime() + 30 * 24 * 60 * 60 * 1000));
 
-  const response = await client.get<CalendarEvent[]>(
+  const response = await client.get<GetEventsResponse>(
     API_ROUTES.calendarEvents(workpodId, timeMin, timeMax)
   );
 
-  return response.data;
+  const events = unwrapResponse(response.data);
+
+  return events.map(
+    (event): CalendarEvent => ({
+      id: event.id,
+      title: event.title,
+      start: new Date(event.start).toISOString(),
+      end: new Date(event.end).toISOString(),
+      backgroundColor: "var(--blue)",
+      borderColor: "var(--blue)",
+      extendedProps: {
+        status: "booked",
+      },
+    })
+  );
 };

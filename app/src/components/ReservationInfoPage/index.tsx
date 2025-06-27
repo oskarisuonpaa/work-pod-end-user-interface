@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 import ActionButton from "@components/ActionButton";
 import { reservationApi } from "api/reservations";
-import type { ReservationInfo } from "@types";
 import "./Reservation.css";
 import { parseDate, parseTime } from "@utils/dateTime";
+import type { Reservation } from "@types";
 
 type LocState = {
-  reservation?: ReservationInfo;
+  reservation?: Reservation;
 };
 
 const ReservationInfoPage = () => {

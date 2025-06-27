@@ -1,9 +1,13 @@
 export type SlotStatus = "free" | "booked";
 
-export type SelectedSlot = {
+export type CalendarEvent = {
+  id?: string;
+  title: string;
   start: string;
   end: string;
-  status: SlotStatus;
-  title: string;
-  eventId?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  extendedProps: {
+    status: SlotStatus;
+  };
 };
