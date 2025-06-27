@@ -36,7 +36,7 @@ useEffect(() => {
         <p className="availability-timeframe">
           {availability
             ? availability.isReserved
-              ? `${format(availability.reservedUntil!, "HH:mm")}}`
+              ? `${format(availability.reservedUntil!, "HH:mm")}`
               : `${format(availability.freeUntil!, "HH:mm")}`
             : ""}
         </p>
