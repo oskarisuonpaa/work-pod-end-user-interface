@@ -1,7 +1,12 @@
-import type { CalendarEvent, GetEventsResponse } from "@types";
+import type {
+  Calendar,
+  CalendarEvent,
+  GetCalendarsResponse,
+  GetEventsResponse,
+} from "@types";
 import client from "./client";
 import formatDate from "@utils/formatDate";
-import type { WorkpodsResponse } from "types/workpods";
+import { unwrapResponse } from "@utils/unwrapResponse";
 
 const API_ROUTES = {
   calendars: "/calendars",
@@ -11,11 +16,12 @@ const API_ROUTES = {
 
 /**
  * Fetches all workpods (calendars).
- * @returns {Promise<WorkpodsResponse>} A promise that resolves to the workpods response.
+ * @returns {Promise<Calendar[]>} A promise that resolves to the workpods response.
  */
-export const getWorkpods = async (): Promise<WorkpodsResponse> => {
-  const response = await client.get<WorkpodsResponse>(API_ROUTES.calendars);
-  return response.data;
+export const getWorkpods = async (): Promise<Calendar[]> => {
+  const response = await client.get<GetCalendarsResponse>(API_ROUTES.calendars);
+
+  return unwrapResponse(response.data);
 };
 
 /**
@@ -43,13 +49,9 @@ export const getWorkpodCalendar = async (
     API_ROUTES.calendarEvents(workpodId, timeMin, timeMax)
   );
 
-  const responseData = response.data;
+  const events = unwrapResponse(response.data);
 
-  if (!responseData.success) {
-    throw new Error("Failed to fetch calendar events: " + responseData.message);
-  }
-
-  return responseData.data.map(
+  return events.map(
     (event): CalendarEvent => ({
       id: event.id,
       title: event.title,
