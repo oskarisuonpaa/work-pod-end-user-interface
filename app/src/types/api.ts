@@ -1,5 +1,5 @@
 import type { Calendar } from "./calendar";
-import type { Reservation } from "./reservation";
+import type { Reservation, UserReservation } from "./reservation";
 
 export type GenericResponse<T> =
   | { success: true; data: T; message?: string }
@@ -12,7 +12,7 @@ export type DeleteReservationResponse = GenericResponse<null>;
 // GET endpoints
 export type GetEventsResponse = GenericResponse<Reservation[]>;
 export type GetCalendarsResponse = GenericResponse<Calendar[]>;
-export type GetUserEventsResponse = GenericResponse<Reservation[]>;
+export type GetUserEventsResponse = GenericResponse<UserReservation[]>;
 
 export type DeleteReservationPayload = {
   reservationId: string;
