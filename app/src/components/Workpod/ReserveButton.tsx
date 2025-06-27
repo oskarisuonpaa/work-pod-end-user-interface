@@ -2,11 +2,11 @@
 import { useTranslation } from "react-i18next";
 import ActionButton from "@components/ActionButton";
 import { parseTime } from "@utils/dateTime";
-import type { ReservationSlot } from "@types";
+import type { CalendarEvent } from "@types";
 import type { Ref } from "react";
 
 type Props = {
-  slots: ReservationSlot[];
+  slots: CalendarEvent[];
   onReserve: () => void;
   buttonRef?: Ref<HTMLButtonElement>;
 };

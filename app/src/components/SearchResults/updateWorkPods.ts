@@ -1,9 +1,9 @@
-import type { DataItem, WorkpodWithEvents } from "@types";
-import {getWorkpodAvailability} from "./getWorkpodAvailability";
+import type { CalendarEvent, WorkpodWithEvents } from "@types";
+import { getWorkpodAvailability } from "./getWorkpodAvailability";
 
 const updateAllWorkPods = (
   prevPods: WorkpodWithEvents[],
-  results: ({ data: DataItem[]; idx: number } | null)[],
+  results: ({ data: CalendarEvent[]; idx: number } | null)[],
   date: Date
 ) => {
   let newPods = [...prevPods];
@@ -17,7 +17,7 @@ const updateAllWorkPods = (
 
 const updateWorkPods = (
   prevPods: WorkpodWithEvents[],
-  data: DataItem[],
+  data: CalendarEvent[],
   date: Date,
   idx: number
 ) => {

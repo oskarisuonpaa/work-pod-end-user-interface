@@ -11,7 +11,7 @@ import ReserveButton from "./ReserveButton";
 import CancelButton from "./CancelButton";
 import WorkpodCalendar from "./WorkpodCalendar";
 import { useTranslation } from "react-i18next";
-import type { SelectedSlot } from "@types";
+import type { CalendarEvent } from "@types";
 
 const isValidDate = (dateString?: string) =>
   !!dateString && !isNaN(Date.parse(dateString));
@@ -36,7 +36,7 @@ const Workpod = () => {
   const { data: events = [] } = useWorkpodCalendar(workpodId!);
 
   // track multiple selected slots
-  const [selectedSlots, setSelectedSlots] = useState<SelectedSlot[]>([]);
+  const [selectedSlots, setSelectedSlots] = useState<CalendarEvent[]>([]);
 
   const { mutateAsync: reserve } = usePostReservation();
   const { mutateAsync: cancel } = useDeleteReservation();
@@ -46,7 +46,9 @@ const Workpod = () => {
     if (!workpodId || !user?.name) return;
     const userName = user.name; // now definitely a string
 
-    const freeSlots = selectedSlots.filter((s) => s.status === "free");
+    const freeSlots = selectedSlots.filter(
+      (s) => s.extendedProps.status === "free"
+    );
     if (freeSlots.length === 0) return;
 
     if (confirm(t("reserve-confirm-reserve"))) {
@@ -59,7 +61,15 @@ const Workpod = () => {
       }
       setSelectedSlots((slots) =>
         slots.map((s) =>
-          s.status === "free" ? { ...s, status: "booked", title: userName } : s
+          s.extendedProps.status === "free"
+            ? {
+                ...s,
+                title: userName,
+                extendedProps: {
+                  status: "booked",
+                },
+              }
+            : s
         )
       );
     }
@@ -70,16 +80,14 @@ const Workpod = () => {
     if (!workpodId || !user?.name) return;
     const userName = user.name;
 
-    const mySlots = selectedSlots.filter(
-      (s) => s.title === userName && s.eventId
-    );
+    const mySlots = selectedSlots.filter((s) => s.title === userName && s.id);
     if (mySlots.length === 0) return;
 
     if (confirm(t("reserve-confirm-cancel"))) {
       for (const slot of mySlots) {
         await cancel({
           calendarId: workpodId,
-          reservationId: slot.eventId!,
+          reservationId: slot.id!,
         });
       }
       setSelectedSlots((slots) => slots.filter((s) => s.title !== userName));
@@ -112,9 +120,9 @@ const Workpod = () => {
         onSlotsChange={setSelectedSlots}
       />
 
-      {selectedSlots.some((s) => s.status === "free") && (
+      {selectedSlots.some((s) => s.extendedProps.status === "free") && (
         <ReserveButton
-          slots={selectedSlots.filter((s) => s.status === "free")}
+          slots={selectedSlots.filter((s) => s.extendedProps.status === "free")}
           onReserve={handleBulkReserve}
           buttonRef={reserveButtonRef}
         />
