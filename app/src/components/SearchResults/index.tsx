@@ -137,7 +137,7 @@ const SearchResults = () => {
     return (
       <PageWrapper pageTitle={t("searchresults-title")}>
         <div className="error-message" role="alert">
-          <p>{t("searchresults-error")}</p>
+          <p>{t("searchresults-error")}.</p>
           <ActionButton
             label={t("searchresults-retry")}
             onClick={retrySearch}
@@ -184,7 +184,7 @@ const SearchResults = () => {
               <ul className="available-results">{workPodsAvailable}</ul>
             </div>
           ) : (
-            <p className="no-results">{t("searchresults-no-available")}</p>
+            <p className="no-results">{t("searchresults-no-available")}.</p>
           )}
         </section>
         <section aria-labelledby="reserved-heading">
@@ -196,7 +196,7 @@ const SearchResults = () => {
               <ul className="reserved-results">{workPodsReserved}</ul>
             </div>
           ) : (
-            <p className="no-results">{t("searchresults-no-reserved")}</p>
+            <p className="no-results">{t("searchresults-no-reserved")}.</p>
           )}
         </section>
       </div>
