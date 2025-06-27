@@ -51,7 +51,7 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
-        await waitFor(() => expect(screen.getByText("searchresults-error")).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText("searchresults-error.")).toBeInTheDocument());
     });
 
     it("renders current time in the header", async () => {
@@ -154,7 +154,7 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
-        const text = await screen.findByText("searchresults-no-reserved");
+        const text = await screen.findByText("searchresults-no-reserved.");
         expect(text).toBeInTheDocument();
     });
 
@@ -181,7 +181,7 @@ describe("SearchResults page", () => {
                 <SearchResults />
             </MemoryRouter>
         );
-        const text = await screen.findByText("searchresults-no-available");
+        const text = await screen.findByText("searchresults-no-available.");
         expect(text).toBeInTheDocument();
     });
 });
