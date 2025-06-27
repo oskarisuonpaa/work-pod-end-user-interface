@@ -4,3 +4,5 @@ export type Reservation = {
   start: string;
   end: string;
 };
+
+export type UserReservation = Reservation & { calendarId: string };

@@ -13,3 +13,14 @@ export type DeleteReservationResponse = GenericResponse<null>;
 export type GetEventsResponse = GenericResponse<Reservation[]>;
 export type GetCalendarsResponse = GenericResponse<Calendar[]>;
 export type GetUserEventsResponse = GenericResponse<Reservation[]>;
+
+export type DeleteReservationPayload = {
+  reservationId: string;
+  calendarId: string;
+};
+
+export type PostReservationPayload = {
+  calendarId: string;
+  start: string;
+  end: string;
+};
