@@ -11,17 +11,23 @@ import type { WorkpodAvailability } from "../SearchResults/getWorkpodAvailabilit
 const WorkpodLink = ({ alias, status }: Workpod) => {
     const [availability, setAvailability] = useState<WorkpodAvailability | null>(null);
 
-  useEffect(() => {
-    const fetchAvailability = async () => {
+useEffect(() => {
+  const fetchAvailability = async () => {
+    try {
       const now = new Date();
       const endOfDay = new Date(now);
       endOfDay.setHours(23, 59, 59);
       const events = await getWorkpodCalendar(alias, now.toISOString(), endOfDay.toISOString());
       const avail = getWorkpodAvailability(events, now);
       setAvailability(avail);
-    };
-    fetchAvailability();
-  }, [alias]);
+    } catch (error) {
+      setAvailability(null); // or set some error state
+      console.error("Error fetching workpod availability:", error);
+    }
+  };
+  fetchAvailability();
+}, [alias]);
+
   return (
     <Link to={"/workpods/" + alias} className="work-pod-link">
       <div className={`hexagon ${status}`}>
