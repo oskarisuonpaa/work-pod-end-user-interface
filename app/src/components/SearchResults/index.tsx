@@ -18,16 +18,13 @@ const SearchResults = () => {
   const { date } = location.state || {};
   const [workPods, setWorkPods] = useState<WorkpodWithEvents[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadedCount, setLoadedCount] = useState(0); // # of loaded workpods
-  const [hasFetched, setHasFetched] = useState<boolean>(false);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [timedOut, setTimedOut] = useState<boolean>(false);
   const [retryCount, setRetryCount] = useState(0);
   const { t } = useTranslation();
   const { data: calendars = [], isError } = useWorkpods();
   const [workpodError, setWorkpodError] = useState<boolean>(false);
 
-  // Timeout effect
+  // Timeout effect so it's not left hanging in loading state indefinitely
   useEffect(() => {
     if (!loading) return;
     setTimedOut(false);
@@ -38,12 +35,13 @@ const SearchResults = () => {
   }, [loading, retryCount]);
 
   // Step 1: Fetch initial workpod list
-  useEffect(() => {
-    if (!date || isFetching || calendars.length === 0) return;
+ useEffect(() => {
+  if (!date || calendars.length === 0) return;
 
-    const fetchWorkpods = async () => {
-      setIsFetching(true);
-
+  let cancelled = false;
+  const fetchAllCalendars = async () => {
+    try {
+      // Initialize pods
       const pods = Object.values(calendars).map((calendar) => ({
         workpodId: calendar.alias,
         isReserved: false,
@@ -54,63 +52,43 @@ const SearchResults = () => {
         reservedFor: 0,
       }));
 
-      setWorkPods(pods);
-      setHasFetched(true);
-    };
-
-    fetchWorkpods();
-    // please don't include extra dependencies
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calendars]);
-
-  // Step 2: Fetch calendar events in parallel
-  useEffect(() => {
-    if (!date || !hasFetched || !loading) return;
-
-    const fetchAllCalendars = async () => {
-      try {
-        const timeMin = date.toISOString();
-        const endOfDayLocal = new Date(date);
-        endOfDayLocal.setHours(23, 59, 59);
-        const timeMax = endOfDayLocal.toISOString();
-        let hadError = false
-        const promises = workPods.map((workpod, idx) =>
-          getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
-            .then((data) => ({ data, idx }))
-            .catch((error) => {
-              hadError = true;
-              console.error(
-                "Error fetching calendar:",
-                workpod.workpodId,
-                error
-              );
-              return null;
-            })
-        );
-
-        const results = await Promise.all(promises);
-
-        setWorkPods((prevPods) => updateAllWorkPods(prevPods, results, date));
-        setLoadedCount(results.filter(Boolean).length);
-        setWorkpodError(hadError);
-      } catch (error) {
-        setWorkpodError(true);
-        console.error("Error fetching all calendars:", error);
+      const timeMin = date.toISOString();
+      const endOfDayLocal = new Date(date);
+      endOfDayLocal.setHours(23, 59, 59);
+      const timeMax = endOfDayLocal.toISOString();
+      let hadError = false;
+      const promises = pods.map((workpod, idx) =>
+        getWorkpodCalendar(workpod.workpodId, timeMin, timeMax)
+          .then((data) => ({ data, idx }))
+          .catch((error) => {
+            hadError = true;
+            console.error("Error fetching calendar:", workpod.workpodId, error);
+            return null;
+          })
+      );
+      const results = await Promise.all(promises);
+      setWorkpodError(hadError);
+      if (!cancelled) {
+        setWorkPods(updateAllWorkPods(pods, results, date));
+        setLoading(false);
       }
-    };
-
-    fetchAllCalendars();
-    // please don't include extra dependencies
-    // including workPods will cause infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasFetched, date]);
-
-  // Step 3: Mark loading complete
-  useEffect(() => {
-    if (loadedCount === workPods.length && workPods.length > 0) {
-      setLoading(false);
+    } catch (error) {
+      if (!cancelled) {
+        setWorkpodError(true);
+        setWorkPods([]);
+        setLoading(false);
+      }
+      console.error("Error fetching all calendars:", error);
     }
-  }, [loadedCount, workPods.length]);
+  };
+
+  setLoading(true);
+  fetchAllCalendars();
+
+  return () => {
+    cancelled = true;
+  };
+}, [calendars, date]);
 
   // Step 4: Render available and reserved pods
   const workPodsAvailable = workPods
@@ -149,8 +127,6 @@ const SearchResults = () => {
 
   const retrySearch = () => {
     setLoading(true);
-    setHasFetched(false);
-    setIsFetching(false);
     setTimedOut(false);
     setWorkPods([]);
     setRetryCount((prev) => prev + 1);
