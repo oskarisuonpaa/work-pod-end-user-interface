@@ -51,8 +51,24 @@ const Workpod = () => {
     );
     if (freeSlots.length === 0) return;
 
+    // Combine consecutive slots into ranges
+    const combinedSlots = freeSlots
+      .sort((a, b) => +new Date(a.start) - +new Date(b.start))
+      .reduce<CalendarEvent[]>((acc, slot) => {
+        const last = acc[acc.length - 1];
+        if (
+          last &&
+          new Date(last.end).getTime() === new Date(slot.start).getTime()
+        ) {
+          last.end = slot.end; // Extend the end time of the last slot
+        } else {
+          acc.push({ ...slot }); // Add a new slot range
+        }
+        return acc;
+      }, []);
+
     if (confirm(t("reserve-confirm-reserve"))) {
-      for (const slot of freeSlots) {
+      for (const slot of combinedSlots) {
         await reserve({
           calendarId: workpodId,
           start: slot.start,
