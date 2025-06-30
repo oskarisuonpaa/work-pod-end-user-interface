@@ -5,7 +5,12 @@ import { describe, it } from "vitest";
 describe("WorkpodCalendar", () => {
   it("renders without crashing", () => {
     render(
-      <WorkpodCalendar events={[]} date="2025-06-04" onSlotsChange={() => {}} />
+      <WorkpodCalendar
+        events={[]}
+        date="2025-06-04"
+        selectedSlots={[]}
+        onSlotsChange={() => {}}
+      />
     );
   });
 });
