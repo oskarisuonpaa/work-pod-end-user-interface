@@ -34,7 +34,7 @@ const SearchResults = () => {
     return () => clearTimeout(timer);
   }, [loading, retryCount]);
 
-  // Step 1: Fetch initial workpod list
+  // Fetch initial workpod list
   useEffect(() => {
     if (!date || calendars.length === 0) return;
 
@@ -94,7 +94,7 @@ const SearchResults = () => {
     };
   }, [calendars, date]);
 
-  // Step 4: Render available and reserved pods
+  // Render available and reserved pods
   const workPodsAvailable = workPods
     .filter((workpod) => !workpod.isReserved)
     .sort((a, b) => b.freeFor - a.freeFor)
