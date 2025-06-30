@@ -134,7 +134,7 @@ const SearchResults = () => {
     setTimedOut(false);
     setWorkPods([]);
     setRetryCount((prev) => prev + 1);
-    setWorkpodError(false)
+    setWorkpodError(false);
   };
   // Display error
   if (isError || timedOut || workpodError) {
