@@ -15,6 +15,17 @@ export interface WorkpodAvailability {
   reservedUntil: Date | null;
 }
 
+/**
+ * Get the availability of a workpod for a specific date
+ * @param events - Array of calendar events for the workpod
+ * @param date - The date to check availability for
+ * @returns {WorkpodAvailability} An object with:
+ *   - isReserved: boolean (whether the pod is currently reserved)
+ *   - freeFor: number (minutes free from 'date')
+ *   - freeUntil: Date | null (when the pod is next reserved)
+ *   - reservedFor: number (minutes reserved from 'date')
+ *   - reservedUntil: Date | null (when the reservation ends)
+ */
 export function getWorkpodAvailability(
   events: CalendarEvent[],
   date: Date

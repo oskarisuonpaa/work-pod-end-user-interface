@@ -1,6 +1,13 @@
 import type { CalendarEvent, WorkpodWithEvents } from "@types";
 import { getWorkpodAvailability } from "./getWorkpodAvailability";
 
+/**
+ * Update the availability status of all work pods
+ * @param prevPods - The previous state of the work pods
+ * @param results - The new calendar events for each work pod
+ * @param date - The date to check availability for
+ * @returns The updated state of the work pods
+ */
 const updateAllWorkPods = (
   prevPods: WorkpodWithEvents[],
   results: ({ data: CalendarEvent[]; idx: number } | null)[],
@@ -15,6 +22,14 @@ const updateAllWorkPods = (
   return newPods;
 };
 
+/**
+ * Update the availability status of a specific work pod
+ * @param prevPods - The previous state of the work pods
+ * @param data - The new calendar events for the work pod
+ * @param date - The date to check availability for
+ * @param idx - The index of the work pod to update
+ * @returns The updated state of the work pods
+ */
 const updateWorkPods = (
   prevPods: WorkpodWithEvents[],
   data: CalendarEvent[],
