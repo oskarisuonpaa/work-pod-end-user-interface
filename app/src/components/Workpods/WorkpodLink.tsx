@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getWorkpodCalendar } from "api/workpods";
 import { getWorkpodAvailability } from "../SearchResults/getWorkpodAvailability";
 import type { WorkpodAvailability } from "../SearchResults/getWorkpodAvailability";
-
+import { format } from "date-fns";
 
 
 const WorkpodLink = ({ alias, status }: Workpod) => {
@@ -36,8 +36,8 @@ useEffect(() => {
         <p className="availability-timeframe">
           {availability
             ? availability.isReserved
-              ? `${Math.floor(availability.reservedFor / 60)}h ${availability.reservedFor % 60}m`
-              : `${Math.floor(availability.freeFor / 60)}h ${availability.freeFor % 60}m`
+              ? `${format(availability.reservedUntil!, "HH:mm")}`
+              : `${format(availability.freeUntil!, "HH:mm")}`
             : ""}
         </p>
       </div>
