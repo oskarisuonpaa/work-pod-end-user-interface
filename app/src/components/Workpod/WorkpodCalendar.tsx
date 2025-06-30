@@ -36,7 +36,6 @@ const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
       id: id || undefined,
     };
 
-    // only allow selecting free slots or slots owned by current user
     if (slot.extendedProps.status !== "free" && slotTitle !== userName) {
       return;
     }
@@ -84,6 +83,8 @@ const WorkpodCalendar = ({ events, onSlotsChange, date }: CalendarProps) => {
       slotMinTime="00:00:00"
       slotMaxTime="24:00:00"
       height="clamp(400px, 500px, 600px)"
+      slotDuration="00:30:00"
+      slotLabelInterval="00:30:00"
     />
   );
 };

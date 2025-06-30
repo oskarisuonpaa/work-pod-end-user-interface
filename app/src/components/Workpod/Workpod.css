@@ -26,8 +26,8 @@
   width: 950px;
 }
 
-col {
-  width: 50px !important;
+.fc-timegrid-axis {
+  width: 68px !important;
 }
 
 .fc-toolbar-title {
@@ -39,4 +39,9 @@ col {
 
 .fc-selected-slot {
   background-color: var(--orange) !important;
+}
+
+.fc .fc-timegrid-slot {
+  border-bottom: 0px;
+  height: 3em;
 }

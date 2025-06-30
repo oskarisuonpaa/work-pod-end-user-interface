@@ -44,7 +44,7 @@ const Workpod = () => {
   /** Bulk-reserve all free slots in our selection */
   const handleBulkReserve = useCallback(async () => {
     if (!workpodId || !user?.name) return;
-    const userName = user.name; // now definitely a string
+    const userName = user.name;
 
     const freeSlots = selectedSlots.filter(
       (s) => s.extendedProps.status === "free"
