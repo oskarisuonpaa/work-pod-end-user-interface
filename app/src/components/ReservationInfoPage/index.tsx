@@ -11,6 +11,11 @@ type LocState = {
   reservation?: Reservation;
 };
 
+/**
+ * ReservationInfoPage component displays detailed information about a specific reservation.
+ * It allows users to view reservation details and cancel the reservation if needed.
+ * @returns {JSX.Element} The rendered reservation information page.
+ */
 const ReservationInfoPage = () => {
   const location = useLocation();
   const navigate = useNavigate();

@@ -3,6 +3,11 @@ import { useAuth } from "@auth/useAuth";
 import { useTranslation } from "react-i18next";
 import PageWrapper from "@components/PageWrapper";
 
+/**
+ * LoginPage component handles user login using Google OAuth.
+ * It uses the GoogleLogin component to authenticate users and calls onLogin from AuthContext on success.
+ * @returns {JSX.Element} The rendered login page with Google login button.
+ */
 const LoginPage = () => {
   const { onLogin } = useAuth();
   const { t } = useTranslation();

@@ -8,6 +8,11 @@ import UpcomingReservations from "./UpcomingReservations";
 import { useTranslation } from "react-i18next";
 import ActionButton from "@components/ActionButton";
 
+/**
+ * DashboardPage component displays the user's dashboard with upcoming reservations and navigation links.
+ * It checks if the user is authenticated and redirects to the login page if not.
+ * @returns {JSX.Element} The rendered dashboard page.
+ */
 const DashboardPage = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();

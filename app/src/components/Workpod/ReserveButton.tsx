@@ -11,6 +11,12 @@ type Props = {
   buttonRef?: Ref<HTMLButtonElement>;
 };
 
+/**
+ * ReserveButton component renders a button to reserve selected time slots.
+ * It displays a label based on the number of slots selected.
+ * @param {Props} props - The component props containing slots, reserve function, and optional button reference.
+ * @returns {JSX.Element} The rendered reserve button.
+ */
 const ReserveButton = ({ slots, onReserve, buttonRef }: Props) => {
   const { t } = useTranslation();
 

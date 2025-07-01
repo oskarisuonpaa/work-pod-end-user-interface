@@ -6,6 +6,12 @@ type Props = {
   reservations: UserReservation[];
 };
 
+/**
+ * UpcomingReservations component displays a list of the next three upcoming reservations.
+ * If there are no upcoming reservations, it shows a message indicating that.
+ * @param {Props} props - The component props containing reservations data.
+ * @returns {JSX.Element} The rendered list of upcoming reservations or a message if none exist.
+ */
 const UpcomingReservations = ({ reservations }: Props) => {
   const sorted = reservations
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
