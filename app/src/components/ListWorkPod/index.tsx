@@ -9,6 +9,15 @@ type Props = {
   text: string;
 };
 
+/**
+ * ListWorkPod component renders a list item with a link to a work pod.
+ * It displays the work pod ID and an optional date formatted as "yyyy-MM-dd".
+ * @param {Object} props - The component props.
+ * @param {string} props.workpodId - The ID of the work pod.
+ * @param {Date} [props.date] - The date associated with the work pod (optional).
+ * @param {string} props.text - The text description of the work pod.
+ * @returns {JSX.Element} The rendered list item with a link.
+ */
 const ListWorkPod = ({ workpodId, date, text }: Props) => (
   <li className="lab-arrow">
     <Link to={`/workpods/${workpodId}` + (date ? `/${format(date, "yyyy-MM-dd")}` : "")}>
