@@ -19,6 +19,12 @@ type ButtonVariant = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 type ActionButtonProps = CommonProps & (LinkVariant | ButtonVariant);
 
+/**
+ * ActionButton component renders a button or a link with a label.
+ * It can be used for navigation or actions within the application.
+ * @module ActionButton
+ * @description This component is used to create buttons that can either navigate to a different route or perform an action.
+ */
 const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
   ({ label, className = "", ...rest }, ref) => {
     const baseClass = `button ${className}`.trim();
