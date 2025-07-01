@@ -1,6 +1,13 @@
 import type { CalendarEvent } from "@types";
 import i18next from "i18next";
 
+/**
+ * Generates free time slots for the next 30 days based on booked events.
+ * @param {CalendarEvent[]} bookedEvents - Array of booked calendar events.
+ * @returns {CalendarEvent[]} Array of free time slots.
+ * @description This function creates 30-minute free slots for each hour of the day,
+ * checking against booked events to ensure no overlaps occur.
+ */
 const generateFreeSlots = (bookedEvents: CalendarEvent[]) => {
   const startHour = 0;
   const endHour = 24;
