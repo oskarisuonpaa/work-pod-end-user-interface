@@ -13,6 +13,13 @@ import { getWorkpodCalendar } from "api/workpods.ts";
 
 const TIMEOUT_MS = 30000; // 30 seconds
 
+/**
+ * Displays search results for available and reserved workpods.
+ * @component
+ * @returns {JSX.Element}
+ * @description This component fetches and displays workpods based on the selected date.
+ * It shows available workpods with their free times and reserved workpods with their reserved times.
+ */
 const SearchResults = () => {
   const location = useLocation();
   const { date } = location.state || {};
