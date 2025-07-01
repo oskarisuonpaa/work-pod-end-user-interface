@@ -10,7 +10,11 @@ import "./Reservations.css";
  * ReservationsPage component displays a list of user reservations.
  * It fetches the reservations from the API and renders them as links.
  * If there are no reservations, it shows a message indicating that.
+ * @component
  * @returns {JSX.Element} The rendered reservations page with a list of user reservations.
+ * @description This component fetches the user's reservations from the API,
+ * handles loading state, and displays the reservations as links. If there are no reservations,
+ * it shows a message indicating that there are no reservations.
  */
 const ReservationsPage = () => {
   const [reservations, setReservations] = useState<UserReservation[]>([]);

@@ -11,7 +11,11 @@ import ActionButton from "@components/ActionButton";
 /**
  * DashboardPage component displays the user's dashboard with upcoming reservations and navigation links.
  * It checks if the user is authenticated and redirects to the login page if not.
+ * @component
  * @returns {JSX.Element} The rendered dashboard page.
+ * @description This component fetches the user's reservations, displays them, and provides links to other sections of the application.
+ * It uses the `useAuth` hook to check authentication status and the `useReservations` hook to fetch reservations.
+ * If the user is not authenticated, it redirects them to the login page
  */
 const DashboardPage = () => {
   const navigate = useNavigate();

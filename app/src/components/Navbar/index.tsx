@@ -9,6 +9,7 @@ import "./Navbar.css";
  * It includes language selection and login/logout functionality.
  * @module Navbar
  * @description This component is used to navigate between different sections of the application.
+ * it also allows users to change the language and log in or out.
  */
 const Navbar = () => {
   const { isAuthenticated, onLogout } = useAuth();

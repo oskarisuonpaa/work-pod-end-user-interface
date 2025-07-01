@@ -8,6 +8,9 @@ import "./NavMenu.css";
  * NavMenu component renders a mobile navigation menu with links to various sections of the application.
  * It includes language selection and login/logout functionality.
  * @returns {JSX.Element} The rendered navigation menu.
+ * @description This component provides a responsive navigation menu for mobile devices.
+ * It also includes options for changing the language and logging in or out.
+ * The menu can be opened and closed with a button, and it highlights the active link based on the current URL path.
  */
 const NavMenu = () => {
   const location = useLocation();

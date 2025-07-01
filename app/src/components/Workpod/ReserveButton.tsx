@@ -14,8 +14,12 @@ type Props = {
 /**
  * ReserveButton component renders a button to reserve selected time slots.
  * It displays a label based on the number of slots selected.
+ * @component
  * @param {Props} props - The component props containing slots, reserve function, and optional button reference.
  * @returns {JSX.Element} The rendered reserve button.
+ * @description This component is used to reserve time slots for a work pod.
+ * If only one slot is selected, it shows the time range of that slot.
+ * If multiple slots are selected, it shows the count of slots being reserved.
  */
 const ReserveButton = ({ slots, onReserve, buttonRef }: Props) => {
   const { t } = useTranslation();

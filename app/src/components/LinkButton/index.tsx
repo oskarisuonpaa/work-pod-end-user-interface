@@ -10,7 +10,10 @@ type LinkButtonProps = {
 /**
  * LinkButton component renders a styled link with an arrow icon.
  * It can be used for navigation within the application.
- * @module LinkButton
+ * @component
+ * @param {string} label - The text to display on the link.
+ * @param {string} to - The route to navigate to when the link is clicked.
+ * @returns {JSX.Element} The rendered link button with the label and arrow icon.
  * @description This component is used to create links that navigate to different routes with a consistent style.
  */
 const LinkButton = ({ label, to }: LinkButtonProps) => {

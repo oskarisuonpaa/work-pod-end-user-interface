@@ -14,7 +14,13 @@ type LocState = {
 /**
  * ReservationInfoPage component displays detailed information about a specific reservation.
  * It allows users to view reservation details and cancel the reservation if needed.
+ * @component
  * @returns {JSX.Element} The rendered reservation information page.
+ * @description This component retrieves the reservation details from the location state,
+ * checks if the reservation exists, and displays its information such as calendar ID, date, and time.
+ * It also provides a button to cancel the reservation, which prompts the user for confirmation before
+ * proceeding with the cancellation. If the reservation or calendar ID is not found, it redirects to
+ * the reservations list page.
  */
 const ReservationInfoPage = () => {
   const location = useLocation();
