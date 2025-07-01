@@ -14,6 +14,7 @@
 
   "error-missing-ids": "Missing calendarId or reservationId.",
   "error-failed-cancel": "Failed to cancel reservation. Please try again.",
+  "error-fetching-reservations": "Failed to fetch reservations. Try refreshing the page.",
 
   "info-title": "Workpod Reservation System",
   "info-access-text": "Note: access is for authorized users only; log in using LAB/LUT credentials.",
@@ -65,5 +66,8 @@
   "searchresults-no-available": "All workpods are reserved at the selected time",
   "searchresults-no-reserved": "All workpods are available at the selected time",
 
-  "free": "Free"
+  "free": "Free",
+  "busy": "Busy",
+  "unknown": "Unknown",
+  "workpod-status-legend": "Workpod Status Legend"
 }

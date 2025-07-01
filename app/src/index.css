@@ -10,17 +10,16 @@
   --beige: #fdeae0;
   --light-grey: #e4e4e4;
   --blue: #052fc2;
-  --green: #00bd80;
   --turquoise: #00c2e5;
   --dark-green: #23b900;
-  --orange: #ff8621;
-  --red: #ed174d;
+  --green: #00bd80;
+  --orange: #e27b3f;
+  --red: #c0392b;
 }
 
 @font-face {
   font-family: lamk-icons;
-  src: 
-    url(./assets/lamk-icons.ttf?c6x50k=) format("truetype"),
+  src: url(./assets/lamk-icons.ttf?c6x50k=) format("truetype"),
     url(./assets/lamk-icons.woff?c6x50k=) format("woff");
   font-weight: 400;
   font-style: normal;
