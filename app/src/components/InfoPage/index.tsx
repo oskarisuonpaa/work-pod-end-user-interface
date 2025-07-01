@@ -4,6 +4,13 @@ import "./Info.css";
 import ActionButton from "@components/ActionButton";
 import { useTranslation } from "react-i18next";
 
+/**
+ * InfoPage component that displays information about the application.
+ * @component
+ * @returns {JSX.Element}
+ * @description This component provides information about the application and its usage.
+ * It includes a message for unauthenticated users to log in.
+ */
 const InfoPage = () => {
   const { isAuthenticated } = useAuth();
   const loggedIn = isAuthenticated();
