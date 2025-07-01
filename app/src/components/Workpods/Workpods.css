@@ -7,7 +7,6 @@
 .room-group {
   width: 100%;
   max-width: 1000px;
-  background: var(--beige);
   padding: 20px;
 }
 
@@ -63,7 +62,7 @@ a.work-pod-link {
 }
 
 .free {
-  background: var(--dark-green);
+  background: var(--green);
 }
 
 .busy {
@@ -79,4 +78,12 @@ a.work-pod-link {
   height: 4px;
   background: #000;
   margin: 20px 0;
+}
+
+span.free,
+span.busy,
+span.unknown {
+  color: var(--white);
+  font-weight: bold;
+  padding: 2px 5px;
 }

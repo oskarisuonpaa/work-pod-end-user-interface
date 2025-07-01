@@ -57,8 +57,8 @@ export const getWorkpodCalendar = async (
       title: event.title,
       start: new Date(event.start).toISOString(),
       end: new Date(event.end).toISOString(),
-      backgroundColor: "var(--blue)",
-      borderColor: "var(--blue)",
+      backgroundColor: "var(--red)",
+      borderColor: "var(--red)",
       extendedProps: {
         status: "booked",
       },
