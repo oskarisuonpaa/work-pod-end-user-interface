@@ -16,6 +16,15 @@ import type { CalendarEvent } from "@types";
 const isValidDate = (dateString?: string) =>
   !!dateString && !isNaN(Date.parse(dateString));
 
+/**
+ * Workpod component renders the work pod calendar and handles reservations.
+ * It allows users to select time slots, reserve them, and cancel reservations.
+ * @component
+ * @returns {JSX.Element} The rendered work pod calendar with reservation functionality.
+ * @description This component fetches the work pod calendar data, manages selected slots,
+ * and provides buttons for reserving and canceling time slots. It also handles QR code parameters
+ * for auto-reserving slots if valid start and end times are provided.
+ */
 const Workpod = () => {
   const { user } = useAuth();
   const { workpodId, date: paramDate } = useParams<{

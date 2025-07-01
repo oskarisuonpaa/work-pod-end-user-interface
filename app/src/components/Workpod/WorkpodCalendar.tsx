@@ -11,6 +11,20 @@ export type CalendarProps = {
   onSlotsChange: (slots: CalendarEvent[]) => void;
 };
 
+/**
+ * Displays a FullCalendar component for managing time slots.
+ * It allows users to select available time slots, view events, and manage reservations.
+ * @component
+ * @param {CalendarProps} param0 - The component props containing events, date, selected slots, and a callback for slot changes.
+ * @param {EventInput[]} param0.events - The list of events to display in the calendar.
+ * @param {string} [param0.date] - The initial date to display in the calendar (optional).
+ * @param {CalendarEvent[]} param0.selectedSlots - The currently selected time slots in the calendar.
+ * @param {(slots: CalendarEvent[]) => void} param0
+ * @returns FullCalendar component with time grid view for managing workpod reservations.
+ * @description This component renders a calendar that allows users to select time slots for reservations.
+ * It handles event clicks to toggle selection of time slots and updates the selected slots accordingly.
+ * It also filters out past slots and allows only free slots or the user's own slots to be
+ */
 const WorkpodCalendar = ({
   events,
   onSlotsChange,
