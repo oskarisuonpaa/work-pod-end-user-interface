@@ -7,6 +7,12 @@ type Props = {
   reservation: UserReservation;
 };
 
+/**
+ * ReservationLink component renders a link to a reservation details page.
+ * It displays the calendar (workpod) ID and the time range of the reservation.
+ * @param {Props} props - The component props containing the reservation data.
+ * @returns {JSX.Element} The rendered reservation link.
+ */
 const ReservationLink = ({ reservation }: Props) => {
   const { id, calendarId, start, end } = reservation;
 
