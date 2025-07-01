@@ -79,3 +79,11 @@ a.work-pod-link {
   background: #000;
   margin: 20px 0;
 }
+
+span.free,
+span.busy,
+span.unknown {
+  color: var(--white);
+  font-weight: bold;
+  padding: 2px 5px;
+}

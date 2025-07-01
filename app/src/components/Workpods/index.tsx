@@ -21,6 +21,11 @@ const Workpods = () => {
 
   return (
     <PageWrapper pageTitle={t("navbar-workpods")}>
+      <p>
+        {t("workpod-status-legend")}: <span className="free">{t("free")}</span>{" "}
+        <span className="busy">{t("busy")}</span>{" "}
+        <span className="unknown">{t("unknown")}</span>
+      </p>
       <div className="work-pods-container">
         {Object.entries(grouped).map(([room, pods]) => (
           <div className="room-group" key={room}>
