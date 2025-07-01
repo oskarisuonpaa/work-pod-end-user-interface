@@ -13,8 +13,12 @@ type Props = {
 /**
  * CancelButton component renders a button to cancel selected time slots.
  * It displays a label based on the number of slots selected.
+ * @component
  * @param {Props} props - The component props containing slots, cancel function, and optional button reference.
  * @returns {JSX.Element} The rendered cancel button.
+ * @description This component is used to cancel reservations for selected time slots.
+ * If only one slot is selected, it shows the time range of that slot.
+ * If multiple slots are selected, it shows the count of slots being canceled.
  */
 const CancelButton = ({ slots, onCancel, buttonRef }: Props) => {
   const { t } = useTranslation();

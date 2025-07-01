@@ -6,7 +6,12 @@ import PageWrapper from "@components/PageWrapper";
 /**
  * LoginPage component handles user login using Google OAuth.
  * It uses the GoogleLogin component to authenticate users and calls onLogin from AuthContext on success.
+ * @component
  * @returns {JSX.Element} The rendered login page with Google login button.
+ * @description This component provides a Google login button that, when clicked, initiates the OAuth flow.
+ * On successful authentication, it retrieves the user's credential and calls the onLogin function from the AuthContext.
+ * It is used to authenticate users before they can access the application.
+ * The page title is set to "Workpod Scheduler" using the i18n translation function
  */
 const LoginPage = () => {
   const { onLogin } = useAuth();

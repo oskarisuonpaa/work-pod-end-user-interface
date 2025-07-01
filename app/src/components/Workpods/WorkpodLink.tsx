@@ -8,6 +8,16 @@ import type { WorkpodAvailability } from "../SearchResults/getWorkpodAvailabilit
 import { format } from "date-fns";
 
 
+/**
+ * Displays a link to a workpod with its alias and current availability status.
+ * @component
+ * @param alias - The alias of the workpod.
+ * @param status - The current status of the workpod (free, busy, unknown).
+ * @returns {JSX.Element} The rendered workpod link.
+ * @description Renders a link to the workpod with its alias and current availability status.
+ * It fetches the workpod's calendar events to determine its availability and displays the time until
+ * the next reservation or free time.
+ */
 const WorkpodLink = ({ alias, status }: Workpod) => {
     const [availability, setAvailability] = useState<WorkpodAvailability | null>(null);
 

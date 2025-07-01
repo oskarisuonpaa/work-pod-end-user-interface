@@ -22,8 +22,7 @@ type ActionButtonProps = CommonProps & (LinkVariant | ButtonVariant);
 /**
  * ActionButton component renders a button or a link with a label.
  * It can be used for navigation or actions within the application.
- * @module ActionButton
- * @props {ActionButtonProps}
+ * @component
  * @param {string} label - The text to display on the button or link.
  * @param {string} [className] - Additional CSS classes to apply to the button or link.
  * @param {string} [to] - The route to navigate to when the button is clicked (if using as a link).
