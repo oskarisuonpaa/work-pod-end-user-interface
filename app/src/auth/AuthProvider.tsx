@@ -18,6 +18,12 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
+/**
+ * AuthProvider component provides authentication context to the application.
+ * It manages user login, logout, and token validation.
+ * @module AuthProvider
+ * @description This component wraps the application and provides authentication state and methods.
+ */
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
   const logoutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
