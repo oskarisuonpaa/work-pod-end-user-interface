@@ -14,6 +14,12 @@ const API_ROUTES = {
   booking: (cid: string, eid: string) => `/booking/${cid}/${eid}`,
 } as const;
 
+/**
+ * Posts a reservation for a specific calendar.
+ * @param {PostReservationPayload} payload - The payload containing calendar ID, start time, and end time.
+ * @returns {Promise<null>} - Returns null if the reservation is successful.
+ * @throws {Error} - Throws an error if required parameters are missing.
+ */
 const postReservation = async ({
   calendarId,
   start,
@@ -31,6 +37,12 @@ const postReservation = async ({
   return unwrapResponse<null>(response.data);
 };
 
+/**
+ * Deletes a reservation for a specific calendar and reservation ID.
+ * @param {DeleteReservationPayload} payload - The payload containing calendar ID and reservation ID.
+ * @returns {Promise<null>} - Returns null if the deletion is successful.
+ * @throws {Error} - Throws an error if required parameters are missing.
+ */
 const deleteReservation = async ({
   calendarId,
   reservationId,
@@ -42,6 +54,11 @@ const deleteReservation = async ({
   return unwrapResponse<null>(response.data);
 };
 
+/**
+ * Retrieves user reservations.
+ * @returns {Promise<UserReservation[]>} - Returns a list of user reservations.
+ * @throws {Error} - Throws an error if the request fails.
+ */
 const getUserReservations = async (): Promise<UserReservation[]> => {
   const response = await apiClient.get<GetUserEventsResponse>(
     API_ROUTES.userEvents
@@ -49,6 +66,11 @@ const getUserReservations = async (): Promise<UserReservation[]> => {
   return unwrapResponse<UserReservation[]>(response.data);
 };
 
+/**
+ * API for managing reservations.
+ * @module reservationApi
+ * @description This module provides functions to post, delete, and get user reservations.
+ */
 export const reservationApi = {
   postReservation,
   deleteReservation,

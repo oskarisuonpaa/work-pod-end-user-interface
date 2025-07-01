@@ -14,6 +14,14 @@ import useIsSmallScreen from "@hooks/useIsSmallScreen.ts";
 registerLocale("fi", fi);
 setDefaultLocale("fi");
 
+/**
+ * Search component for selecting a date and time for reservations.
+ * @component
+ * @returns {JSX.Element}
+ * @description This component allows users to select a date and time for making reservations.
+ * It includes a date picker for selecting the date and a time picker for selecting the time.
+ * The date picker restricts selection to weekdays and allows dates within the next 30 days.
+ */
 const Search = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const navigate = useNavigate();
