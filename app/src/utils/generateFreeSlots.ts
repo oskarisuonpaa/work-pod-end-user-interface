@@ -39,7 +39,7 @@ const generateFreeSlots = (bookedEvents: CalendarEvent[]) => {
             start,
             end,
             backgroundColor: "var(--green)",
-            borderColor: "#c3e6cb",
+            borderColor: "var(--green)",
             extendedProps: {
               status: "free",
             },
