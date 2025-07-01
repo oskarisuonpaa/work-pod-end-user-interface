@@ -4,6 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@auth/useAuth";
 import "./NavMenu.css";
 
+/**
+ * NavMenu component renders a mobile navigation menu with links to various sections of the application.
+ * It includes language selection and login/logout functionality.
+ * @returns {JSX.Element} The rendered navigation menu.
+ */
 const NavMenu = () => {
   const location = useLocation();
   const { isAuthenticated, onLogout } = useAuth();

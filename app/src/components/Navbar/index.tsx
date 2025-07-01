@@ -6,7 +6,7 @@ import "./Navbar.css";
 
 /**
  * Navbar component renders the navigation bar with links to different pages.
- * It includes language selection and logout functionality.
+ * It includes language selection and login/logout functionality.
  * @module Navbar
  * @description This component is used to navigate between different sections of the application.
  */
