@@ -49,7 +49,7 @@ const Search = () => {
     <PageWrapper pageTitle={t("search-title")}>
       <p id="search-info">{t("search-reservation-info")}</p>
       <form id="searchForm" onSubmit={handleSubmit} className="search-form">
-        <label htmlFor="date">{t("date")}:</label>
+        <label htmlFor="date" className="search-label">{t("date")}:</label>
         <DatePicker
           id="date"
           selected={startDate}
@@ -68,7 +68,7 @@ const Search = () => {
           minDate={new Date()}
           maxDate={addDays(new Date(), 30)}
         />
-        <label htmlFor="time">{t("time")}:</label>
+        <label htmlFor="time" className="search-label">{t("time")}:</label>
         <DatePicker
           id="time"
           showTimeSelect

@@ -41,8 +41,6 @@ describe("Search page small screen layout", () => {
                 <Search />
             </MemoryRouter>
         );
-        expect(screen.getByText("date:")).toBeInTheDocument();
-        expect(screen.getByText("time:")).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "search-button" })).toBeInTheDocument();
     });
 
