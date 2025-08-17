@@ -42,7 +42,9 @@ const App = () => {
         <Route
           path="search"
           element={
+            <ProtectedRoute>
               <Search />
+            </ProtectedRoute>
           }
         />
         <Route
