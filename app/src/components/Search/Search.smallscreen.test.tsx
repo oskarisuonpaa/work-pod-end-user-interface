@@ -7,12 +7,20 @@ import userEvent from "@testing-library/user-event";
 
 // Mocks
 const mockNavigate = vi.fn();
+global.ResizeObserver = class { // needed when datepicker is shown inline
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
 vi.mock("react-router", async () => {
     const actual = await vi.importActual<typeof import("react-router")>("react-router");
     return { ...actual, useNavigate: () => mockNavigate, MemoryRouter: actual.MemoryRouter };
 });
 vi.mock("react-i18next", () => ({
-    useTranslation: () => ({ t: (key: string) => key }),
+    useTranslation: () => ({
+        t: (key: string) => key,
+        i18n: { language: "en" }
+    }),
 }));
 vi.mock("@components/ActionButton", () => ({
     default: ({ label }: { label: string }) => <button>{label}</button>,
