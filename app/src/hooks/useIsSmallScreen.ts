@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
  * @returns {boolean} True if the screen width is less than or equal to the breakpoint, false otherwise.
  * @description This hook listens for window resize events and updates the state accordingly.
  */
-function useIsSmallScreen(breakpoint: number = 540) {
+function useIsSmallScreen(breakpoint: number = 580) {
   const [isSmall, setIsSmall] = useState<boolean>(window.innerWidth <= breakpoint);
 
   useEffect(() => {
