@@ -75,6 +75,7 @@ const Search = () => {
           autoFocus
           showTimeSelect={isSmallScreen}
           timeFormat="HH:mm"
+          calendarStartDay={1}
           timeIntervals={30}
           timeCaption={t("time")}
           calendarClassName="custom-calendar"

@@ -19,14 +19,14 @@ This README is written so someone new can continue the project confidently.
 - `/` → redirect to `/dashboard` or `/login` depending on auth.
 - `/login` → **LoginPage** (Google OAuth button).
 - `/dashboard` → **DashboardPage** (protected) – upcoming reservations.
-- `/search` → **Search** component (in-page search UI).
-- `/search/results` → **SearchResults** – available pods/slots.
-- `/workpods` → **Workpods** – list all pods.
-- `/workpod/:calendarId` → **Workpod** – details & calendar view.
+- `/search` → **Search** (protected) component (in-page search UI).
+- `/searchresults` → **SearchResults** (protected) – available pods/slots.
+- `/workpods` → **Workpods** (protected) – list all pods.
+- `/workpod/:calendarId` → **Workpod** (protected) – details & calendar view.
 - `/reservations` → **ReservationsPage** (protected) – user’s bookings.
-- `/reservations/:calendarId/:reservationId` → **ReservationInfoPage** – booking details.
+- `/reservations/:calendarId/:reservationId` → **ReservationInfoPage** (protected) – booking details.
 - `/info` → **InfoPage** – app info and guidance.
-- Fallback → 404 via `NotFound` component.
+- Fallback → 404 via `NotFound` component (protected).
 
 Global UI: **Navbar** + **NavMenu** + **PageWrapper**; **ProtectedRoute** guards private routes.
 
@@ -51,6 +51,7 @@ Global UI: **Navbar** + **NavMenu** + **PageWrapper**; **ProtectedRoute** guards
     - `GET /booking/{calendarId}/{reservationId}` → booking info
 - **Data & caching**: TanStack Query hooks in `src/hooks/` (e.g., `useWorkpods`, `useWorkpodCalendar`, `useReservations`, `useDeleteReservation`).
 - **i18n**: `src/i18n.ts` with locale files in `src/locales/en.json` and `fi.json`; language switch in Navbar.
+- **Routing**: React Router v7, routes defined in App.tsx.
 - **Utilities**: `src/utils/*` – date formatting, slot generation, token helpers, etc.
 - **Styling**: Basic CSS (`src/index.css`) and assets under `src/assets/`.
 
